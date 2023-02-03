@@ -28,3 +28,5 @@ var job = 'programmer'
 job = 'teacher'
 
 
+lastname = 'Sankhyan'
+console.log(lastname);
