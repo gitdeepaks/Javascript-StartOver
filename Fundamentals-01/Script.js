@@ -70,18 +70,49 @@
 // console.log(now - 1991 > now - 2023);
 
 
-const now = 2037
-const ageDeepak = now - 1991
-const ageRitika = now - 1994
+// const now = 2037
+// const ageDeepak = now - 1991
+// const ageRitika = now - 1994
 
-console.log(now - 1991 > now - 2023);
+// console.log(now - 1991 > now - 2023);
 
-// console.log(25 - 10 - 5);
+// // console.log(25 - 10 - 5);
 
-let x, y;
+// let x, y;
 
-x = y = 25 - 10 - 5;
-console.log(y, y);
 
-const averageAge = (ageDeepak + ageRitika) / 2
-console.log(ageDeepak, ageRitika, averageAge);
+
+
+
+// x = y = 25 - 10 - 5;
+// console.log(y, y);
+
+// const averageAge = (ageDeepak + ageRitika) / 2
+// console.log(ageDeepak, ageRitika, averageAge);
+
+
+// Strings
+
+const firstName = 'Deepak'
+const job = 'Developer'
+
+const birthYear = 1991;
+const year = 2037;
+
+const deepak = "I'm" + firstName + 'a' + (year - birthYear) + 'years Old';
+
+// console.log(deepak);
+
+const JonasNew = `i am ${firstName}, a ${year - birthYear} years Old ${job}` //ES6 features
+
+console.log(JonasNew);
+
+console.log(`Just a regular string...`);
+
+console.log('String  with \n\
+multiple \n\
+line');
+
+console.log(`String 
+Multiple
+line`);
