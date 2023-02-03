@@ -28,43 +28,60 @@
 // job = 'teacher'
 
 
-lastname = 'Sankhyan'
-console.log(lastname);
+// lastname = 'Sankhyan'
+// console.log(lastname);
 
 
-//Math Opertators
+// //Math Opertators
+
+// const now = 2037
+// const ageDeepak = now - 1991
+// const ageRitika = now - 1994
+// console.log(ageDeepak, ageRitika);
+// console.log(ageDeepak * 2, ageDeepak / 2, ageRitika ** 2);
+
+// const forstname = 'Deepak';
+// const lastNam = 'Sankhyan';
+
+// console.log(forstname + lastNam);
+
+// console.log(forstname + ' ' + lastNam);
+
+// // assignment operator
+
+// let x = 10 + 5;
+// x += 10; // x = x + 10 = 25
+
+// x *= 4; // x = x * 4 = 100
+// x++; // x = x + 1 
+
+// x--;
+// x--; // x
+// console.log(x);
+
+// // Comparison Operators
+
+// console.log(ageDeepak > ageRitika); // 
+// console.log(ageRitika >= 18);
+
+
+// const isFullAge = ageRitika >= 18;
+
+// console.log(now - 1991 > now - 2023);
+
 
 const now = 2037
 const ageDeepak = now - 1991
 const ageRitika = now - 1994
-console.log(ageDeepak, ageRitika);
-console.log(ageDeepak * 2, ageDeepak / 2, ageRitika ** 2);
-
-const forstname = 'Deepak';
-const lastNam = 'Sankhyan';
-
-console.log(forstname + lastNam);
-
-console.log(forstname + ' ' + lastNam);
-
-// assignment operator
-
-let x = 10 + 5;
-x += 10; // x = x + 10 = 25
-
-x *= 4; // x = x * 4 = 100
-x++; // x = x + 1 
-
-x--;
-x--; // x
-console.log(x);
-
-// Comparison Operators
-
-console.log(ageDeepak > ageRitika); // 
-console.log(ageRitika >= 18);
-
-
-const isFullAge = ageRitika >= 18;
 
 console.log(now - 1991 > now - 2023);
+
+// console.log(25 - 10 - 5);
+
+let x, y;
+
+x = y = 25 - 10 - 5;
+console.log(y, y);
+
+const averageAge = (ageDeepak + ageRitika) / 2
+console.log(ageDeepak, ageRitika, averageAge);
