@@ -93,26 +93,26 @@
 
 // Strings
 
-const firstName = 'Deepak'
-const job = 'Developer'
+// const firstName = 'Deepak'
+// const job = 'Developer'
 
-const birthYear = 1991;
-const year = 2037;
+// const birthYear = 1991;
+// const year = 2037;
 
-const deepak = "I'm" + firstName + 'a' + (year - birthYear) + 'years Old';
+// const deepak = "I'm" + firstName + 'a' + (year - birthYear) + 'years Old';
 
-// console.log(deepak);
+// // console.log(deepak);
 
-const JonasNew = `i am ${firstName}, a ${year - birthYear} years Old ${job}` //ES6 features
+// const JonasNew = `i am ${firstName}, a ${year - birthYear} years Old ${job}` //ES6 features
 
-console.log(JonasNew);
+// console.log(JonasNew);
 
-console.log(`Just a regular string...`);
+// console.log(`Just a regular string...`);
 
-console.log('String  with \n\
-multiple \n\
-line');
+// console.log('String  with \n\
+// multiple \n\
+// line');
 
-console.log(`String 
-Multiple
-line`);
+// console.log(`String 
+// Multiple
+// line`);
