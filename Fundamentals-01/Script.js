@@ -116,3 +116,15 @@
 // console.log(`String 
 // Multiple
 // line`);
+
+//if Else 
+
+const age = 15;
+
+
+
+if (age >= 18) {
+    console.log('Ritika can start driving 🚘');
+} else {
+    console.log('not eligible to drive');
+}
