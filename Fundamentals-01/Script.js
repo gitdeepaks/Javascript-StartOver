@@ -121,10 +121,19 @@
 
 const age = 15;
 
-
-
 if (age >= 18) {
     console.log('Ritika can start driving 🚘');
 } else {
     console.log('not eligible to drive');
 }
+
+
+const birthYear = 1992;
+let century;
+if (birthYear <= 2000) {
+    century = 20;
+} else {
+    century = 21;
+}
+
+console.log(century);
