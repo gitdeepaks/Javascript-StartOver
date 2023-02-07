@@ -140,5 +140,17 @@
 
 //Type Conversions
 
+const inputYear = '1992';
+console.log(inputYear);
+
+console.log(Number(inputYear));
+
+console.log(inputYear + 18);
+console.log(Number(inputYear) + 18);
+
+console.log(Number('Deepak'));
 
 
+console.log(typeof NaN);
+
+console.log(String(23));
