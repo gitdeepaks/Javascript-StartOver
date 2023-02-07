@@ -140,31 +140,54 @@
 
 //Type Conversions
 
-const inputYear = '1992';
-console.log(inputYear);
+// const inputYear = '1992';
+// console.log(inputYear);
 
-console.log(Number(inputYear));
+// console.log(Number(inputYear));
 
-console.log(inputYear + 18);
-console.log(Number(inputYear) + 18);
+// console.log(inputYear + 18);
+// console.log(Number(inputYear) + 18);
 
-console.log(Number('Deepak'));
-
-
-console.log(typeof NaN);
-
-console.log(String(23), 23);
+// console.log(Number('Deepak'));
 
 
-//type coercion
-console.log('I am ' + 23 + ' Years Old');
-console.log('I am ' + '23' + ' Years Old');
+// console.log(typeof NaN);
 
-console.log('23' - '10' - 3);
-console.log('23' * '5');
+// console.log(String(23), 23);
 
 
-let n = '1' + 1;
+// //type coercion
+// console.log('I am ' + 23 + ' Years Old');
+// console.log('I am ' + '23' + ' Years Old');
 
-n = n - 1;
-console.log(n);
+// console.log('23' - '10' - 3);
+// console.log('23' * '5');
+
+
+// let n = '1' + 1;
+
+// n = n - 1;
+// console.log(n);
+
+
+// Truthy and falsy value
+
+console.log(Boolean(0));
+console.log(Boolean(undefined));
+console.log(Boolean('Deepak'));
+console.log(Boolean({}));
+
+const money = 100;
+if (money) {
+    console.log("Dont use it all to for shopping");
+} else {
+    console.log('You should get a Job!');
+}
+
+let height = 0;
+
+if (height) {
+    console.log("Yay height is defined");
+} else {
+    console.log('height is not defined');
+}
