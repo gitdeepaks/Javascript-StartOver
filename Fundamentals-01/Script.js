@@ -172,22 +172,52 @@
 
 // Truthy and falsy value
 
-console.log(Boolean(0));
-console.log(Boolean(undefined));
-console.log(Boolean('Deepak'));
-console.log(Boolean({}));
+// console.log(Boolean(0));
+// console.log(Boolean(undefined));
+// console.log(Boolean('Deepak'));
+// console.log(Boolean({}));
 
-const money = 100;
-if (money) {
-    console.log("Dont use it all to for shopping");
-} else {
-    console.log('You should get a Job!');
+// const money = 100;
+// if (money) {
+//     console.log("Dont use it all to for shopping");
+// } else {
+//     console.log('You should get a Job!');
+// }
+
+// let height = 0;
+
+// if (height) {
+//     console.log("Yay height is defined");
+// } else {
+//     console.log('height is not defined');
+// }
+
+
+//Equality Operators
+
+const age = '18';
+if (age === 18) {
+    console.log('You are an adult :D (strict)');
 }
 
-let height = 0;
+if (age == 18) {
+    console.log('You are an adult :D (loose)');
+}
 
-if (height) {
-    console.log("Yay height is defined");
+
+const fav = Number(prompt("What syou favourate number"))
+
+console.log(fav);
+console.log(typeof fav);
+
+if (fav === 23) {
+    console.log('cool its an amaizing number');
+} else if (fav === 7) {
+    console.log('7 is alo cool');
 } else {
-    console.log('height is not defined');
+    console.log('Number is not 23 or 7');
+}
+
+if (fav !== 23) {
+    console.log('Why not the 23');
 }
