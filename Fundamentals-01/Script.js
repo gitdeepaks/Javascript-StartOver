@@ -225,15 +225,15 @@
 
 // Boolean logic
 
-const hasDriverLicence = true
+// const hasDriverLicence = true
 
-const hasGoodvision = true
+// const hasGoodvision = true
 
-console.log(hasDriverLicence && hasGoodvision);
-console.log(hasDriverLicence || hasGoodvision);
-console.log(!hasDriverLicence || hasGoodvision);
+// console.log(hasDriverLicence && hasGoodvision);
+// console.log(hasDriverLicence || hasGoodvision);
+// console.log(!hasDriverLicence || hasGoodvision);
 
-const shouldDrive = hasDriverLicence && !hasGoodvision
+// const shouldDrive = hasDriverLicence && !hasGoodvision
 
 // if (shouldDrive) {
 //     console.log("Sarah is able to drive");
@@ -242,15 +242,58 @@ const shouldDrive = hasDriverLicence && !hasGoodvision
 // }
 
 
-const isTires = false
+// const isTires = false
 
-console.log(hasDriverLicence || hasGoodvision || isTires);
-console.log(hasDriverLicence || hasGoodvision && isTires);
-console.log(hasDriverLicence && hasGoodvision && isTires);
+// console.log(hasDriverLicence || hasGoodvision || isTires);
+// console.log(hasDriverLicence || hasGoodvision && isTires);
+// console.log(hasDriverLicence && hasGoodvision && isTires);
 
 
-if (hasDriverLicence && hasGoodvision && !isTires) {
-    console.log("Sarah is able to drive");
+// if (hasDriverLicence && hasGoodvision && !isTires) {
+//     console.log("Sarah is able to drive");
+// } else {
+//     console.log('Someone else should drive');
+// }
+
+//Switches Statements
+
+const day = 'monday'
+
+switch (day) {
+    case 'monday':
+        console.log('Plan my course Structure');
+        console.log('Go to coding meetup');
+        break;
+
+    case 'tuesday':
+        console.log('prepeairing theory');
+        break;
+    case 'wednesday':
+    case 'thursday':
+        console.log('I write code');
+        break
+    case 'friday':
+        console.log('Record Video');
+        break
+    case 'saturday':
+    case 'sunday':
+        console.log('Enjoying the weekend');
+        break
+    default:
+        console.log('Not a valid day');
+}
+
+if (day === 'modnday') {
+    console.log('Plan my course Structure');
+    console.log('Go to coding meetup');
+} else if (day === 'tuesday') {
+    console.log('prepeairing theory');
+} else if (day === 'wednesday') {
+    console.log('I write code');
+} else if (day === 'thursday' || day === 'friday') {
+    console.log('Enjoying the weekend');
+} else if (day === 'saturday' || day === 'sunday') {
+    console.log('Enjoying the weekend');
 } else {
-    console.log('Someone else should drive');
+    console.log('Not a valid day');
 }
