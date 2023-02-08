@@ -257,43 +257,73 @@
 
 //Switches Statements
 
-const day = 'monday'
+// const day = 'monday'
 
-switch (day) {
-    case 'monday':
-        console.log('Plan my course Structure');
-        console.log('Go to coding meetup');
-        break;
+// switch (day) {
+//     case 'monday':
+//         console.log('Plan my course Structure');
+//         console.log('Go to coding meetup');
+//         break;
 
-    case 'tuesday':
-        console.log('prepeairing theory');
-        break;
-    case 'wednesday':
-    case 'thursday':
-        console.log('I write code');
-        break
-    case 'friday':
-        console.log('Record Video');
-        break
-    case 'saturday':
-    case 'sunday':
-        console.log('Enjoying the weekend');
-        break
-    default:
-        console.log('Not a valid day');
-}
+//     case 'tuesday':
+//         console.log('prepeairing theory');
+//         break;
+//     case 'wednesday':
+//     case 'thursday':
+//         console.log('I write code');
+//         break
+//     case 'friday':
+//         console.log('Record Video');
+//         break
+//     case 'saturday':
+//     case 'sunday':
+//         console.log('Enjoying the weekend');
+//         break
+//     default:
+//         console.log('Not a valid day');
+// }
 
-if (day === 'modnday') {
-    console.log('Plan my course Structure');
-    console.log('Go to coding meetup');
-} else if (day === 'tuesday') {
-    console.log('prepeairing theory');
-} else if (day === 'wednesday') {
-    console.log('I write code');
-} else if (day === 'thursday' || day === 'friday') {
-    console.log('Enjoying the weekend');
-} else if (day === 'saturday' || day === 'sunday') {
-    console.log('Enjoying the weekend');
+// if (day === 'modnday') {
+//     console.log('Plan my course Structure');
+//     console.log('Go to coding meetup');
+// } else if (day === 'tuesday') {
+//     console.log('prepeairing theory');
+// } else if (day === 'wednesday') {
+//     console.log('I write code');
+// } else if (day === 'thursday' || day === 'friday') {
+//     console.log('Enjoying the weekend');
+// } else if (day === 'saturday' || day === 'sunday') {
+//     console.log('Enjoying the weekend');
+// } else {
+//     console.log('Not a valid day');
+// }
+
+//Satements and Expression
+
+
+// if (23 > 10) {
+//     const str = '23 is bigger'
+// }
+
+// const me = 'Deepak';
+// console.log();
+
+//Ternary Expression or Conditional operator
+
+const age = 23
+age >= 18 ? console.log('I like ot drink Coffee 🎯') : console.log('I like to drink water 🍉');
+
+const drink = age > 18 ? 'Coffee🎯' : 'water 🍉';
+console.log(drink);
+
+
+let drink2;
+if (age => 18) {
+    drink2 = wine;
+
 } else {
-    console.log('Not a valid day');
+    drink2 = water;
 }
+
+console.log(drink2);
+
