@@ -1,31 +1,38 @@
-//Strict mode
-
-// 'use strict';
-
-// let hasDriverLicence = false;
-// const passTest = true;
+let x;
 
 
-// if (passTest) hasDriverLicence = true;
+const name = 'john'
+const age = 30
 
-// if (hasDriverLicence) console.log('I can Drive :D');
+// x = 'Hello, my name is ' + name + 'I am ' + age + 'years old'
 
-// // const interface = 'Audio' 
+// x = `Hello, my name is${name}  'I am ${age} years old`
 
-// // const private = 534;
-//this is single line pof code 
+const s = 'Hello World'
 
+x = typeof s;
 
-// console.log(100);
-console.log('Hello world');
+x = s.length
+//Access value by key
+x = s[1]
 
-console.error('Alert');
-console.warn('Warning');
+x = s.__proto__;
 
-console.table({ name: 'Deepak', email: 'deepak@gmail.com' })
+x = s.toUpperCase();
+x = s.toLowerCase();
 
-// conslole.group('Simple')
+x = s.charAt(0)
 
-const styles = 'Padding: 10px; background-color: white; color:green'
+x = s.indexOf('H')
 
-console.log('%cHello ', styles);
+x = s.substring(0, 4)
+x = s.substring(7)
+x = s.slice(0, 5)
+x = s.slice(0, 5)
+
+x = '            Hello World'
+
+x = x.trim();
+
+x = x.replace('World', 'John')
+console.log(x)
