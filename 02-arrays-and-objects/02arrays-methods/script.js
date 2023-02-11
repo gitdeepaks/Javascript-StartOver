@@ -1,25 +1,21 @@
-//special types of objeststhat store multiple values
-
-const numbers = [44, 55, 66, 77, 67, 45]
-
-//Arrays constructors
-
-const fruit = new Array('a', 'b', 'c', 'd', 'e', 'f')
-console.log(numbers)
-
 let x;
 
-x = numbers[0];
-x = numbers[0] + numbers[3];
+const arr = [55, 65, 73, 76, 88];
 
+// arr.push(100)
+// arr.pop()
+// arr.unshift(99)
+// arr.shift()
 
-x = `My favorite fruit is ${fruit[4]}`
+// arr.reverse()
 
-x = numbers.length;
+// x = arr.includes(55)
+x = arr.indexOf(55,)
 
+x = arr.slice(1, 4);
+// x = arr.splice(1, 4);
+// x = arr.splice(3, 1)
 
-fruit[3] = 'droople';
-x = fruit
+x = arr.splice(1, 4).reverse().toString().charAt(0);
 
-x = fruit.length
 console.log(x)
