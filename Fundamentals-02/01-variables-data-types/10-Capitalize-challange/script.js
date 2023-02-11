@@ -1,4 +1,4 @@
-const myString = 'developer'
+const myString = 'devdeeak'
 
 let myNewString;
 
