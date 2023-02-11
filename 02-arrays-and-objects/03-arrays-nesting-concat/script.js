@@ -1,25 +1,40 @@
-//special types of objeststhat store multiple values
-
-const numbers = [44, 55, 66, 77, 67, 45]
-
-//Arrays constructors
-
-const fruit = new Array('a', 'b', 'c', 'd', 'e', 'f')
-console.log(numbers)
 
 let x;
-
-x = numbers[0];
-x = numbers[0] + numbers[3];
+const fruits = ['apple', 'peer', 'orange']
 
 
-x = `My favorite fruit is ${fruit[4]}`
-
-x = numbers.length;
+const berries = ['strawberry', 'blueberrry', 'resberry']
 
 
-fruit[3] = 'droople';
-x = fruit
+// fruits.push(berries)
 
-x = fruit.length
-console.log(x)
+// x = fruits[3]
+
+const allFruits = [fruits, berries]
+
+x = allFruits[1][0]
+
+x = fruits.concat(berries)
+
+//spread opearators
+
+x = [...fruits, ...berries]; //spread opeartors
+
+//Flatten Array 
+const arr = [1, 2, [3, 4], 5, [6, 7], 8]
+
+x = arr.flat();
+
+//Static methods
+
+x = Array.isArray(fruits)
+
+x = Array.from('12345')
+
+const a = 1;
+const b = 2;
+const c = 3;
+
+x = Array.of(a, b, c)
+
+console.log(x);
