@@ -1,20 +1,35 @@
-function sayHello() {
-    console.log('Hello world')
+const x = 100;
+const foo = 1;
+
+var bar = 2;
+
+if (true) {
+    const y = 200;
+    console.log(x + y)
 }
 
-sayHello();
 
-function add(num1, num2) {
-    console.log(num1 + num2)
+// console.log(x + y);
+
+
+for (let i = 0; i <= 10; i++) {
+    console.log(i)
 }
 
-add(7, 14);
+// console.log(i)
 
-function substract(num1, num2) {
-    return num1 - num2
-    console.log('After the return')
+if (true) {
+    const a = 500;
+    let b = 600;
+    var c = 700;
 }
 
-const result = substract(20, 14);
+console.log(c)
 
-console.log(result)
+function run() {
+    var d = 100;
+    console.log(d)
+}
+
+run();
+
