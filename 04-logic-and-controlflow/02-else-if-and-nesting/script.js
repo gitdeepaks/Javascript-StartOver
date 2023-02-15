@@ -1,32 +1,39 @@
-if (true) {
-    console.log("this is true")
+const d = new Date(10, 39, 2023, 9, 0, 0)
+
+const hour = d.getHours();
+
+
+if (hour < 12) {
+    console.log(`Good Morning ${d.getHours()}`)
+} else if (hour < 18) {
+    console.log(`Good Afternoon ${d.getHours()}`)
+}
+else {
+    console.log(`Good Night ${d.gethours()}`)
 }
 
-if (false) {
-    console.log("this is NOT true")
+//Nested If
+
+if (hour < 12) {
+    console.log(`Good Morning ${d.getHours()}`)
+
+    if (hour === 6) {
+        console.log('Wake Up')
+    }
+} else if (hour < 18) {
+    console.log(`Good Afternoon ${d.getHours()}`)
+}
+else {
+    console.log(`Good Night ${d.gethours()}`)
+    if (hour >= 20) {
+        console.log('zzzzzz')
+    }
 }
 
-const x = 10;
-const y = 4;
-
-if (x >= y) {
-    console.log(`${x} is grreater that ${y}`);
-}
-if (x === y) {
-    console.log(`${x} is equal to ${y}`);
-} else {
-    console.log(`${x} is not eqaual to ${y}`)
+if (hour >= 7 && hour < 15) {
+    console.log('its a worktime')
 }
 
-if (x !== y) {
-    const z = 20;
-    console.log(`${z} is 20`)
+if (hour = 6 || hour === 20) {
+    console.log('brush your teeth')
 }
-
-//shorthand
-
-if (x >= y) console.log(`${x} is grreater that ${y}`),
-    console.log("that is true")
-else console.log('this is false')
-
-
