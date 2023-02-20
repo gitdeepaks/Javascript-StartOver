@@ -1,6 +1,6 @@
 window.onload = function () {
 
-    document.querySelectorAll('h1').textContent = 'Hello, world!';
+    document.querySelectorAll('h1').textContent = 'Hello';
 }
 
 
