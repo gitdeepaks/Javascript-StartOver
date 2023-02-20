@@ -8,4 +8,8 @@ This Repo is to Deep Dive In JavaScript Basics in this Journey We will Start wit
   In this section we learn about variables, Operators, DataTypes, Strings and Conditionals Etc, all these things are the part of besics are fundametals of any programming language.
 
 - 02-Variables and Datatypes :-
-  In this section
+- 03-Arrays :-
+- 04-Logic Controlls :-
+- 04-Loops :-
+- 04-DOM Events :-
+- 05-Events :-
