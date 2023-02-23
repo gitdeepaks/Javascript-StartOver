@@ -4,10 +4,87 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fetch API</title>
+    <!-- <link rel="stylesheet" href="spinner.css" /> -->
+
+    <style>
+      .spinner {
+        --frame: 1s;
+      }
+      .spinner,
+      .spinner::before,
+      .spinner::after {
+        border: 5px solid white;
+        border-top-color: transparent;
+        border-bottom-color: transparent;
+        border-radius: 50%;
+      }
+      .spinner {
+        margin: auto;
+        font-size: 4em;
+        position: absolute;
+        top: 4px;
+        left: 140px;
+
+        width: 0.5em;
+        height: 0.5em;
+        -webkit-animation: anim-spinner var(--frame) ease infinite;
+        animation: anim-spinner var(--frame) ease infinite;
+      }
+      .spinner::before,
+      .spinner::after {
+        content: '';
+        position: absolute;
+      }
+      .spinner::before {
+        inset: 1px;
+        -webkit-animation: anim-spinner calc(var(--frame) * 4.3) ease-in
+          infinite;
+        animation: anim-spinner calc(var(--frame) * 4.3) ease-in infinite;
+      }
+      .spinner::after {
+        inset: 7px;
+        -webkit-animation: anim-spinner calc(var(--frame) * 1.51) ease-out
+          infinite;
+        animation: anim-spinner calc(var(--frame) * 1.51) ease-out infinite;
+      }
+
+      @-webkit-keyframes anim-spinner {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(359deg);
+        }
+      }
+      @keyframes anim-spinner {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(359deg);
+        }
+      }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Random User Generator</title>
   </head>
-  <body>
-    <h1>Fetch API</h1>
+  <body class="bg-white text-white overflow-x-hidden">
+    <div
+      class="relative max-w-2xl m-auto mt-12 border border-white rounded-lg p-4"
+    >
+      <div class="text-center">
+        <h1 class="text-2xl">Random User Generator</h1>
+        <button
+          id="generate"
+          class="relative bg-black text-white px-4 py-2 rounded w-full my-4"
+        >
+          <div class="spinner hidden"></div>
+          Generate User
+        </button>
+      </div>
+
+      <div id="user" class="mt-6"></div>
+    </div>
 
     <script src="./script.js"></script>
   </body>
