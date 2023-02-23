@@ -14,9 +14,9 @@ function displayUser(user) {
     const userDisplay = document.querySelector('#user')
 
     if (user.gender === 'male') {
-        document.body.style.backgroundColor = 'steelblue'
+        document.body.style.backgroundColor = '#383CC1'
     } else {
-        document.body.style.backgroundColor = 'violet'
+        document.body.style.backgroundColor = '#6A1B4D'
     }
 
     userDisplay.innerHTML = `
