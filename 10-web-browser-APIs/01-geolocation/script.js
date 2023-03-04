@@ -78,3 +78,28 @@ const options = {
 
 
 navigator.geolocation.getCurrentPosition(curSuccess, curError, options);
+
+//watchPosition
+
+function watchSuccess(pos) {
+
+  const coords = pos.coordsl
+  console.log(`Latitude: ${coords.lat}, longitude: ${coords.longitude}, altitude: ${coords.altitude}`);
+}
+
+function watchError(err) {
+  console.log(`Error: ${err.code} ${err.message}`)
+
+
+}
+
+const watchOptions = {
+  enableHighAccuracy: true, //Use GPS if available
+  timeout: 5000, // time to wait to stop trying for location
+  maximumAge: 0
+};
+
+
+
+
+navigator.geolocation.watchPosition(watchSuccess, watchError, watchOptions);
