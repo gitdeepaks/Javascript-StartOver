@@ -102,4 +102,4 @@ const watchOptions = {
 
 
 
-navigator.geolocation.watchPosition(watchSuccess, watchError, watchOptions);
+const id = navigator.geolocation.watchPosition(watchSuccess, watchError, watchOptions);
