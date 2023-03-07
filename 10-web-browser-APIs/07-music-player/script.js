@@ -10,13 +10,13 @@ const cover = document.getElementById('cover');
 
 const songs = ['hey', 'summer', 'ukulele'];
 
-let songIndex = 1;
+let songIndex = 2;
 
 
 //Initially load song
 loadSong(songs[songIndex]);
 
-const loadSong = (song) => {
+function loadSong(song) {
     title.innerText = song;
     audio.src = `music/${song}.mp3`;
     cover.src = `image/${song}.jpg`;
