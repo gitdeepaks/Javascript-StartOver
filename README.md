@@ -15,3 +15,5 @@ This Repo is to Deep Dive In JavaScript Basics in this Journey We will Start wit
 - 05-Events :-
 - 06-Document Object Model :-
 - 07-Asycronous Javascript :-
+- 08-Fetch API & Async Await :-
+- 09-Web Browser API :-
