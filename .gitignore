@@ -1,3 +1,4 @@
 premium_docs
 node_modules
 .DS_Store
+push-to-github.sh
