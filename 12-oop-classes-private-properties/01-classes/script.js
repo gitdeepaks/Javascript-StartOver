@@ -27,5 +27,5 @@ console.log(square.area());
 console.log(square.perimeter());
 console.log(square.isSquare());
 square.logArea();
-// console.log(square);
+console.log(square);
 // console.log(Object.getPrototypeOf(square));
