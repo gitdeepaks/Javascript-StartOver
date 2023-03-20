@@ -1,5 +1,5 @@
 class Wallet {
-  #balance = 0;
+  #balance = 0; //classfields
   #transactions = [];
 
   deposit(amount) {
