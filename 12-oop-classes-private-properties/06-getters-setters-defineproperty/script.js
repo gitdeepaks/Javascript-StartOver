@@ -58,7 +58,7 @@ const PersonObj = {
   },
 };
 
-const person1 = new Person('john', 'doe');
+const person1 = new Person('john', 'cena');
 console.log(person1.firstName);
 console.log(person1.lastName);
 console.log(person1.fullName);
