@@ -29,7 +29,7 @@ class Person {
   }
 }
 
-const person1 = new Person('john', 'doe');
+const person1 = new Person('john', 'Cena');
 console.log(person1.firstName);
 console.log(person1.lastName);
 
