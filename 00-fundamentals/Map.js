@@ -6,4 +6,10 @@ const doubledNumbers = numbers.map(function (num) {
 
 console.log(doubledNumbers); // Output: [2, 4, 6, 8, 10]
 
-console.log(`Hello, ${doubledNumbers}`)
+console.log(`Hello, ${doubledNumbers}`);
+
+
+
+
+
+console.log('first')
