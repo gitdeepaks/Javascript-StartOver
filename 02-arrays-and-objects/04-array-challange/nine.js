@@ -1,9 +1,9 @@
 const muuNums = [1, 2, 3];
 
-// const total = muuNums.reduce(function (acc, curr) {
-//   console.log(`acc: ${acc}, curr: ${curr}`);
-//   return acc + curr;
-// }, 0);
+const total1 = muuNums.reduce(function (acc, curr) {
+  console.log(`acc: ${acc}, curr: ${curr}`);
+  return acc + curr;
+}, 0);
 
 const total = muuNums.reduce((acc, curr) => acc + curr, 0);
 console.log(total);
