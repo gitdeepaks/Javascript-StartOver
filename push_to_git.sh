@@ -1,6 +1,4 @@
 #!/bin/bash
-
-
 git add .
 
 # Commit the changes with a descriptive message
