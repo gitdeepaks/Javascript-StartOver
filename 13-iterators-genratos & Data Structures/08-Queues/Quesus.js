@@ -47,7 +47,8 @@ q.enqueue("Item 1");
 q.enqueue("Item 2");
 q.enqueue("Item 3");
 
-q.dequeue;
+q.dequeue();
+q.dequeue();
 
 console.log("Font item :", q.peek());
 console.log("Queue length :", q.length());
