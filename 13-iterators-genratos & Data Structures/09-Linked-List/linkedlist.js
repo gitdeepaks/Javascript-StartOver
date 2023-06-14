@@ -15,88 +15,84 @@
 
 // console.log(node1, node2);
 
-class Node {
-  constructor() {
-    this._value = value;
-    this.next = null;
-  }
-}
-
 class LinkedList {
+  // Constructor initializes the head of the list and the length of the list
   constructor() {
     this._head = null;
-    this._lengthen = 0;
+    this._length = 0;
   }
 
-  //   Insert first node (Head)
-
+  // Method to insert a new node at the beginning of the list
   insertForst(Value) {
-    const newNode = new Node(value);
-    newNode.next - this._head;
-    this._head = newNode;
-    this._length++;
+    const newNode = new Node(value); // Creates a new node
+    newNode.next - this._head; // Points the new node to the current head
+    this._head = newNode; // Sets the new node as the head of the list
+    this._length++; // Increases the length of the list by 1
   }
 
-  //   Insert lst node (Tail)
+  // Method to insert a new node at the end of the list
   insertLast(value) {
-    const newNode = new Node(value);
-    let current = this._head;
+    const newNode = new Node(value); // Creates a new node
+    let current = this._head; // Starts at the head of the list
     while (current.next) {
+      // Traverses to the end of the list
       current = current.next;
     }
 
-    current.next = newNode;
-    this._length++;
+    current.next = newNode; // Inserts the new node at the end of the list
+    this._length++; // Increases the length of the list by 1
   }
 
-  //   Insert at index
-
+  // Method to insert a new node at a specific index
   insertAt(value, index) {
     if (index > this._length) {
+      // If the index is greater than the length of the list, do nothing
       return;
     }
 
     if (index === 0) {
+      // If the index is 0, insert the new node at the head of the list
       this.insertForst(value);
       return;
     }
 
-    const newNode = new Node(value);
+    const newNode = new Node(value); // Creates a new node
     let current, previous;
-    current = this._head;
+    current = this._head; // Starts at the head of the list
     let count = 0;
 
     while (count < index) {
+      // Traverses to the specified index
       previous = current;
       current = current.next;
       count++;
     }
-    newNode.next = current;
+    newNode.next = current; // Inserts the new node at the specified index
     previous.next = newNode;
 
-    this._length++;
+    this._length++; // Increases the length of the list by 1
   }
 
-  //   print list data
-
+  // Method to print all the data in the list
   printListData() {
-    let current = this._head;
+    let current = this._head; // Starts at the head of the list
     let list = "";
 
     while (current) {
-      list += current._value = " ";
+      // Traverses the entire list
+      list += current._value + " "; // Adds the value of each node to a string
       current = current.next;
     }
   }
 
-  //   Get at index
-
+  // Method to print the data at a specific index
   getAt(index) {
-    let current = this._head;
+    let current = this._head; // Starts at the head of the list
     let count = 0;
     while (current) {
       if (count === index) {
-        console.log(current._value);
+        // When the current node is at the specified index
+        console.log(current._value); // Prints the value of the node
       }
       count++;
       current = current.next;
@@ -104,34 +100,36 @@ class LinkedList {
     return null;
   }
 
-  //   remove index
+  // Method to remove a node at a specific index
   removeAt() {
     if (index > this._length) {
+      // If the index is greater than the length of the list, do nothing
       return;
     }
-    let current = this._head;
+    let current = this._head; // Starts at the head of the list
     let previous;
     let count = 0;
 
     if (index === 0) {
+      // If the index is 0, remove the head of the list
       this._head = current.next;
     } else {
       while (count < index) {
+        // Traverses to the specified index
         count++;
         previous = current;
         current = current.next;
       }
-      previous.next = current.next;
+      previous.next = current.next; // Removes the node at the specified index
     }
 
     console.log(list);
   }
 
-  //   clear list
-
+  // Method to clear all the data in the list
   clearListData() {
-    this._head = null;
-    this._length = 0;
+    this._head = null; // Sets the head of the list to null
+    this._length = 0; // Sets the length of the list to 0
   }
 }
 
