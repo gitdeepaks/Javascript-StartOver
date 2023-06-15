@@ -6,7 +6,7 @@
 
 // Solution 2
 function palindrome(str) {
-  return str.split('').every((char, index) => {
+  return str.split("").every((char, index) => {
     return char === str[str.length - index - 1];
   });
 }
