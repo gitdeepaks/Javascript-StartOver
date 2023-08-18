@@ -49,23 +49,32 @@ myNew.innerHTML = `<h1>This is JS and the Owner Name -${renovationJob.ownerName}
 
 // console.log(calcPrice(8000));
 
-const calcNprice = (sqMeter) => 2000 + 5000 + sqMeter;
+// const calcNprice = (sqMeter) => 2000 + 5000 + sqMeter;
 
-console.log(calcNprice(9000));
+// console.log(calcNprice(9000));
 
-// string concatination and template literals
-const price = 9000;
-const result = `The price is ${price}`;
+// // string concatination and template literals
+// const price = 9000;
+// const result = `The price is ${price}`;
 
-// if-else bs ternary operator
-const pricee = 93000;
-if (price >= 2000) {
-  console.log(`hello ${pricee}`);
+// // if-else bs ternary operator
+// const pricee = 93000;
+
+// if (price != 2000) {
+//   console.log(`hello ${pricee}`);
+// } else {
+//   console.log(`blabla ${pricee}`);
+// }
+
+// // ternary operator
+
+// const resultt = price > 2000 ? `hello ${pricee}` : `blabla ${pricee}`;
+// console.log(resultt);
+
+if (5000) {
+  var hello = 5;
 } else {
-  console.log(`blabla ${pricee}`);
+  var hi = 10;
 }
 
-// ternary operator
-
-const resultt = price > 2000 ? `hello ${pricee}` : `blabla ${pricee}`;
-console.log(resultt);
+console.log(hello);
