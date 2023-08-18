@@ -26,9 +26,6 @@ const error = {
   retry: true,
 };
 
-const myNew = document.querySelector("#new");
-myNew.innerHTML = `<h1>This is JS and the Owner Name -${renovationJob.ownerName}</h1>`;
-
 // functions
 
 //traditional way
@@ -78,3 +75,23 @@ if (5000) {
 }
 
 console.log(hello);
+
+// manipulation of of HTML and CSS
+
+const myNew = document.querySelector("#new");
+// myNew.textContent = `This is JS and the Owner Name -${renovationJob.ownerName}`;
+// myNew.innerHTML = `<h1>This is JS and the Owner Name -<span class="big"> ${renovationJob.ownerName}</span></h1>`;
+myNew.insertAdjacentHTML(
+  "beforeend",
+  `<h1>This is JS and the Owner Name -<span class="big"> ${renovationJob.ownerName}</span></h1>`
+);
+
+myNew.style.backgroundColor = "azure";
+
+myNew.classList.add("big");
+
+// document.getElementById("new").style.color = "blue";
+
+myNew.addEventListener("click", function () {
+  console.log("you clicked me");
+});
