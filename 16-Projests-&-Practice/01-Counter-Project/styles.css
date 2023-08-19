@@ -1,0 +1,146 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+button {
+  all: unset;
+}
+
+body {
+  background: #f5f5f5;
+  font-family: "Inter", sans-serif;
+  height: 100vh;
+  background-image: radial-gradient(
+    ellipse,
+    rgb(101, 241, 46),
+    rgb(60, 255, 0),
+    rgb(0, 255, 225)
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.counter {
+  background-image: linear-gradient(
+    rgb(60, 109, 56),
+    rgb(0, 255, 85) 50%,
+    azure
+  );
+  width: 80%;
+  max-width: 476px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 25px 121px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+.counter__title {
+  opacity: 0.6;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #252525;
+  text-align: center;
+  padding: 2rem 0;
+  margin-top: 60px;
+}
+
+.counter__value {
+  color: #252525;
+  font-size: 4rem;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.counter__reset-button {
+  background-color: transparent;
+  color: #92929297;
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  margin: 0 auto;
+  display: block;
+  margin-top: 2rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.counter__reset-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.counter__reset-icon {
+  margin-right: 0.5rem;
+  font-size: 35px;
+  transition: all 0.2s ease-in-out;
+}
+
+.counter__reset-icon:hover {
+  color: #4c3f3f;
+}
+
+.counter__buttons {
+  background-color: #252525;
+  height: auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  padding: 1rem 0;
+}
+
+.counter__button {
+  cursor: pointer;
+  background-color: transparent;
+  transition: transform 0.1s ease-in-out;
+}
+
+.counter__button:hover {
+  transform: scale(1.1);
+}
+
+.counter__icon {
+  color: #bdfe00;
+  opacity: 1;
+  font-size: 40px;
+}
+
+.counter__icon--minus {
+  margin-right: 0.5rem;
+}
+.counter__icon--plus {
+  margin-right: 0.5rem;
+}
+
+/* Media Query for smaller screens */
+@media screen and (max-width: 730px) {
+  .counter {
+    padding: 1rem;
+  }
+
+  .counter__title {
+    font-size: 2rem;
+    margin-top: 30px;
+  }
+
+  .counter__value {
+    font-size: 3rem;
+  }
+
+  .counter__reset-icon {
+    font-size: 25px;
+  }
+
+  .counter__icon {
+    font-size: 30px;
+  }
+}
