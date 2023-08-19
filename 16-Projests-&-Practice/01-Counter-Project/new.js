@@ -1,44 +1,83 @@
+const counterEl = document.querySelector(".counter");
 const increaseButtonEl = document.querySelector(".counter__button--increase");
-const counterValueEl = document.querySelector(".counter__value");
-
 const decreaseButtonEl = document.querySelector(".counter__button--decrease");
-
 const resetButtonEl = document.querySelector(".counter__reset-button");
+const counterValueEl = document.querySelector(".counter__value");
+const counterTitleEl = document.querySelector(".counter__title");
 
-const increaseCounter = () => {
-  const currentValue = Number(counterValueEl.textContent);
-  let newValue = currentValue + 1;
+resetButtonEl.addEventListener("click", () => {
+  // set counter value to 0
+  counterValueEl.textContent = 0;
 
-  // check if newValue is greater than 5
-  if (newValue > 5) {
-    newValue = 5;
-  }
+  // reset background color
+  counterEl.classList.remove("counter--limit");
 
-  counterValueEl.textContent = newValue;
-};
+  // reset counter title
+  counterTitleEl.textContent = "Fancy Counter";
 
-const decreaseCounter = () => {
-  const currentValue = Number(counterValueEl.textContent);
-  let newValue = currentValue - 1;
-  if (newValue <= 0) {
-    newValue = 0;
-  }
-  counterValueEl.textContent = newValue;
-};
+  // enable increase and decrease buttons
+  increaseButtonEl.disabled = false;
+  decreaseButtonEl.disabled = false;
 
-increaseButtonEl.addEventListener("click", increaseCounter);
-
-document.addEventListener("keydown", increaseCounter);
+  // unfocus (blur) reset button
+  resetButtonEl.blur();
+});
 
 decreaseButtonEl.addEventListener("click", () => {
-  const currentValue = Number(counterValueEl.textContent);
-  if (currentValue <= 0) {
-    return;
+  // get current value of counter
+  const currentValue = counterValueEl.textContent;
+
+  // convert value value to number type
+  const currentValueAsNumber = +currentValue;
+
+  // decrement by 1
+  let newValue = currentValueAsNumber - 1;
+
+  // check if new value is less than 0
+  if (newValue < 0) {
+    // if it is, force it to be 0 instead
+    newValue = 0;
   }
-  const newValue = currentValue - 1;
+
+  // update counter value with new value
   counterValueEl.textContent = newValue;
+
+  // unfocus (blur) button
+  decreaseButtonEl.blur();
 });
 
-resetButtonEl.addEventListener("click", function () {
-  counterValueEl.textContent = 0;
-});
+const incrementCounter = () => {
+  // get current value of counter
+  const currentValue = counterValueEl.textContent;
+
+  // convert value to number type
+  const currentValueAsNumber = +currentValue;
+
+  // increment by 1
+  let newValue = currentValueAsNumber + 1;
+
+  // check if new value is greater than 5
+  if (newValue > 5) {
+    // if it is, force it to be 5 instead
+    newValue = 5;
+
+    // give visual indicator that limit has been reached
+    counterEl.classList.add("counter--limit");
+
+    // update counter title to say limit has been reached
+    counterTitleEl.innerHTML = "Limit! Buy <b>Pro</b> for >5";
+
+    // disable increase and decrease buttons
+    increaseButtonEl.disabled = true;
+    decreaseButtonEl.disabled = true;
+  }
+
+  // set counter element with new value
+  counterValueEl.textContent = newValue;
+
+  // unfocus (blur) button
+  increaseButtonEl.blur();
+};
+
+increaseButtonEl.addEventListener("click", incrementCounter);
+document.addEventListener("keydown", incrementCounter);
