@@ -107,4 +107,7 @@ logUser(user);
 
 // increment(++) decrement(--)
 
-let num = 100;
+let num = 1000;
+
+num--;
+console.log(num);
