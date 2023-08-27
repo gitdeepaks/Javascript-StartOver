@@ -1,5 +1,5 @@
 premium_docs
 node_modules
 .DS_Store
-push-to-github.sh
+push_to_git.sh
 pathways.pdf
