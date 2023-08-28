@@ -111,3 +111,37 @@ let num = 1000;
 
 num--;
 console.log(num);
+
+function doSomthing() {
+  let b = 5;
+}
+
+// function intermeidate
+
+function addNumber() {
+  const newNumber = 5;
+
+  console.log(newNumber);
+}
+
+addNumber();
+
+// refactoring
+
+const soSomthing = () => {
+  console.log(true);
+  console.log(true);
+  console.log(true);
+  console.log(true);
+  console.log(true);
+};
+
+// Hoisting
+
+var number;
+number = 5;
+console.log(number);
+logStuff();
+function logStuff() {
+  console.log("hello");
+}
