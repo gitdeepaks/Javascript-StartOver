@@ -138,7 +138,7 @@ const soSomthing = () => {
 
 // Hoisting
 
-var number;
+var no;
 number = 5;
 console.log(number);
 logStuff();
