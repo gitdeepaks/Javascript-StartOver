@@ -145,3 +145,27 @@ logStuff();
 function logStuff() {
   console.log("hello");
 }
+
+// Timers
+// setTimeout(() => {
+//   console.log("Hello");
+//   console.log("Hi");
+// }, 5000);
+
+// setInterval(() => {
+//   console.log("world");
+// }, 2000);
+// Loops
+
+// forEach
+const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+numbers.forEach((num) => {
+  console.log(num + 1);
+});
+
+// for loop
+
+for (let i = 0; i < numbers.length; i++) {
+  console.log(firstname[i]);
+}
