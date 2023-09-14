@@ -16,3 +16,16 @@ textareaEl.addEventListener("input", () => {
   // display the no of characters left
   counterEl.textContent = charsLeft;
 });
+
+// FORM component
+
+const formEl = document.querySelector(".form");
+
+const submitHandler = (e) => {
+  //  prevent default behaviour
+  e.preventDefault();
+  // get text from the text area
+  const text = textareaEl.value;
+};
+
+formEl.addEventListener("submit", submitHandler);
