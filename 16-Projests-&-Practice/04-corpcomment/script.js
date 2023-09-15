@@ -26,6 +26,20 @@ const submitHandler = (e) => {
   e.preventDefault();
   // get text from the text area
   const text = textareaEl.value;
+  //validate text
+  if (text.includes("#")) {
+    formEl.classList.add("form--valid");
+
+    setTimeout(() => {
+      formEl.classList.remove("form--valid");
+    }, 2000);
+  } else {
+    formEl.classList.add("form--invalid");
+
+    setTimeout(() => {
+      formEl.classList.remove("form--invalid");
+    }, 2000);
+  }
 };
 
 formEl.addEventListener("submit", submitHandler);
