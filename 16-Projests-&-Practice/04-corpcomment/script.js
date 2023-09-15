@@ -27,7 +27,7 @@ const submitHandler = (e) => {
   // get text from the text area
   const text = textareaEl.value;
   //validate text
-  if (text.includes("#")) {
+  if (text.includes("#") && text.length >= 5) {
     formEl.classList.add("form--valid");
 
     setTimeout(() => {
