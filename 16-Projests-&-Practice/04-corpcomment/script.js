@@ -117,4 +117,7 @@ fetch("https://bytegrad.com/course-assets/js/1/api/feedbacks")
 </li>`;
       feedbackListEl.insertAdjacentHTML("beforeend", feedbackItemHTML);
     });
+  })
+  .catch((err) => {
+    feedbackListEl.textContent = "Failed to load feedbacks. Error: ${err}";
   });
