@@ -1,6 +1,7 @@
 // --COUNTER COMPONENT--
 
 const MAX_CHARS = 150;
+const BASE_API_URL = "https://bytegrad.com/course-assets/js/1/api";
 
 const textareaEl = document.querySelector(".form__textarea");
 const counterEl = document.querySelector(".counter");
@@ -90,7 +91,7 @@ const submitHandler = (e) => {
   renderFeedbackItems(feedbackItm);
 
   // send feeback items to server
-  fetch("https://bytegrad.com/course-assets/js/1/api/feedbacks", {
+  fetch(`${BASE_API_URL}/feedbacks`, {
     method: "POST",
     body: JSON.stringify(feedbackItm),
     headers: {
@@ -124,7 +125,7 @@ formEl.addEventListener("submit", submitHandler);
 
 // -- FEEDBACK LIST COMPONENT --
 
-fetch("https://bytegrad.com/course-assets/js/1/api/feedbacks")
+fetch(`${BASE_API_URL}/feedbacks`)
   .then((result) => result.json())
   .then((data) => {
     // /remove spinner
