@@ -9,6 +9,29 @@ const formEl = document.querySelector(".form");
 const submitBtnEl = document.querySelector(".submit-btn");
 const spinnerEl = document.querySelector(".spinner");
 
+const renderFeedbackItems = (feedbackItm) => {
+  const feetdabItemHTML = `
+  <li class="feedback">
+    <button class="upvote">
+        <i class="fa-solid fa-caret-up upvote__icon"></i>
+        <span class="upvote__count">${feedbackItm.upvoteCount}</span>
+    </button>
+    <section class="feedback__badge">
+        <p class="feedback__letter">${feedbackItm.badgeLetter}</p>
+    </section>
+    <div class="feedback__content">
+        <p class="feedback__company">${feedbackItm.conpany}</p>
+        <p class="feedback__text">${feedbackItm.text}</p>
+    </div>
+    <p class="feedback__date">${
+      feedbackItm.daysAgo === 0 ? "New" : `${feedbackItm.daysAgo}d`
+    }</p>
+</li>
+  
+  `;
+  feedbackListEl.insertAdjacentHTML("beforeend", feetdabItemHTML);
+};
+
 textareaEl.addEventListener("input", () => {
   //   determine max number of characters
   const maxChars = MAX_CHARS;
@@ -50,33 +73,42 @@ const submitHandler = (e) => {
 
   // we have text, now extract other info from the text
   const hashTag = text.split(" ").find((word) => word.includes("#"));
-  const conpany = hashTag.substring(1);
-  const badgLetter = conpany.substring(0, 1).toUpperCase();
-  const upvotedCount = 0;
+  const company = hashTag.substring(1);
+  const badgeLetter = company.substring(0, 1).toUpperCase();
+  const upvoteCount = 0;
   const daysAgo = 0;
 
-  // new feedback item HTML
-  const feetdabItemHTML = `
-  <li class="feedback">
-    <button class="upvote">
-        <i class="fa-solid fa-caret-up upvote__icon"></i>
-        <span class="upvote__count">${upvotedCount}</span>
-    </button>
-    <section class="feedback__badge">
-        <p class="feedback__letter">${badgLetter}</p>
-    </section>
-    <div class="feedback__content">
-        <p class="feedback__company">${conpany}</p>
-        <p class="feedback__text">${text}</p>
-    </div>
-    <p class="feedback__date">${daysAgo === 0 ? "New" : `${daysAgo}d`}</p>
-</li>
-  
-  `;
+  // renderFeedbackItems
+  const feedbackItm = {
+    upvoteCount,
+    badgeLetter,
+    company,
+    text,
+    daysAgo,
+  };
+
+  renderFeedbackItems(feedbackItm);
+
+  // send feeback items to server
+  fetch("https://bytegrad.com/course-assets/js/1/api/feedbacks", {
+    method: "POST",
+    body: JSON.stringify(feedbackItm),
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error("Failed to send feedback to server");
+      } else {
+        console.log("Feedback sent to server");
+      }
+    })
+    .catch((err) => console.log(err));
 
   // insert the new feedback item into the DOM
-
-  feedbackListEl.insertAdjacentHTML("beforeend", feetdabItemHTML);
+  feedbackListEl.insertAdjacentHTML("beforeend", feedbackItm);
 
   // clear the textarea
   textareaEl.value = "";
@@ -99,25 +131,9 @@ fetch("https://bytegrad.com/course-assets/js/1/api/feedbacks")
     spinnerEl.remove();
     //iterate over the data for Each element
     data.feedbacks.forEach((feedbackItm) => {
-      const feedbackItemHTML = `<li class="feedback">
-    <button class="upvote">
-        <i class="fa-solid fa-caret-up upvote__icon"></i>
-        <span class="upvote__count">${feedbackItm.upvoteCount}</span>
-    </button>
-    <section class="feedback__badge">
-        <p class="feedback__letter">${feedbackItm.badgeLetter}</p>
-    </section>
-    <div class="feedback__content">
-        <p class="feedback__company">${feedbackItm.company}</p>
-        <p class="feedback__text">${feedbackItm.text}</p>
-    </div>
-    <p class="feedback__date">${
-      feedbackItm.daysAgo === 0 ? "New" : `${feedbackItm.daysAgo}`
-    }</p>
-</li>`;
-      feedbackListEl.insertAdjacentHTML("beforeend", feedbackItemHTML);
+      renderFeedbackItems(feedbackItm);
     });
   })
   .catch((err) => {
-    feedbackListEl.textContent = "Failed to load feedbacks. Error: ${err}";
+    feedbackListEl.textContent = `Failed to load feedbacks. Error: ${err}`;
   });
