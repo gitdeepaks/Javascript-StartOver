@@ -1,14 +1,17 @@
 // --COUNTER COMPONENT--
 
+const MAX_CHARS = 150;
+
 const textareaEl = document.querySelector(".form__textarea");
 const counterEl = document.querySelector(".counter");
 const feedbackListEl = document.querySelector(".feedbacks");
 const formEl = document.querySelector(".form");
 const submitBtnEl = document.querySelector(".submit-btn");
+const spinnerEl = document.querySelector(".spinner");
 
 textareaEl.addEventListener("input", () => {
   //   determine max number of characters
-  const maxChars = 150;
+  const maxChars = MAX_CHARS;
   // determine current number of characters typed by user
   const neCharsTyped = textareaEl.value.length;
 
@@ -20,6 +23,16 @@ textareaEl.addEventListener("input", () => {
   counterEl.textContent = charsLeft;
 });
 
+function showVisualIndicator(textCheck) {
+  const className = textCheck === "valid" ? "form--valid" : "form--invalid";
+
+  formEl.classList.add(className);
+  // remove visual indicator
+  setTimeout(() => {
+    formEl.classList.remove(className);
+  }, 2000);
+}
+
 const submitHandler = (e) => {
   //  prevent default behaviour
   e.preventDefault();
@@ -27,20 +40,9 @@ const submitHandler = (e) => {
   const text = textareaEl.value;
   //validate text
   if (text.includes("#") && text.length >= 5) {
-    formEl.classList.add("form--valid");
-    // remove visual indicator
-    setTimeout(() => {
-      formEl.classList.remove("form--valid");
-    }, 2000);
+    showVisualIndicator("valid");
   } else {
-    formEl.classList.add("form--invalid");
-
-    setTimeout(() => {
-      formEl.classList.remove("form--invalid");
-    }, 2000);
-
-    // focus text area
-    textareaEl.focus();
+    showVisualIndicator("invalid");
 
     //stop function execution
     return;
@@ -83,7 +85,36 @@ const submitHandler = (e) => {
   submitBtnEl.blur();
 
   //reset the counter
-  counterEl.textContent = 150;
+  counterEl.textContent = MAX_CHARS;
 };
 
 formEl.addEventListener("submit", submitHandler);
+
+// -- FEEDBACK LIST COMPONENT --
+
+fetch("https://bytegrad.com/course-assets/js/1/api/feedbacks")
+  .then((result) => result.json())
+  .then((data) => {
+    // /remove spinner
+    spinnerEl.remove();
+    //iterate over the data for Each element
+    data.feedbacks.forEach((feedbackItm) => {
+      const feedbackItemHTML = `<li class="feedback">
+    <button class="upvote">
+        <i class="fa-solid fa-caret-up upvote__icon"></i>
+        <span class="upvote__count">${feedbackItm.upvoteCount}</span>
+    </button>
+    <section class="feedback__badge">
+        <p class="feedback__letter">${feedbackItm.badgeLetter}</p>
+    </section>
+    <div class="feedback__content">
+        <p class="feedback__company">${feedbackItm.company}</p>
+        <p class="feedback__text">${feedbackItm.text}</p>
+    </div>
+    <p class="feedback__date">${
+      feedbackItm.daysAgo === 0 ? "New" : `${feedbackItm.daysAgo}`
+    }</p>
+</li>`;
+      feedbackListEl.insertAdjacentHTML("beforeend", feedbackItemHTML);
+    });
+  });
