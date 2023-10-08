@@ -129,37 +129,39 @@ fetch(`${BASE_API_URL}/feedbacks`)
 
 // --HashTAG LIST COMPONENT--
 
-const clickHandler2 = (e) => {
-  // Get the clicked element
-  const clickedEl = e.target;
+(() => {
+  const clickHandler2 = (e) => {
+    // Get the clicked element
+    const clickedEl = e.target;
 
-  // Stop function if the clicked element is not a button
-  if (!clickedEl.classList.contains("hashtags")) return;
+    // Stop function if the clicked element is not a button
+    if (!clickedEl.classList.contains("hashtags")) return;
 
-  // Extract company name from the clicked element
-  const companyNameFromHashTag = clickedEl.textContent
-    .substring(1)
-    .toLowerCase()
-    .trim();
-
-  // Iterate over all feedbacks
-  feedbackListEl.childNodes.forEach((childNode) => {
-    // Stop the iteration if it's not an element node
-    if (childNode.nodeType !== 1) return;
-
-    // Extract company name from the feedback
-    const companyNameFromFeedbackItem = childNode
-      .querySelector(".feedback__company")
-      .textContent.toLowerCase()
+    // Extract company name from the clicked element
+    const companyNameFromHashTag = clickedEl.textContent
+      .substring(1)
+      .toLowerCase()
       .trim();
 
-    // Hide the feedback if the company name does not match
-    if (companyNameFromHashTag !== companyNameFromFeedbackItem) {
-      childNode.style.display = "none";
-    } else {
-      childNode.style.display = "";
-    }
-  });
-};
+    // Iterate over all feedbacks
+    feedbackListEl.childNodes.forEach((childNode) => {
+      // Stop the iteration if it's not an element node
+      if (childNode.nodeType !== 1) return;
 
-hashTagListEl.addEventListener("click", clickHandler2);
+      // Extract company name from the feedback
+      const companyNameFromFeedbackItem = childNode
+        .querySelector(".feedback__company")
+        .textContent.toLowerCase()
+        .trim();
+
+      // Hide the feedback if the company name does not match
+      if (companyNameFromHashTag !== companyNameFromFeedbackItem) {
+        childNode.style.display = "none";
+      } else {
+        childNode.style.display = "";
+      }
+    });
+  };
+
+  hashTagListEl.addEventListener("click", clickHandler2);
+})();
