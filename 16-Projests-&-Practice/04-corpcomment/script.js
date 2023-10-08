@@ -156,9 +156,7 @@ fetch(`${BASE_API_URL}/feedbacks`)
 
       // Hide the feedback if the company name does not match
       if (companyNameFromHashTag !== companyNameFromFeedbackItem) {
-        childNode.style.display = "none";
-      } else {
-        childNode.style.display = "";
+        childNode.remove();
       }
     });
   };
