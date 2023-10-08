@@ -21,6 +21,11 @@ const clickHandler = async () => {
   try {
     const res = await fetch("https://reqres.in/api/users");
     const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error("problem");
+    }
+
     console.log(data.data[3].first_name);
   } catch (err) {
     console.log(err);
