@@ -1,15 +1,17 @@
-// --COUNTER COMPONENT--
-
+// Constants
 const MAX_CHARS = 150;
 const BASE_API_URL = "https://bytegrad.com/course-assets/js/1/api";
 
+// DOM Element References
 const textareaEl = document.querySelector(".form__textarea");
 const counterEl = document.querySelector(".counter");
 const feedbackListEl = document.querySelector(".feedbacks");
 const formEl = document.querySelector(".form");
 const submitBtnEl = document.querySelector(".submit-btn");
 const spinnerEl = document.querySelector(".spinner");
+const hashTagListEl = document.querySelector(".hashtags");
 
+// Renders feedback items to the DOM
 const renderFeedbackItems = (feedbackItm) => {
   const feedbackItemHTML = `
     <li class="feedback">
@@ -32,27 +34,30 @@ const renderFeedbackItems = (feedbackItm) => {
   feedbackListEl.insertAdjacentHTML("beforeend", feedbackItemHTML);
 };
 
+// Updates character counter
 textareaEl.addEventListener("input", () => {
-  const neCharsTyped = textareaEl.value.length;
-  const charsLeft = MAX_CHARS - neCharsTyped;
+  const charsTyped = textareaEl.value.length;
+  const charsLeft = MAX_CHARS - charsTyped;
   counterEl.textContent = charsLeft;
 });
 
-function showVisualIndicator(textCheck) {
-  const className = textCheck === "valid" ? "form--valid" : "form--invalid";
+// Shows visual indication based on form validity
+function showVisualIndicator(isValid) {
+  const className = isValid ? "form--valid" : "form--invalid";
   formEl.classList.add(className);
   setTimeout(() => {
     formEl.classList.remove(className);
   }, 2000);
 }
 
+// Handles form submission
 const submitHandler = (e) => {
   e.preventDefault();
   const text = textareaEl.value;
   if (text.includes("#") && text.length >= 5) {
-    showVisualIndicator("valid");
+    showVisualIndicator(true);
   } else {
-    showVisualIndicator("invalid");
+    showVisualIndicator(false);
     return;
   }
 
@@ -70,6 +75,7 @@ const submitHandler = (e) => {
 
   renderFeedbackItems(feedbackItm);
 
+  // Send feedback to server
   fetch(`${BASE_API_URL}/feedbacks`, {
     method: "POST",
     body: JSON.stringify(feedbackItm),
@@ -81,9 +87,8 @@ const submitHandler = (e) => {
     .then((res) => {
       if (!res.ok) {
         throw new Error("Failed to send feedback to server");
-      } else {
-        console.log("Feedback sent to server");
       }
+      console.log("Feedback sent to server");
     })
     .catch((err) => console.log(err));
 
@@ -94,8 +99,22 @@ const submitHandler = (e) => {
 
 formEl.addEventListener("submit", submitHandler);
 
-// -- FEEDBACK LIST COMPONENT --
+// Handles feedback list interactions
+const clickHandler = (e) => {
+  const clickedEl = e.target;
+  if (clickedEl.closest(".upvote")) {
+    const upvoteBtn = clickedEl.closest(".upvote");
+    upvoteBtn.disabled = true;
+    const upvoteCountEl = upvoteBtn.querySelector(".upvote__count");
+    upvoteCountEl.textContent = Number(upvoteCountEl.textContent) + 1;
+  } else if (clickedEl.closest(".feedback")) {
+    clickedEl.closest(".feedback").classList.toggle("feedback--expand");
+  }
+};
 
+feedbackListEl.addEventListener("click", clickHandler);
+
+// Fetch and display feedbacks
 fetch(`${BASE_API_URL}/feedbacks`)
   .then((result) => result.json())
   .then((data) => {
@@ -107,3 +126,40 @@ fetch(`${BASE_API_URL}/feedbacks`)
   .catch((err) => {
     feedbackListEl.textContent = `Failed to load feedbacks. Error: ${err}`;
   });
+
+// --HashTAG LIST COMPONENT--
+
+const clickHandler2 = (e) => {
+  // Get the clicked element
+  const clickedEl = e.target;
+
+  // Stop function if the clicked element is not a button
+  if (!clickedEl.classList.contains("hashtags")) return;
+
+  // Extract company name from the clicked element
+  const companyNameFromHashTag = clickedEl.textContent
+    .substring(1)
+    .toLowerCase()
+    .trim();
+
+  // Iterate over all feedbacks
+  feedbackListEl.childNodes.forEach((childNode) => {
+    // Stop the iteration if it's not an element node
+    if (childNode.nodeType !== 1) return;
+
+    // Extract company name from the feedback
+    const companyNameFromFeedbackItem = childNode
+      .querySelector(".feedback__company")
+      .textContent.toLowerCase()
+      .trim();
+
+    // Hide the feedback if the company name does not match
+    if (companyNameFromHashTag !== companyNameFromFeedbackItem) {
+      childNode.style.display = "none";
+    } else {
+      childNode.style.display = "";
+    }
+  });
+};
+
+hashTagListEl.addEventListener("click", clickHandler2);
