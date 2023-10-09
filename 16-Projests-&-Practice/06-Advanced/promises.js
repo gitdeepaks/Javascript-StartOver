@@ -35,15 +35,16 @@ const pf = fetch("https://reqres.in/api/users");
 
 pf.then((res) => {
   console.log(res);
-  return res.json();
+
+  if (!res.ok) {
+    new Promise.reject("4xx or 5xx error");
+    return;
+  } else {
+    return res.json();
+  }
 })
   .then((data) => {
-    if (!res.ok) {
-      console.log("problem");
-      return;
-    }
-
-    console.log(data.data[7].first_name);
+    console.log(data.data[7].email);
   })
   .catch((err) => {
     console.log(err);
