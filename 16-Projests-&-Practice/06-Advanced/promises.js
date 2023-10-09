@@ -49,3 +49,13 @@ pf.then((res) => {
   .catch((err) => {
     console.log(err);
   });
+
+//   Promise.all()
+
+Promise.all([fetchPhotoPromise, fetchCommentPromise]).then((val) => {
+  // render post
+});
+
+Promise.any([fetchPhotoPromise, fetchCommentPromise]).then((val) => {
+  // render post
+});
