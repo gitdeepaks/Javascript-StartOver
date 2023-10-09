@@ -23,7 +23,7 @@ const clickHandler = async () => {
     const data = await res.json();
 
     if (!res.ok) {
-      throw new Error("problem");
+      console.log(data.description);
     }
 
     console.log(data.data[3].first_name);
