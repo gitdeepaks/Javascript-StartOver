@@ -33,3 +33,5 @@ const clickHandler = async () => {
 };
 
 btnEl.addEventListener("click", clickHandler);
+
+console.log(window);
