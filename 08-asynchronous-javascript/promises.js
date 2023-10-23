@@ -66,7 +66,7 @@ promiseTwo.then(function (user) {
 
 const promiseThree = new Promise(function (res, rej) {
   setTimeout(function () {
-    let error = false;
+    let error = true;
     if (!error) {
       res({ email: "chai@chai.com", passwor: "pass@123" });
     } else {
@@ -83,4 +83,23 @@ promiseThree
   })
   .catch((err) => {
     console.log(err);
+  })
+  .finally(function () {
+    console.log("finally block");
   });
+
+const promiseFour = new Promise(function (res, rej) {
+  setTimeout(function () {
+    let error = false;
+    if (!error) {
+      res({ username: "deeppu", password: "pass@123" });
+    } else {
+      rej("something went wrong");
+    }
+  }, 1000);
+});
+
+async function consumeMyFunc() {
+  const respons = await promiseFour;
+  console.log(respons);
+}
