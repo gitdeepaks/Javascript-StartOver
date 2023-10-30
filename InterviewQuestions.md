@@ -79,7 +79,52 @@ Certainly! Below, I've compiled a list of 20 JavaScript interview questions foll
     - `async` and `await` are used to simplify asynchronous code by allowing asynchronous operations to be written in a more synchronous-like manner.
 
 20. **How can you avoid callback hell (callback pyramid) in JavaScript?**
+
     - You can avoid callback hell by using techniques like Promises, async/await, or modularizing code into separate functions to improve code readability and maintainability.
+
+    Certainly! Coercion in JavaScript is a fundamental concept that refers to how the language converts between different data types during operations. JavaScript performs both implicit and explicit type coercion. Here are some JavaScript interview questions related to coercion:
+
+21. **What is type coercion in JavaScript, and how does it work?**
+
+- Type coercion is the automatic or implicit conversion of values from one data type to another during operations. JavaScript performs type coercion to make operations work, even if the data types don't match.
+
+22. **Explain the difference between implicit coercion and explicit coercion in JavaScript.**
+
+- Implicit coercion happens automatically, while explicit coercion is done explicitly using functions like `Number()`, `String()`, or `Boolean()` to convert values from one type to another.
+
+23. **What is truthy and falsy in JavaScript, and how does type coercion relate to these concepts?**
+
+- Truthy values are values that are considered "true" when used in a boolean context, while falsy values are considered "false." JavaScript uses type coercion to determine truthiness and falsiness.
+
+24. **What are the falsy values in JavaScript, and can you give examples of how type coercion affects their evaluation in conditions?**
+
+- Falsy values include `false`, `0`, `""`, `null`, `undefined`, and `NaN`. Type coercion can make non-boolean values behave as if they were boolean in conditions.
+
+25. **Explain how type coercion works in JavaScript when using the `==` (loose equality) operator.**
+
+- The `==` operator performs type coercion to compare values. If the data types are different, JavaScript will attempt to convert one or both values to a common type before making the comparison.
+
+26. **What is the danger of using the `==` (loose equality) operator in JavaScript comparisons, and why is it recommended to use `===` (strict equality) instead?**
+
+- The `==` operator can lead to unexpected results due to its type coercion behavior, while `===` strictly compares both value and type, avoiding many common pitfalls in JavaScript comparisons.
+
+27. **How can you perform type-safe comparisons in JavaScript to avoid unintended type coercion?**
+
+- To perform type-safe comparisons, use the `===` (strict equality) or `!==` (strict inequality) operators, which do not perform type coercion.
+
+28. **Give an example of implicit type coercion in JavaScript when performing addition with different data types (e.g., string and number).**
+
+- For instance, `"5" + 3` results in the string `"53"` due to implicit coercion.
+
+29. **What is the purpose of the `Boolean()` function in JavaScript, and how can you use it to explicitly convert a value to a boolean?**
+
+- The `Boolean()` function can be used to explicitly convert a value to a boolean. For example, `Boolean(0)` returns `false`, and `Boolean("hello")` returns `true`.
+
+30. **Explain how type coercion affects the behavior of the `==` operator when comparing `null` and `undefined` with other data types.**
+
+- When comparing `null` or `undefined` with other data types using `==`, they are loosely equal to each other and do not equal any other data type.
+
+Understanding coercion is crucial in JavaScript, as it can lead to unexpected behavior in your code. Being aware of how JavaScript converts data types can help you write more robust and predictable code.
 
 **React Interview Questions:**
 
