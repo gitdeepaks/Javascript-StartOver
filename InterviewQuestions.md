@@ -173,11 +173,10 @@ Understanding coercion is crucial in JavaScript, as it can lead to unexpected be
     - A higher-order component is a function that takes a component and returns a new component with additional props or behavior.
 
 12. **What is Redux, and how does it work with React?**
+
     - Redux is a state management library for JavaScript applications, and it can be used with React to manage the global state of an application.
 
-13
-
-. **What is React Router, and why is it used?** - React Router is a library for routing in React applications, enabling navigation between different components or pages in a single-page application.
+13. **What is React Router, and why is it used?** - React Router is a library for routing in React applications, enabling navigation between different components or pages in a single-page application.
 
 14. **What is a controlled component in React?**
 
