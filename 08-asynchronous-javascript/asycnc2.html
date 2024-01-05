@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Assync Take 2</title>
+  </head>
+  <body>
+    <h1>Async Chai 2</h1>
+    <button id="start">Start</button>
+    <button id="stop">stop</button>
+  </body>
+  <script>
+    const sayDeepak = (str) => {
+      console.log(str, Date.now());
+    };
+
+    document.querySelector("#start").addEventListener("click", () => {
+      const inID = setInterval(sayDeepak, 2000, "Hi");
+
+      document.querySelector("#stop").addEventListener("click", () => {
+        clearInterval(inID);
+        console.log("Stopped");
+      });
+    });
+
+    clearInterval(inID);
+
+    const insert = document.getElementById("start");
+    window.addEventListener("click", (e) => {
+      console.log(e.altKey);
+    });
+  </script>
+</html>

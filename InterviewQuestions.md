@@ -82,7 +82,7 @@ Certainly! Below, I've compiled a list of 20 JavaScript interview questions foll
 
     - You can avoid callback hell by using techniques like Promises, async/await, or modularizing code into separate functions to improve code readability and maintainability.
 
-    Certainly! Coercion in JavaScript is a fundamental concept that refers to how the language converts between different data types during operations. JavaScript performs both implicit and explicit type coercion. Here are some JavaScript interview questions related to coercion:
+    Coersion - Coercion in JavaScript is a fundamental concept that refers to how the language converts between different data types during operations. JavaScript performs both implicit and explicit type coercion. Here are some JavaScript interview questions related to coercion:
 
 21. **What is type coercion in JavaScript, and how does it work?**
 
