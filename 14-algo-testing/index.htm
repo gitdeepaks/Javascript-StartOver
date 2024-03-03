@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Chai Or Code</h1>
+    <button id="stop">Stop</button>
+    
+</body>
+<script>
+
+    const sayDeepak = function(params) {
+        console.log('Deepak')
+    }
+
+   const changeText =
+   function() {
+       document.querySelector('h1').innerHTML= 'I am Exceptional in JS'
+   }
+ const changeThis = setTimeout(changeText,5000)
+
+    document.querySelector('#stop').addEventListener('click',function (params) {
+        clearTimeout(changeText)
+        document.querySelector('h1').innerHTML='You are Exceptional Engineer'
+        console.log('Stopped')
+    })
+
+    
+</script>
+</html>
