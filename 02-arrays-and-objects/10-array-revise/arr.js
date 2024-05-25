@@ -37,3 +37,6 @@ console.log(nArr2);
 const nArr3 = myArr.splice(2, 7);
 console.log("D", myArr);
 console.log(nArr3);
+
+
+cont 
