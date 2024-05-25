@@ -1,7 +1,7 @@
 // const promiseOne = new Promise(function (resolve, reject) {
 //   // Do an Sync Task
 //   // DB Calls, Crypto Task, network
-
+//  
 //   setTimeout(() => {
 //     console.log("Async tsk completed");
 //     resolve();
