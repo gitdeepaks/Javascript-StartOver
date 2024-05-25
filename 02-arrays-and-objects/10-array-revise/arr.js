@@ -39,4 +39,3 @@ console.log("D", myArr);
 console.log(nArr3);
 
 
-cont 
