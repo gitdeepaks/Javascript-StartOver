@@ -12,5 +12,5 @@ const myObj = {
 const programming = ["js", "rust", "swift", "ruby"];
 
 for (const key in programming) {
-  console.log(key);
+  console.log(programming[key]);
 }
