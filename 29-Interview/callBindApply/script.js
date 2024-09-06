@@ -1,27 +1,27 @@
-// var obj = {
-//   name: "Deepak",
-// };
+var obj = {
+  name: "Deepak",
+};
 
-// function sayHello(age, profession) {
-//   return "Hello" + this.name + "is" + age + "is a" + profession;
-// }
+function sayHello(age, profession) {
+  return "Hello" + this.name + "is" + age + "is a" + profession;
+}
 
-// // console.log(sayHello.call(obj, 24, "Developer"));
+console.log(sayHello.call(obj, 24, "Developer"));
 
-// var status = "😊";
+var status = "😊";
 
-// setTimeout(() => {
-//   const status = "🚀";
+setTimeout(() => {
+  const status = "🚀";
 
-//   const data = {
-//     status: "☕️",
-//     getStatus() {
-//       return this.status;
-//     },
-//   };
-//   console.log(data.getStatus());
-//   console.log(data.getStatus.call(this));
-// }, 500);
+  const data = {
+    status: "☕️",
+    getStatus() {
+      return this.status;
+    },
+  };
+  console.log(data.getStatus());
+  console.log(data.getStatus.call(this));
+}, 500);
 
 // append an array to another array
 
@@ -37,3 +37,6 @@ arr.push.apply(arr, element);
 const minMax = [5, 2, 56, 78, 1];
 
 console.log(Math.max.apply(null, minMax));
+
+// function purchaseCar() {}
+//
