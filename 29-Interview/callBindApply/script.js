@@ -37,6 +37,3 @@ arr.push.apply(arr, element);
 const minMax = [5, 2, 56, 78, 1];
 
 console.log(Math.max.apply(null, minMax));
-
-// function purchaseCar() {}
-//
