@@ -61,7 +61,7 @@
       //   console.log(`Failed`);
       // };
 
-      fetch("https://api.github.com/users/deepaksankhyan")
+      fetch("https://api.github.com/users")
         .then((res) => res.json())
         .then((data) => console.log("success", data))
         .catch((err) => console.log(err.message));
