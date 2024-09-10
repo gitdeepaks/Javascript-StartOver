@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Heading</h1>
+
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore ad, quam
+      vero doloremque minima velit id exercitationem libero odit placeat a
+      numquam recusandae dicta delectus. Est, consequatur exercitationem? Id
+      cumque magni nisi quae hic aut reiciendis sint pariatur deserunt adipisci
+      perferendis sunt voluptatum sit amet repellat voluptatem, aspernatur
+      possimus soluta, vero officiis animi eos asperiores eius? Accusamus,
+      illum, qui laudantium sed omnis natus eaque autem, voluptatibus magni quia
+      non placeat doloribus expedita deserunt saepe. Culpa, expedita quasi non,
+      voluptatum harum consectetur eveniet distinctio nulla doloribus doloremque
+      provident fuga esse, cumque numquam commodi molestias ratione eligendi
+      tempora. A aliquam ea officia voluptatum veniam error eos nobis....
+      Adipisci sequi corporis quod provident culpa quam a autem sint ex unde. Id
+      voluptatibus debitis enim aperiam dolore perferendis ex laborum. At ad
+      illo ab temporibus. Accusamus pariatur numquam non voluptatibus autem
+      temporibus ipsum minus natus itaque laudantium, tempora omnis veniam.
+      Natus, pariatur deserunt! Voluptates, dignissimos earum. Nemo dolore quis,
+      recusandae harum saepe officiis ab quod ratione esse praesentium labore
+      reprehenderit consequuntur deserunt a aliquam nam, excepturi illo? Dolores
+      omnis corporis doloremque saepe atque adipisci veritatis similique dolorem
+      alias temporibus commodi odio obcaecati cumque aliquam, tempora natus
+      recusandae culpa! Dignissimos, quo. Natus est labore blanditiis.
+    </p>
+
+    <script>
+      //   const para = document.querySelector("p");
+
+      //   para.innerHTML = para.innerHTML
+      //     .split(" ")
+      //     .map((word) => {
+      //       return word.length > 8
+      //         ? `<span style="background-color:yellow">${word}</span>`
+      //         : word;
+      //     })
+      //     .join(" ");
+
+      // const xhr = new XMLHttpRequest();
+
+      // xhr.open("GET", "https://api.github.com/users/deepaksankhyan");
+      // xhr.send();
+
+      // xhr.onload = function () {
+      //   if (xhr.status !== 200) {
+      //     console.log(`Error ${xhr.status} ${xhr.statusText}`);
+      //   } else {
+      //     console.log(`Success ${xhr.response}`);
+      //   }
+      // };
+
+      // xhr.onerror = function () {
+      //   console.log(`Failed`);
+      // };
+
+      fetch("https://api.github.com/users/deepaksankhyan")
+        .then((res) => res.json())
+        .then((data) => console.log("success", data))
+        .catch((err) => console.log(err.message));
+    </script>
+  </body>
+</html>
