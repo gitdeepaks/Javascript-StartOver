@@ -513,6 +513,8 @@ console.log(copied); // { a: 1, b: { c: 2 } }
   const flatArray = flattenArray(nestedArray);
   console.log(flatArray); // [1, 2, 3, 4, 5]
 
+
+  <--------Another Method---------->
   function flattenArray(arr) {
     let result = []; // Initialize the result array that will hold the flattened elements.
 
