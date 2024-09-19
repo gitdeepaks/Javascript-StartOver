@@ -492,84 +492,108 @@ console.log(copied); // { a: 1, b: { c: 2 } }
 
   ```javascript
   function flattenArray(arr) {
-    const result = [];
-    const stack = [...arr];
+    const result = []; // This will hold the flattened array.
+    const stack = [...arr]; // Start with a copy of the original array.
 
     while (stack.length) {
-      const next = stack.pop();
+      const next = stack.pop(); // Take the last element of the stack.
       if (Array.isArray(next)) {
+        // If it's an array, push each of its elements back onto the stack
         stack.push(...next);
       } else {
+        // If it's not an array, add it to the result array
         result.push(next);
       }
     }
-    return result.reverse();
+    return result.reverse(); // Reverse to restore original order.
   }
 
   // Usage Example
   const nestedArray = [1, [2, [3, [4]], 5]];
   const flatArray = flattenArray(nestedArray);
   console.log(flatArray); // [1, 2, 3, 4, 5]
+
+  function flattenArray(arr) {
+    let result = []; // Initialize the result array that will hold the flattened elements.
+
+    for (let i = 0; i < arr.length; i++) {
+      if (Array.isArray(arr[i])) {
+        // If the current element is an array, recursively flatten it and concatenate the result
+        result = result.concat(flattenArray(arr[i]));
+      } else {
+        // If it's not an array, simply add the element to the result array
+        result.push(arr[i]);
+      }
+    }
+    return result;
+  }
   ```
+
+// Usage Example
+const nestedArray = [1, [2, [3, [4]], 5]];
+const flatArray = flattenArray(nestedArray);
+console.log(flatArray); // Output: [1, 2, 3, 4, 5]
+
+````
 
 ### **10. Parse and Stringify Query Parameters**
 
 - **Question:**
-  Implement functions to parse a URL query string into an object and stringify an object into a query string.
+Implement functions to parse a URL query string into an object and stringify an object into a query string.
 
 - **Explanation:**
-  Parsing and stringifying query parameters involves converting between a string representation and an object representation, handling encoding and decoding.
+Parsing and stringifying query parameters involves converting between a string representation and an object representation, handling encoding and decoding.
 
 - **Code:**
 
-  ```javascript
-  function parseQueryString(queryString) {
-    const params = {};
-    const pairs = (
-      queryString[0] === "?" ? queryString.substr(1) : queryString
-    ).split("&");
-    for (let i = 0; i < pairs.length; i++) {
-      const [key, value] = pairs[i].split("=").map(decodeURIComponent);
-      if (params[key]) {
-        params[key] = [].concat(params[key], value);
-      } else {
-        params[key] = value;
-      }
+```javascript
+function parseQueryString(queryString) {
+  const params = {};
+  const pairs = (
+    queryString[0] === "?" ? queryString.substr(1) : queryString
+  ).split("&");
+  for (let i = 0; i < pairs.length; i++) {
+    const [key, value] = pairs[i].split("=").map(decodeURIComponent);
+    if (params[key]) {
+      params[key] = [].concat(params[key], value);
+    } else {
+      params[key] = value;
     }
-    return params;
   }
+  return params;
+}
 
-  function stringifyQueryParams(params) {
-    return (
-      "?" +
-      Object.keys(params)
-        .map((key) => {
-          const value = params[key];
-          if (Array.isArray(value)) {
-            return value
-              .map(
-                (val) => `${encodeURIComponent(key)}=${encodeURIComponent(val)}`
-              )
-              .join("&");
-          } else {
-            return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
-          }
-        })
-        .join("&")
-    );
-  }
+function stringifyQueryParams(params) {
+  return (
+    "?" +
+    Object.keys(params)
+      .map((key) => {
+        const value = params[key];
+        if (Array.isArray(value)) {
+          return value
+            .map(
+              (val) => `${encodeURIComponent(key)}=${encodeURIComponent(val)}`
+            )
+            .join("&");
+        } else {
+          return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+        }
+      })
+      .join("&")
+  );
+}
 
-  // Usage Example
-  const url = "http://example.com?name=John&age=30&hobby=sports&hobby=reading";
-  const queryString = url.split("?")[1];
-  const params = parseQueryString(queryString);
-  console.log(params);
-  // { name: 'John', age: '30', hobby: ['sports', 'reading'] }
+// Usage Example
+const url = "http://example.com?name=John&age=30&hobby=sports&hobby=reading";
+const queryString = url.split("?")[1];
+const params = parseQueryString(queryString);
+console.log(params);
+// { name: 'John', age: '30', hobby: ['sports', 'reading'] }
 
-  const newQueryString = stringifyQueryParams(params);
-  console.log(newQueryString);
-  // '?name=John&age=30&hobby=sports&hobby=reading'
-  ```
+const newQueryString = stringifyQueryParams(params);
+console.log(newQueryString);
+// '?name=John&age=30&hobby=sports&hobby=reading'
+````
 
 ### **11. Implement a Custom Form Hook**
 
