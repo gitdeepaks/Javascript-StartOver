@@ -1,4 +1,4 @@
-"Hi, my name is Deepak Sankhyan. I'm a Full Stack Developer with 8 years of experience, specializing in React.js for the past 3 years. Currently, at Cognizant in Gurugram, I've focused on implementing responsive designs and improved application performance by 60% through back-end optimization. I also developed a single-page web application using React, Redux, and TypeScript to enhance user access to company resources.
+"Hi, my name is Deepak Sankhyan. I'm a Full Stack Developer with 8 years of experience, specializing in React.js for the past 3 years. Currently, at Cognizant in Gurugram, I've focused on implementing responsive designs and improved application performance through back-end optimization. I also developed a single-page web application using React, Redux, and TypeScript to enhance user access to company resources.
 
 Previously, at Napino Auto & Electronics Ltd, I created reusable components and a custom UI library that increased developer productivity and code reuse. I utilized CSS-in-JS to ensure a consistent UI look and feel across devices. Earlier in my career at Enecon Solar Power Ltd, I developed RESTful APIs that improved scalability and reduced latency by 50%.
 
@@ -71,52 +71,62 @@ As a full-stack developer with extensive experience in JavaScript and related te
   ```javascript
   function debounce(func, wait) {
     let timeout;
+
+    // Return a new function that wraps the original function
     return function (...args) {
       const context = this;
+
+      // Clear the previous timer
       clearTimeout(timeout);
-      timeout = setTimeout(() => func.apply(context, args), wait);
+
+      // Set a new timer
+      timeout = setTimeout(() => {
+        func.apply(context, args);
+      }, wait);
     };
   }
-
-  // Usage Example
-  const handleResize = debounce(() => {
-    console.log("Resize event handled!");
-  }, 500);
-
-  window.addEventListener("resize", handleResize);
   ```
+
+// Usage Example
+const handleResize = debounce(() => {
+console.log("Window resized!");
+}, 500);
+
+window.addEventListener("resize", handleResize);
+
+````
 
 ### **2. Create a Deep Clone Function for Objects**
 
 - **Question:**
-  Implement a function to deeply clone a JavaScript object, handling nested objects, arrays, and avoiding issues with circular references.
+Implement a function to deeply clone a JavaScript object, handling nested objects, arrays, and avoiding issues with circular references.
 
 - **Explanation:**
-  A deep clone creates a new object that is a copy of the original, including all nested objects and arrays. It's important to handle circular references to avoid infinite recursion.
+A deep clone creates a new object that is a copy of the original, including all nested objects and arrays. It's important to handle circular references to avoid infinite recursion.
 
 - **Code:**
 
-  ```javascript
-  function deepClone(obj, hash = new WeakMap()) {
-    if (obj === null || typeof obj !== "object") return obj;
-    if (hash.has(obj)) return hash.get(obj); // Handle circular references
+```javascript
+function deepClone(obj, hash = new WeakMap()) {
+  if (obj === null || typeof obj !== "object") return obj;
+  if (hash.has(obj)) return hash.get(obj); // Handle circular references
 
-    let clone = Array.isArray(obj) ? [] : {};
-    hash.set(obj, clone);
+  let clone = Array.isArray(obj) ? [] : {};
+  hash.set(obj, clone);
 
-    for (let key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        clone[key] = deepClone(obj[key], hash);
-      }
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      clone[key] = deepClone(obj[key], hash);
     }
-    return clone;
   }
+  return clone;
+}
 
-  // Usage Example
-  const original = { a: 1, b: { c: 2 } };
-  const copied = deepClone(original);
-  console.log(copied); // { a: 1, b: { c: 2 } }
-  ```
+// Usage Example
+const original = { a: 1, b: { c: 2 } };
+const copied = deepClone(original);
+console.log(copied); // { a: 1, b: { c: 2 } }
+````
 
 ### **3. Build a Custom Promise Implementation**
 
