@@ -6,6 +6,1375 @@ I'm proficient in Next.js, React.js, JavaScript, CSS, AWS, DevOps, and Linux. I 
 
 ---
 
+# Comprehensive React Interview Questions and Answers
+
+As a full-stack developer with extensive experience in React.js and related technologies, it's essential to prepare for interview questions that test both your theoretical knowledge and practical skills. This document compiles a set of important React questions, including explanations and code examples, tailored to your experience and skills.
+
+---
+
+## **Table of Contents**
+
+1. **Machine Coding Questions**
+
+   1. [Implement a Debounce Function](#1-implement-a-debounce-function)
+   2. [Create a Deep Clone Function for Objects](#2-create-a-deep-clone-function-for-objects)
+   3. [Build a Custom Promise Implementation](#3-build-a-custom-promise-implementation)
+   4. [Implement an Event Emitter Class](#4-implement-an-event-emitter-class)
+   5. [Create a Function Currying Utility](#5-create-a-function-currying-utility)
+   6. [Implement Asynchronous Control Flow](#6-implement-asynchronous-control-flow)
+   7. [Build a Throttle Function](#7-build-a-throttle-function)
+   8. [Create Custom Array Methods](#8-create-custom-array-methods)
+   9. [Flatten a Nested Array](#9-flatten-a-nested-array)
+   10. [Parse and Stringify Query Parameters](#10-parse-and-stringify-query-parameters)
+   11. [Implement a Custom Form Hook](#11-implement-a-custom-form-hook)
+   12. [Create a Reusable Modal Component](#12-create-a-reusable-modal-component)
+
+2. **Viva (Oral Interview) Questions**
+
+   1. [Explain the Event Loop in JavaScript](#13-explain-the-event-loop-in-javascript)
+   2. [Understanding the `this` Keyword](#14-understanding-the-this-keyword)
+   3. [Explain Closures and Their Uses](#15-explain-closures-and-their-uses)
+   4. [Prototypal Inheritance in JavaScript](#16-prototypal-inheritance-in-javascript)
+   5. [Differences Between `var`, `let`, and `const`](#17-differences-between-var-let-and-const)
+   6. [Hoisting in JavaScript](#18-hoisting-in-javascript)
+   7. [Understanding Asynchronous JavaScript](#19-understanding-asynchronous-javascript)
+   8. [Event Bubbling and Capturing](#20-event-bubbling-and-capturing)
+   9. [Explain Modules in JavaScript](#21-explain-modules-in-javascript)
+   10. [Memory Management and Garbage Collection](#22-memory-management-and-garbage-collection)
+   11. [Understanding Promises and Async/Await](#23-understanding-promises-and-asyncawait)
+   12. [React Performance Optimization Techniques](#24-react-performance-optimization-techniques)
+   13. [React Hooks Best Practices](#25-react-hooks-best-practices)
+
+3. **Additional Important Questions Considering Your Experience**
+   1. [ES6 and Beyond Features](#26-es6-and-beyond-features)
+   2. [Working with `this` in Arrow Functions](#27-working-with-this-in-arrow-functions)
+   3. [Understanding Event Loop with Async/Await](#28-understanding-event-loop-with-asyncawait)
+   4. [JavaScript Design Patterns](#29-javascript-design-patterns)
+   5. [Error Handling in JavaScript](#30-error-handling-in-javascript)
+   6. [Understanding Generators and Iterators](#31-understanding-generators-and-iterators)
+   7. [WeakMap and WeakSet Usage](#32-weakmap-and-weakset-usage)
+   8. [Working with Proxies](#33-working-with-proxies)
+   9. [Understanding Service Workers](#34-understanding-service-workers)
+   10. [Web Security and Best Practices](#35-web-security-and-best-practices)
+   11. [JavaScript Performance Optimization](#36-javascript-performance-optimization)
+   12. [Micro-Frontends in React](#37-micro-frontends-in-react)
+   13. [GraphQL Integration with React](#38-graphql-integration-with-react)
+
+---
+
+## **Machine Coding Questions**
+
+### **1. Implement a Debounce Function**
+
+- **Question:**
+  Write a debounce function in JavaScript that delays the execution of a callback until after a specified wait time has elapsed since the last time it was invoked.
+
+- **Explanation:**
+  Debouncing ensures that a function is only called after a certain period of inactivity. This is useful for performance optimization in events like resizing or typing, where the event fires multiple times in quick succession.
+
+- **Code:**
+
+  ```javascript
+  function debounce(func, wait) {
+    let timeout;
+
+    // Return a new function that wraps the original function
+    return function (...args) {
+      const context = this;
+
+      // Clear the previous timer
+      clearTimeout(timeout);
+
+      // Set a new timer
+      timeout = setTimeout(() => {
+        func.apply(context, args);
+      }, wait);
+    };
+  }
+  ```
+
+// Usage Example
+const handleResize = debounce(() => {
+console.log("Window resized!");
+}, 500);
+
+window.addEventListener("resize", handleResize);
+
+````
+
+### **2. Create a Deep Clone Function for Objects**
+
+- **Question:**
+Implement a function to deeply clone a JavaScript object, handling nested objects, arrays, and avoiding issues with circular references.
+
+- **Explanation:**
+A deep clone creates a new object that is a copy of the original, including all nested objects and arrays. It's important to handle circular references to avoid infinite recursion.
+
+- **Code:**
+
+```javascript
+function deepClone(obj, hash = new WeakMap()) {
+  if (obj === null || typeof obj !== "object") return obj;
+  if (hash.has(obj)) return hash.get(obj); // Handle circular references
+
+  let clone = Array.isArray(obj) ? [] : {};
+  hash.set(obj, clone);
+
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      clone[key] = deepClone(obj[key], hash);
+    }
+  }
+  return clone;
+}
+
+// Usage Example
+const original = { a: 1, b: { c: 2 } };
+const copied = deepClone(original);
+console.log(copied); // { a: 1, b: { c: 2 } }
+````
+
+### **3. Build a Custom Promise Implementation**
+
+- **Question:**
+  Create a basic implementation of a Promise, supporting `then`, `catch`, and `finally` methods.
+
+- **Explanation:**
+  A Promise represents an asynchronous operation that can be in one of three states: pending, fulfilled, or rejected. Implementing a Promise involves handling these states and allowing chaining of `then`, `catch`, and `finally` methods.
+
+- **Code:**
+
+  ```javascript
+  class MyPromise {
+    constructor(executor) {
+      this.state = "pending";
+      this.value = undefined;
+      this.handlers = [];
+
+      const resolve = (value) => {
+        if (this.state !== "pending") return;
+        this.state = "fulfilled";
+        this.value = value;
+        this.handlers.forEach(this.handle);
+        this.handlers = null;
+      };
+
+      const reject = (error) => {
+        if (this.state !== "pending") return;
+        this.state = "rejected";
+        this.value = error;
+        this.handlers.forEach(this.handle);
+        this.handlers = null;
+      };
+
+      this.handle = (handler) => {
+        if (this.state === "pending") {
+          this.handlers.push(handler);
+        } else {
+          if (
+            this.state === "fulfilled" &&
+            typeof handler.onFulfilled === "function"
+          ) {
+            handler.onFulfilled(this.value);
+          }
+          if (
+            this.state === "rejected" &&
+            typeof handler.onRejected === "function"
+          ) {
+            handler.onRejected(this.value);
+          }
+        }
+      };
+
+      this.then = (onFulfilled, onRejected) => {
+        return new MyPromise((resolve, reject) => {
+          this.handle({
+            onFulfilled: (value) => {
+              if (typeof onFulfilled === "function") {
+                try {
+                  resolve(onFulfilled(value));
+                } catch (err) {
+                  reject(err);
+                }
+              } else {
+                resolve(value);
+              }
+            },
+            onRejected: (error) => {
+              if (typeof onRejected === "function") {
+                try {
+                  resolve(onRejected(error));
+                } catch (err) {
+                  reject(err);
+                }
+              } else {
+                reject(error);
+              }
+            },
+          });
+        });
+      };
+
+      this.catch = (onRejected) => {
+        return this.then(null, onRejected);
+      };
+
+      this.finally = (callback) => {
+        return this.then(
+          (value) => {
+            callback();
+            return value;
+          },
+          (error) => {
+            callback();
+            throw error;
+          }
+        );
+      };
+
+      try {
+        executor(resolve, reject);
+      } catch (err) {
+        reject(err);
+      }
+    }
+  }
+
+  // Usage Example
+  const promise = new MyPromise((resolve, reject) => {
+    setTimeout(() => resolve("Success!"), 1000);
+  });
+
+  promise.then((value) => console.log(value)); // Logs 'Success!' after 1 second
+  ```
+
+### **4. Implement an Event Emitter Class**
+
+- **Question:**
+  Create an `EventEmitter` class with `on`, `off`, `emit`, and `once` methods.
+
+- **Explanation:**
+  An EventEmitter allows for subscribing to events (`on`), emitting events (`emit`), unsubscribing (`off`), and handling events that should be triggered only once (`once`).
+
+- **Code:**
+
+  ```javascript
+  class EventEmitter {
+    constructor() {
+      this.events = {};
+    }
+
+    on(event, listener) {
+      if (!this.events[event]) {
+        this.events[event] = [];
+      }
+      this.events[event].push(listener);
+    }
+
+    off(event, listenerToRemove) {
+      if (!this.events[event]) return;
+      this.events[event] = this.events[event].filter(
+        (listener) => listener !== listenerToRemove
+      );
+    }
+
+    once(event, listener) {
+      const wrapper = (...args) => {
+        listener(...args);
+        this.off(event, wrapper);
+      };
+      this.on(event, wrapper);
+    }
+
+    emit(event, ...args) {
+      if (!this.events[event]) return;
+      this.events[event].forEach((listener) => listener.apply(this, args));
+    }
+  }
+
+  // Usage Example
+  const emitter = new EventEmitter();
+
+  function greet(name) {
+    console.log(`Hello, ${name}!`);
+  }
+
+  emitter.on("greet", greet);
+  emitter.emit("greet", "Alice"); // Output: Hello, Alice!
+  emitter.off("greet", greet);
+  emitter.emit("greet", "Bob"); // No output
+
+  emitter.once("welcome", (name) => console.log(`Welcome, ${name}!`));
+  emitter.emit("welcome", "Charlie"); // Output: Welcome, Charlie!
+  emitter.emit("welcome", "Dave"); // No output
+  ```
+
+### **5. Create a Function Currying Utility**
+
+- **Question:**
+  Write a function `curry` that transforms a function with multiple arguments into a series of functions each taking a single argument.
+
+- **Explanation:**
+  Currying transforms a function with multiple arguments into nested unary functions. It is useful for creating higher-order functions and partial application.
+
+- **Code:**
+
+  ```javascript
+  function curry(func) {
+    return function curried(...args) {
+      if (args.length >= func.length) {
+        return func.apply(this, args);
+      } else {
+        return function (...nextArgs) {
+          return curried.apply(this, args.concat(nextArgs));
+        };
+      }
+    };
+  }
+
+  // Usage Example
+  function multiply(a, b, c) {
+    return a * b * c;
+  }
+
+  const curriedMultiply = curry(multiply);
+  console.log(curriedMultiply(2)(3)(4)); // Output: 24
+  ```
+
+### **6. Implement Asynchronous Control Flow**
+
+- **Question:**
+  Write an `asyncSeries` function that runs an array of asynchronous functions in series, collecting their results.
+
+- **Explanation:**
+  Managing asynchronous operations in series requires waiting for each operation to complete before starting the next. This can be achieved using `async`/`await` or chaining Promises.
+
+- **Code:**
+
+  ```javascript
+  async function asyncSeries(tasks) {
+    const results = [];
+    for (const task of tasks) {
+      const result = await task();
+      results.push(result);
+    }
+    return results;
+  }
+
+  // Usage Example
+  const asyncTasks = [
+    () => Promise.resolve(1),
+    () => new Promise((resolve) => setTimeout(() => resolve(2), 1000)),
+    () => Promise.resolve(3),
+  ];
+
+  asyncSeries(asyncTasks).then((results) => console.log(results));
+  // Output after ~1s: [1, 2, 3]
+  ```
+
+### **7. Build a Throttle Function**
+
+- **Question:**
+  Implement a throttle function that ensures a callback is not called more than once in a specified time frame.
+
+- **Explanation:**
+  Throttling limits the execution of a function to once every specified period, regardless of how many times it's triggered.
+
+- **Code:**
+
+  ```javascript
+  function throttle(func, wait) {
+    let lastTime = 0;
+    let timeout;
+    return function (...args) {
+      const now = Date.now();
+      const remaining = wait - (now - lastTime);
+      const context = this;
+
+      if (remaining <= 0) {
+        if (timeout) {
+          clearTimeout(timeout);
+          timeout = null;
+        }
+        lastTime = now;
+        func.apply(context, args);
+      } else if (!timeout) {
+        timeout = setTimeout(() => {
+          lastTime = Date.now();
+          timeout = null;
+          func.apply(context, args);
+        }, remaining);
+      }
+    };
+  }
+
+  // Usage Example
+  const throttledFunc = throttle(() => {
+    console.log("Throttled Function Executed");
+  }, 2000);
+
+  window.addEventListener("scroll", throttledFunc);
+  ```
+
+### **8. Create Custom Array Methods**
+
+- **Question:**
+  Implement custom versions of `Array.prototype.map`, `filter`, and `reduce`.
+
+- **Explanation:**
+  Recreating these methods demonstrates an understanding of array iteration, callback functions, and accumulator patterns.
+
+- **Code:**
+
+  ```javascript
+  // Custom Map
+  Array.prototype.customMap = function (callback) {
+    const result = [];
+    for (let i = 0; i < this.length; i++) {
+      if (this.hasOwnProperty(i)) {
+        result.push(callback(this[i], i, this));
+      }
+    }
+    return result;
+  };
+
+  // Custom Filter
+  Array.prototype.customFilter = function (callback) {
+    const result = [];
+    for (let i = 0; i < this.length; i++) {
+      if (this.hasOwnProperty(i) && callback(this[i], i, this)) {
+        result.push(this[i]);
+      }
+    }
+    return result;
+  };
+
+  // Custom Reduce
+  Array.prototype.customReduce = function (callback, initialValue) {
+    let accumulator = initialValue;
+    let startIndex = 0;
+
+    if (accumulator === undefined) {
+      accumulator = this[0];
+      startIndex = 1;
+    }
+
+    for (let i = startIndex; i < this.length; i++) {
+      if (this.hasOwnProperty(i)) {
+        accumulator = callback(accumulator, this[i], i, this);
+      }
+    }
+    return accumulator;
+  };
+
+  // Usage Example
+  const arr = [1, 2, 3, 4];
+
+  const mapped = arr.customMap((x) => x * 2);
+  console.log(mapped); // [2, 4, 6, 8]
+
+  const filtered = arr.customFilter((x) => x % 2 === 0);
+  console.log(filtered); // [2, 4]
+
+  const reduced = arr.customReduce((acc, x) => acc + x, 0);
+  console.log(reduced); // 10
+  ```
+
+### **9. Flatten a Nested Array**
+
+- **Question:**
+  Write a function that flattens an arbitrarily nested array of values.
+
+- **Explanation:**
+  Flattening reduces a multi-dimensional array into a single-dimensional array. This can be done recursively or using iteration.
+
+- **Code:**
+
+  ```javascript
+  function flattenArray(arr) {
+    const result = [];
+    const stack = [...arr];
+
+    while (stack.length) {
+      const next = stack.pop();
+      if (Array.isArray(next)) {
+        stack.push(...next);
+      } else {
+        result.push(next);
+      }
+    }
+    return result.reverse();
+  }
+
+  // Usage Example
+  const nestedArray = [1, [2, [3, [4]], 5]];
+  const flatArray = flattenArray(nestedArray);
+  console.log(flatArray); // [1, 2, 3, 4, 5]
+  ```
+
+### **10. Parse and Stringify Query Parameters**
+
+- **Question:**
+  Implement functions to parse a URL query string into an object and stringify an object into a query string.
+
+- **Explanation:**
+  Parsing and stringifying query parameters involves converting between a string representation and an object representation, handling encoding and decoding.
+
+- **Code:**
+
+  ```javascript
+  function parseQueryString(queryString) {
+    const params = {};
+    const pairs = (
+      queryString[0] === "?" ? queryString.substr(1) : queryString
+    ).split("&");
+    for (let i = 0; i < pairs.length; i++) {
+      const [key, value] = pairs[i].split("=").map(decodeURIComponent);
+      if (params[key]) {
+        params[key] = [].concat(params[key], value);
+      } else {
+        params[key] = value;
+      }
+    }
+    return params;
+  }
+
+  function stringifyQueryParams(params) {
+    return (
+      "?" +
+      Object.keys(params)
+        .map((key) => {
+          const value = params[key];
+          if (Array.isArray(value)) {
+            return value
+              .map(
+                (val) => `${encodeURIComponent(key)}=${encodeURIComponent(val)}`
+              )
+              .join("&");
+          } else {
+            return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+          }
+        })
+        .join("&")
+    );
+  }
+
+  // Usage Example
+  const url = "http://example.com?name=John&age=30&hobby=sports&hobby=reading";
+  const queryString = url.split("?")[1];
+  const params = parseQueryString(queryString);
+  console.log(params);
+  // { name: 'John', age: '30', hobby: ['sports', 'reading'] }
+
+  const newQueryString = stringifyQueryParams(params);
+  console.log(newQueryString);
+  // '?name=John&age=30&hobby=sports&hobby=reading'
+  ```
+
+### **11. Implement a Custom Form Hook**
+
+- **Question:**
+  Create a custom hook `useForm` that manages form state and validation.
+
+- **Explanation:**
+  A custom hook is a reusable function that encapsulates stateful logic and can be used across multiple components. In this case, the `useForm` hook will manage form state and validation.
+
+- **Code:**
+
+  ```javascript
+  import { useState } from "react";
+
+  const useForm = (initialState = {}, validate) => {
+    const [values, setValues] = useState(initialState);
+    const [errors, setErrors] = useState({});
+
+    const handleChange = (event) => {
+      const { name, value } = event.target;
+      setValues({
+        ...values,
+        [name]: value,
+      });
+    };
+
+    const handleSubmit = (event) => {
+      event.preventDefault();
+      const validationErrors = validate(values);
+      setErrors(validationErrors);
+      if (Object.keys(validationErrors).length === 0) {
+        console.log("Form submitted:", values);
+        // Perform form submission logic here
+      }
+    };
+
+    return { values, errors, handleChange, handleSubmit };
+  };
+
+  // Usage
+  const LoginForm = () => {
+    const { values, errors, handleChange, handleSubmit } = useForm(
+      { email: "", password: "" },
+      (values) => {
+        const errors = {};
+        if (!values.email) errors.email = "Email is required";
+        if (!values.password) errors.password = "Password is required";
+        return errors;
+      }
+    );
+
+    return (
+      <form onSubmit={handleSubmit}>
+        <input
+          name="email"
+          value={values.email}
+          onChange={handleChange}
+          placeholder="Email"
+        />
+        {errors.email && <span>{errors.email}</span>}
+        <input
+          type="password"
+          name="password"
+          value={values.password}
+          onChange={handleChange}
+          placeholder="Password"
+        />
+        {errors.password && <span>{errors.password}</span>}
+        <button type="submit">Login</button>
+      </form>
+    );
+  };
+  ```
+
+### **12. Create a Reusable Modal Component**
+
+- **Question:**
+  Build a reusable modal component that can be used across the application.
+
+- **Explanation:**
+  A reusable modal component is a versatile UI element that can be used to display content in a modal dialog. It should be easy to integrate and customize.
+
+- **Code:**
+
+  ```javascript
+  import React, { useEffect } from "react";
+  import ReactDOM from "react-dom";
+
+  const Modal = ({ isOpen, onClose, children }) => {
+    useEffect(() => {
+      const handleEsc = (event) => {
+        if (event.keyCode === 27) onClose();
+      };
+      window.addEventListener("keydown", handleEsc);
+      return () => window.removeEventListener("keydown", handleEsc);
+    }, [onClose]);
+
+    if (!isOpen) return null;
+
+    return ReactDOM.createPortal(
+      <div className="modal-overlay" onClick={onClose}>
+        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+          <button className="modal-close" onClick={onClose}>
+            &times;
+          </button>
+          {children}
+        </div>
+      </div>,
+      document.body
+    );
+  };
+
+  // Usage
+  const App = () => {
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+    return (
+      <div>
+        <button onClick={() => setIsModalOpen(true)}>Open Modal</button>
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <h2>Modal Content</h2>
+          <p>This is a reusable modal component.</p>
+        </Modal>
+      </div>
+    );
+  };
+  ```
+
+---
+
+## **Viva (Oral Interview) Questions**
+
+### **13. Explain the Event Loop in JavaScript**
+
+- **Question:**
+  Describe the event loop in JavaScript and how it handles asynchronous operations.
+
+- **Explanation:**
+  The event loop is a mechanism that allows JavaScript to handle asynchronous operations by managing the execution of callbacks. It consists of a call stack, a message queue, and a task queue. The call stack executes synchronous code, while the message queue and task queue hold asynchronous callbacks. The event loop continuously checks the call stack and, when it's empty, dequeues callbacks from the message queue or task queue and pushes them onto the call stack for execution.
+
+### **14. Understanding the `this` Keyword**
+
+- **Question:**
+  Explain how the `this` keyword works in JavaScript and the different ways it can be bound.
+
+- **Explanation:**
+  The `this` keyword in JavaScript refers to the context in which a function is executed. It can be bound to different values depending on how the function is called. There are four main ways to bind `this`: default binding, implicit binding, explicit binding, and new binding. Default binding occurs when `this` is not explicitly bound and refers to the global object (`window` in a browser). Implicit binding occurs when a function is called as a method of an object, and `this` refers to the object that the method is called on. Explicit binding can be achieved using methods like `call`, `apply`, or `bind`, which allow you to explicitly set the value of `this`. New binding occurs when a function is called with the `new` keyword, creating a new object and binding `this` to that object.
+
+### **15. Explain Closures and Their Uses**
+
+- **Question:**
+  What is a closure, and how does it work? Provide examples of its practical uses.
+
+- **Explanation:**
+  A closure is a function that has access to variables in its outer (enclosing) function's scope, even after the outer function has returned. This allows closures to "remember" the environment in which they were created and access those variables later. Closures are commonly used for data privacy, creating private variables, implementing function factories, and creating higher-order functions.
+
+### **16. Prototypal Inheritance in JavaScript**
+
+- **Question:**
+  Explain how prototypal inheritance works in JavaScript and how it differs from classical inheritance.
+
+- **Explanation:**
+  Prototypal inheritance is a mechanism in JavaScript where objects inherit properties and methods from other objects. Each object has a prototype, which is another object that it inherits from. When a property or method is accessed on an object, JavaScript first checks if the object has that property or method. If not, it looks up the prototype chain until it finds the property or method or reaches the end of the chain. This differs from classical inheritance, where objects inherit from classes and are instances of those classes.
+
+### **17. Differences Between `var`, `let`, and `const`**
+
+- **Question:**
+  Describe the differences between `var`, `let`, and `const` in JavaScript, including their scope and hoisting behavior.
+
+- **Explanation:**
+  `var`, `let`, and `const` are used to declare variables in JavaScript. `var` has function scope and is hoisted to the top of its containing function, which means it can be accessed before it's declared. `let` and `const` have block scope and are not hoisted, which means they cannot be accessed before they're declared. `let` allows reassigning the variable, while `const` does not.
+
+### **18. Hoisting in JavaScript**
+
+- **Question:**
+  Explain what hoisting is in JavaScript and how it affects variable and function declarations.
+
+- **Explanation:**
+  Hoisting is a JavaScript mechanism where variable and function declarations are moved to the top of their containing scope during the compilation phase, before the code is executed. This means that variables and functions can be used before they're declared, without causing a reference error. However, only the declarations are hoisted, not the assignments or initializations.
+
+### **19. Understanding Asynchronous JavaScript**
+
+- **Question:**
+  Discuss the different ways to handle asynchronous operations in JavaScript, including callbacks, Promises, and async/await.
+
+- **Explanation:**
+  Asynchronous operations in JavaScript allow for non-blocking execution, which improves performance and responsiveness. There are several ways to handle asynchronous operations, including callbacks, Promises, and async/await. Callbacks are functions passed as arguments to other functions and are executed when the asynchronous operation completes. Promises represent the eventual completion or failure of an asynchronous operation and provide methods for handling its result. Async/await is a syntactic sugar built on top of Promises that allows for writing asynchronous code in a more synchronous and readable style.
+
+### **20. Event Bubbling and Capturing**
+
+- **Question:**
+  Explain event bubbling and event capturing in JavaScript and how they differ.
+
+- **Explanation:**
+  Event bubbling and event capturing are two phases of the event propagation process in JavaScript. Event bubbling starts at the target element and propagates up through its ancestors in the DOM tree, while event capturing starts at the root element and propagates down to the target element. Event bubbling is the default behavior in most browsers, while event capturing can be enabled using the `addEventListener` method with the `useCapture` option set to `true`.
+
+### **21. Explain Modules in JavaScript**
+
+- **Question:**
+  Discuss the different ways to create and use modules in JavaScript, including CommonJS, AMD, and ES modules.
+
+- **Explanation:**
+  Modules in JavaScript allow for better code organization, encapsulation, and reusability. There are several ways to create and use modules, including CommonJS, AMD, and ES modules. CommonJS is a module system used in Node.js that allows for synchronous loading of modules. AMD (Asynchronous Module Definition) is a module system that allows for asynchronous loading of modules. ES modules are a built-in module system in modern JavaScript that allows for static analysis of dependencies and tree shaking.
+
+### **22. Memory Management and Garbage Collection**
+
+- **Question:**
+  Explain how memory management works in JavaScript and how garbage collection handles memory cleanup.
+
+- **Explanation:**
+  Memory management in JavaScript involves allocating memory for variables and objects, and releasing memory when they're no longer needed. JavaScript has automatic memory management through garbage collection, which periodically identifies and frees up memory that's no longer being used. Garbage collection works by tracing the references to objects from the global scope and marking those that are reachable. Objects that are not reachable are considered garbage and are eligible for cleanup.
+
+### **23. Understanding Promises and Async/Await**
+
+- **Question:**
+  Discuss the differences between Promises and async/await, and when to use each.
+
+- **Explanation:**
+  "Hi, my name is Deepak Sankhyan. I'm a Full Stack Developer with 8 years of experience, specializing in React.js for the past 3 years. Currently, at Cognizant in Gurugram, I've focused on implementing responsive designs and improved application performance through back-end optimization. I also developed a single-page web application using React, Redux, and TypeScript to enhance user access to company resources.
+
+Previously, at Napino Auto & Electronics Ltd, I created reusable components and a custom UI library that increased developer productivity and code reuse. I utilized CSS-in-JS to ensure a consistent UI look and feel across devices. Earlier in my career at Enecon Solar Power Ltd, I developed RESTful APIs that improved scalability and reduced latency by 50%.
+
+I'm proficient in Next.js, React.js, JavaScript, CSS, AWS, DevOps, and Linux. I hold a Bachelor's degree in Information Technology from the Global College of Technology in Jaipur. I'm passionate about building high-performance, scalable applications and am excited about the opportunity to contribute my skills to your team."
+
+---
+
+# Comprehensive React Interview Questions and Answers
+
+As a full-stack developer with extensive experience in React.js and related technologies, it's essential to prepare for interview questions that test both your theoretical knowledge and practical skills. This document compiles a set of important React questions, including explanations and code examples, tailored to your experience and skills.
+
+---
+
+## **Table of Contents**
+
+1. **Machine Coding Questions**
+
+   1. [Implement a Debounce Function](#1-implement-a-debounce-function)
+   2. [Create a Deep Clone Function for Objects](#2-create-a-deep-clone-function-for-objects)
+   3. [Build a Custom Promise Implementation](#3-build-a-custom-promise-implementation)
+   4. [Implement an Event Emitter Class](#4-implement-an-event-emitter-class)
+   5. [Create a Function Currying Utility](#5-create-a-function-currying-utility)
+   6. [Implement Asynchronous Control Flow](#6-implement-asynchronous-control-flow)
+   7. [Build a Throttle Function](#7-build-a-throttle-function)
+   8. [Create Custom Array Methods](#8-create-custom-array-methods)
+   9. [Flatten a Nested Array](#9-flatten-a-nested-array)
+   10. [Parse and Stringify Query Parameters](#10-parse-and-stringify-query-parameters)
+   11. [Implement a Custom Form Hook](#11-implement-a-custom-form-hook)
+   12. [Create a Reusable Modal Component](#12-create-a-reusable-modal-component)
+
+2. **Viva (Oral Interview) Questions**
+
+   1. [Explain the Event Loop in JavaScript](#13-explain-the-event-loop-in-javascript)
+   2. [Understanding the `this` Keyword](#14-understanding-the-this-keyword)
+   3. [Explain Closures and Their Uses](#15-explain-closures-and-their-uses)
+   4. [Prototypal Inheritance in JavaScript](#16-prototypal-inheritance-in-javascript)
+   5. [Differences Between `var`, `let`, and `const`](#17-differences-between-var-let-and-const)
+   6. [Hoisting in JavaScript](#18-hoisting-in-javascript)
+   7. [Understanding Asynchronous JavaScript](#19-understanding-asynchronous-javascript)
+   8. [Event Bubbling and Capturing](#20-event-bubbling-and-capturing)
+   9. [Explain Modules in JavaScript](#21-explain-modules-in-javascript)
+   10. [Memory Management and Garbage Collection](#22-memory-management-and-garbage-collection)
+   11. [Understanding Promises and Async/Await](#23-understanding-promises-and-asyncawait)
+   12. [React Performance Optimization Techniques](#24-react-performance-optimization-techniques)
+   13. [React Hooks Best Practices](#25-react-hooks-best-practices)
+
+3. **Additional Important Questions Considering Your Experience**
+   1. [ES6 and Beyond Features](#26-es6-and-beyond-features)
+   2. [Working with `this` in Arrow Functions](#27-working-with-this-in-arrow-functions)
+   3. [Understanding Event Loop with Async/Await](#28-understanding-event-loop-with-asyncawait)
+   4. [JavaScript Design Patterns](#29-javascript-design-patterns)
+   5. [Error Handling in JavaScript](#30-error-handling-in-javascript)
+   6. [Understanding Generators and Iterators](#31-understanding-generators-and-iterators)
+   7. [WeakMap and WeakSet Usage](#32-weakmap-and-weakset-usage)
+   8. [Working with Proxies](#33-working-with-proxies)
+   9. [Understanding Service Workers](#34-understanding-service-workers)
+   10. [Web Security and Best Practices](#35-web-security-and-best-practices)
+   11. [JavaScript Performance Optimization](#36-javascript-performance-optimization)
+   12. [Micro-Frontends in React](#37-micro-frontends-in-react)
+   13. [GraphQL Integration with React](#38-graphql-integration-with-react)
+
+---
+
+## **Machine Coding Questions**
+
+### **1. Implement a Debounce Function**
+
+- **Question:**
+  Write a debounce function in JavaScript that delays the execution of a callback until after a specified wait time has elapsed since the last time it was invoked.
+
+- **Explanation:**
+  Debouncing ensures that a function is only called after a certain period of inactivity. This is useful for performance optimization in events like resizing or typing, where the event fires multiple times in quick succession.
+
+- **Code:**
+
+  ```javascript
+  function debounce(func, wait) {
+    let timeout;
+
+    // Return a new function that wraps the original function
+    return function (...args) {
+      const context = this;
+
+      // Clear the previous timer
+      clearTimeout(timeout);
+
+      // Set a new timer
+      timeout = setTimeout(() => {
+        func.apply(context, args);
+      }, wait);
+    };
+  }
+  ```
+
+// Usage Example
+const handleResize = debounce(() => {
+console.log("Window resized!");
+}, 500);
+
+window.addEventListener("resize", handleResize);
+
+````
+
+### **2. Create a Deep Clone Function for Objects**
+
+- **Question:**
+Implement a function to deeply clone a JavaScript object, handling nested objects, arrays, and avoiding issues with circular references.
+
+- **Explanation:**
+A deep clone creates a new object that is a copy of the original, including all nested objects and arrays. It's important to handle circular references to avoid infinite recursion.
+
+- **Code:**
+
+```javascript
+function deepClone(obj, hash = new WeakMap()) {
+  if (obj === null || typeof obj !== "object") return obj;
+  if (hash.has(obj)) return hash.get(obj); // Handle circular references
+
+  let clone = Array.isArray(obj) ? [] : {};
+  hash.set(obj, clone);
+
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      clone[key] = deepClone(obj[key], hash);
+    }
+  }
+  return clone;
+}
+
+// Usage Example
+const original = { a: 1, b: { c: 2 } };
+const copied = deepClone(original);
+console.log(copied); // { a: 1, b: { c: 2 } }
+````
+
+### **3. Build a Custom Promise Implementation**
+
+- **Question:**
+  Create a basic implementation of a Promise, supporting `then`, `catch`, and `finally` methods.
+
+- **Explanation:**
+  A Promise represents an asynchronous operation that can be in one of three states: pending, fulfilled, or rejected. Implementing a Promise involves handling these states and allowing chaining of `then`, `catch`, and `finally` methods.
+
+- **Code:**
+
+  ```javascript
+  class MyPromise {
+    constructor(executor) {
+      this.state = "pending";
+      this.value = undefined;
+      this.handlers = [];
+
+      const resolve = (value) => {
+        if (this.state !== "pending") return;
+        this.state = "fulfilled";
+        this.value = value;
+        this.handlers.forEach(this.handle);
+        this.handlers = null;
+      };
+
+      const reject = (error) => {
+        if (this.state !== "pending") return;
+        this.state = "rejected";
+        this.value = error;
+        this.handlers.forEach(this.handle);
+        this.handlers = null;
+      };
+
+      this.handle = (handler) => {
+        if (this.state === "pending") {
+          this.handlers.push(handler);
+        } else {
+          if (
+            this.state === "fulfilled" &&
+            typeof handler.onFulfilled === "function"
+          ) {
+            handler.onFulfilled(this.value);
+          }
+          if (
+            this.state === "rejected" &&
+            typeof handler.onRejected === "function"
+          ) {
+            handler.onRejected(this.value);
+          }
+        }
+      };
+
+      this.then = (onFulfilled, onRejected) => {
+        return new MyPromise((resolve, reject) => {
+          this.handle({
+            onFulfilled: (value) => {
+              if (typeof onFulfilled === "function") {
+                try {
+                  resolve(onFulfilled(value));
+                } catch (err) {
+                  reject(err);
+                }
+              } else {
+                resolve(value);
+              }
+            },
+            onRejected: (error) => {
+              if (typeof onRejected === "function") {
+                try {
+                  resolve(onRejected(error));
+                } catch (err) {
+                  reject(err);
+                }
+              } else {
+                reject(error);
+              }
+            },
+          });
+        });
+      };
+
+      this.catch = (onRejected) => {
+        return this.then(null, onRejected);
+      };
+
+      this.finally = (callback) => {
+        return this.then(
+          (value) => {
+            callback();
+            return value;
+          },
+          (error) => {
+            callback();
+            throw error;
+          }
+        );
+      };
+
+      try {
+        executor(resolve, reject);
+      } catch (err) {
+        reject(err);
+      }
+    }
+  }
+
+  // Usage Example
+  const promise = new MyPromise((resolve, reject) => {
+    setTimeout(() => resolve("Success!"), 1000);
+  });
+
+  promise.then((value) => console.log(value)); // Logs 'Success!' after 1 second
+  ```
+
+### **4. Implement an Event Emitter Class**
+
+- **Question:**
+  Create an `EventEmitter` class with `on`, `off`, `emit`, and `once` methods.
+
+- **Explanation:**
+  An EventEmitter allows for subscribing to events (`on`), emitting events (`emit`), unsubscribing (`off`), and handling events that should be triggered only once (`once`).
+
+- **Code:**
+
+  ```javascript
+  class EventEmitter {
+    constructor() {
+      this.events = {};
+    }
+
+    on(event, listener) {
+      if (!this.events[event]) {
+        this.events[event] = [];
+      }
+      this.events[event].push(listener);
+    }
+
+    off(event, listenerToRemove) {
+      if (!this.events[event]) return;
+      this.events[event] = this.events[event].filter(
+        (listener) => listener !== listenerToRemove
+      );
+    }
+
+    once(event, listener) {
+      const wrapper = (...args) => {
+        listener(...args);
+        this.off(event, wrapper);
+      };
+      this.on(event, wrapper);
+    }
+
+    emit(event, ...args) {
+      if (!this.events[event]) return;
+      this.events[event].forEach((listener) => listener.apply(this, args));
+    }
+  }
+
+  // Usage Example
+  const emitter = new EventEmitter();
+
+  function greet(name) {
+    console.log(`Hello, ${name}!`);
+  }
+
+  emitter.on("greet", greet);
+  emitter.emit("greet", "Alice"); // Output: Hello, Alice!
+  emitter.off("greet", greet);
+  emitter.emit("greet", "Bob"); // No output
+
+  emitter.once("welcome", (name) => console.log(`Welcome, ${name}!`));
+  emitter.emit("welcome", "Charlie"); // Output: Welcome, Charlie!
+  emitter.emit("welcome", "Dave"); // No output
+  ```
+
+### **5. Create a Function Currying Utility**
+
+- **Question:**
+  Write a function `curry` that transforms a function with multiple arguments into a series of functions each taking a single argument.
+
+- **Explanation:**
+  Currying transforms a function with multiple arguments into nested unary functions. It is useful for creating higher-order functions and partial application.
+
+- **Code:**
+
+  ```javascript
+  function curry(func) {
+    return function curried(...args) {
+      if (args.length >= func.length) {
+        return func.apply(this, args);
+      } else {
+        return function (...nextArgs) {
+          return curried.apply(this, args.concat(nextArgs));
+        };
+      }
+    };
+  }
+
+  // Usage Example
+  function multiply(a, b, c) {
+    return a * b * c;
+  }
+
+  const curriedMultiply = curry(multiply);
+  console.log(curriedMultiply(2)(3)(4)); // Output: 24
+  ```
+
+### **6. Implement Asynchronous Control Flow**
+
+- **Question:**
+  Write an `asyncSeries` function that runs an array of asynchronous functions in series, collecting their results.
+
+- **Explanation:**
+  Managing asynchronous operations in series requires waiting for each operation to complete before starting the next. This can be achieved using `async`/`await` or chaining Promises.
+
+- **Code:**
+
+  ```javascript
+  async function asyncSeries(tasks) {
+    const results = [];
+    for (const task of tasks) {
+      const result = await task();
+      results.push(result);
+    }
+    return results;
+  }
+
+  // Usage Example
+  const asyncTasks = [
+    () => Promise.resolve(1),
+    () => new Promise((resolve) => setTimeout(() => resolve(2), 1000)),
+    () => Promise.resolve(3),
+  ];
+
+  asyncSeries(asyncTasks).then((results) => console.log(results));
+  // Output after ~1s: [1, 2, 3]
+  ```
+
+### **7. Build a Throttle Function**
+
+- **Question:**
+  Implement a throttle function that ensures a callback is not called more than once in a specified time frame.
+
+- **Explanation:**
+  Throttling limits the execution of a function to once every specified period, regardless of how many times it's triggered.
+
+- **Code:**
+
+  ```javascript
+  function throttle(func, wait) {
+    let lastTime = 0;
+    let timeout;
+    return function (...args) {
+      const now = Date.now();
+      const remaining = wait - (now - lastTime);
+      const context = this;
+
+      if (remaining <= 0) {
+        if (timeout) {
+          clearTimeout(timeout);
+          timeout = null;
+        }
+        lastTime = now;
+        func.apply(context, args);
+      } else if (!timeout) {
+        timeout = setTimeout(() => {
+          lastTime = Date.now();
+          timeout = null;
+          func.apply(context, args);
+        }, remaining);
+      }
+    };
+  }
+
+  // Usage Example
+  const throttledFunc = throttle(() => {
+    console.log("Throttled Function Executed");
+  }, 2000);
+
+  window.addEventListener("scroll", throttledFunc);
+  ```
+
+### **8. Create Custom Array Methods**
+
+- **Question:**
+  Implement custom versions of `Array.prototype.map`, `filter`, and `reduce`.
+
+- **Explanation:**
+  Recreating these methods demonstrates an understanding of array iteration, callback functions, and accumulator patterns.
+
+- **Code:**
+
+  ```javascript
+  // Custom Map
+  Array.prototype.customMap = function (callback) {
+    const result = [];
+    for (let i = 0; i < this.length; i++) {
+      if (this.hasOwnProperty(i)) {
+        result.push(callback(this[i], i, this));
+      }
+    }
+    return result;
+  };
+
+  // Custom Filter
+  Array.prototype.customFilter = function (callback) {
+    const result = [];
+    for (let i = 0; i < this.length; i++) {
+      if (this.hasOwnProperty(i) && callback(this[i], i, this)) {
+        result.push(this[i]);
+      }
+    }
+    return result;
+  };
+
+  // Custom Reduce
+  Array.prototype.customReduce = function (callback, initialValue) {
+    let accumulator = initialValue;
+    let startIndex = 0;
+
+    if (accumulator === undefined) {
+      accumulator = this[0];
+      startIndex = 1;
+    }
+
+    for (let i = startIndex; i < this.length; i++) {
+      if (this.hasOwnProperty(i)) {
+        accumulator = callback(accumulator, this[i], i, this);
+      }
+    }
+    return accumulator;
+  };
+
+  // Usage Example
+  const arr = [1, 2, 3, 4];
+
+  const mapped = arr.customMap((x) => x * 2);
+  console.log(mapped); // [2, 4, 6, 8]
+
+  const filtered = arr.customFilter((x) => x % 2 === 0);
+  console.log(filtered); // [2, 4]
+
+  const reduced = arr.customReduce((acc, x) => acc + x, 0);
+  console.log(reduced); // 10
+  ```
+
+### **9. Flatten a Nested Array**
+
+- **Question:**
+  Write a function that flattens an arbitrarily nested array of values.
+
+- **Explanation:**
+  Flattening reduces a multi-dimensional array into a single-dimensional array. This can be done recursively or using iteration.
+
+- **Code:**
+
+  ```javascript
+  function flattenArray(arr) {
+    const result = [];
+    const stack = [...arr];
+
+    while (stack.length) {
+      const next = stack.pop();
+      if (Array.isArray(next)) {
+        stack.push(...next);
+      } else {
+        result.push(next);
+      }
+    }
+    return result.reverse();
+  }
+
+  // Usage Example
+  const nestedArray = [1, [2, [3, [4]], 5]];
+  const flatArray = flattenArray(nestedArray);
+  console.log(flatArray); // [1, 2, 3, 4, 5]
+  ```
+
+### **10. Parse and Stringify Query Parameters**
+
+- **Question:**
+  Implement functions to parse a URL query string into an object and stringify an object into a query string.
+
+- **Explanation:**
+  Parsing and stringifying query parameters involves converting between a string representation and an object representation, handling encoding and decoding.
+
+- **Code:**
+
+  ```javascript
+  function parseQueryString(queryString) {
+    const params = {};
+    const pairs = (
+      queryString[0] === "?" ? queryString.substr(1) : queryString
+    ).split("&");
+    for (let i = 0; i < pairs.length; i++) {
+      const [key, value] = pairs[i].split("=").map(decodeURIComponent);
+      if (params[key]) {
+        params[key] = [].concat(params[key], value);
+      } else {
+        params[key] = value;
+      }
+    }
+    return params;
+  }
+
+  function stringifyQueryParams(params) {
+    return (
+      "?" +
+      Object.keys(params)
+        .map((key) => {
+          const value = params[key];
+          if (Array.isArray(value)) {
+            return value
+              .map(
+                (val) => `${encodeURIComponent(key)}=${encodeURIComponent(val)}`
+              )
+              .join("&");
+          } else {
+            return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+          }
+        })
+        .join("&")
+    );
+  }
+
+  // Usage Example
+  const url = "http://example.com?name=John&age=30&hobby=sports&hobby=reading";
+  const queryString = url.split("?")[1];
+  const params = parseQueryString(queryString);
+  console.log(params);
+  // { name: 'John', age: '30', hobby: ['sports', 'reading'] }
+
+  const newQueryString = stringifyQueryParams(params);
+  console.log(newQueryString);
+  // '?name=John&age=30&hobby=sports&hobby=reading'
+  ```
+
+### **11. Implement a Custom Form Hook**
+
+- **Question:**
+  Create a custom hook `useForm` that manages form state and validation.
+
+- **Explanation:**
+  "Hi, my name is Deepak Sankhyan. I'm a Full Stack Developer with 8 years of experience, specializing in React.js for the past 3 years. Currently, at Cognizant in Gurugram, I've focused on implementing responsive designs and improved application performance through back-end optimization. I also developed a single-page web application using React, Redux, and TypeScript to enhance user access to company resources.
+
+Previously, at Napino Auto & Electronics Ltd, I created reusable components and a custom UI library that increased developer productivity and code reuse. I utilized CSS-in-JS to ensure a consistent UI look and feel across devices. Earlier in my career at Enecon Solar Power Ltd, I developed RESTful APIs that improved scalability and reduced latency by 50%.
+
+I'm proficient in Next.js, React.js, JavaScript, CSS, AWS, DevOps, and Linux. I hold a Bachelor's degree in Information Technology from the Global College of Technology in Jaipur. I'm passionate about building high-performance, scalable applications and am excited about the opportunity to contribute my skills to your team."
+
+---
+
 # Comprehensive JavaScript Interview Questions and Answers
 
 As a full-stack developer with extensive experience in JavaScript and related technologies, it's essential to prepare for interview questions that test both your theoretical knowledge and practical skills in JavaScript. This document compiles a set of important JavaScript questions, including explanations and code examples, tailored to your experience and skills as highlighted in your resume.
@@ -2392,13 +3761,5 @@ As a full-stack developer with extensive experience in React.js and related tech
   **Example:**
 
   - If the front-end communicates with a BFF or API gateway that is part of a service mesh, understanding the mesh's behavior is important for debugging and performance optimization.
-
----
-
-**Conclusion**
-
-By thoroughly preparing these questions and understanding the underlying concepts, you'll be well-equipped to tackle both machine coding tests and viva questions in your interviews. Remember to draw upon your practical experience during discussions, as real-world applications of these concepts can greatly enhance your responses.
-
-**Good luck with your interviews and future endeavors!**
 
 ---
