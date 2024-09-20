@@ -1,0 +1,27 @@
+body {
+    font-family: 'Courier New', Courier, monospace;
+    padding: 0 15px;
+    background-color: #f3f3f3f3;
+}
+
+h1 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.todo-item{
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 7px;
+    border: 1px solid #cccc;
+}
+
+.todo-submit{
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 7px;
+    border: 1px solid #cccc;
+    background-color: #4caf50;
+    color: white;
+    cursor: pointer;
+}

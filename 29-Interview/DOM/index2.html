@@ -3,30 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <link rel="stylesheet" href="./index.css" />
+    <title>Todo App</title>
   </head>
   <body>
-    <ul class="todo-app">
-      <li class="item">hello</li>
-      <li class="item">hello2</li>
-      <li class="item">hello3</li>
-      <li class="item">helllo4</li>
-    </ul>
-    <script>
-      //   const items = document.querySelectorAll(".item");
-      //   items.forEach((item) => {
-      //     item.addEventListener("click", () => {
-      //       console.log(`you clicked on item ${item.innerText}`);
-      //     });
-      //   });
-
-      const appEle = document.querySelector(".todo-app");
-
-      appEle.addEventListener("click", (e) => {
-        if (e.target && e.target.classList.contains("item")) {
-          console.log(`you clicked on item ${e.target.innerText}`);
-        }
-      });
-    </script>
+    <h1>Todo List</h1>
+    <form action="" class="todo-form">
+      <input type="text" class="todo-input" placeholder="Enter your Task" />
+      <button class="todo-submit" type="submit">Add Todo</button>
+    </form>
+    <ul class="todo-list"></ul>
+    <script src="./index.js"></script>
   </body>
 </html>
