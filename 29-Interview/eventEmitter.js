@@ -36,10 +36,10 @@ function greet(name) {
 }
 
 emitter.on("greet", greet);
-emitter.emit("greet", "Brad");
+emitter.emit("greet", "Antonio");
 emitter.off("greet", greet);
 emitter.emit("greet", "Brad");
 
 emitter.once("welcome", (name) => console.log(`Welcome ${name}`));
-emitter.emit("welcome", "Charle");
+emitter.emit("welcome", "Antonio");
 emitter.emit("welcome", "Antonio");
