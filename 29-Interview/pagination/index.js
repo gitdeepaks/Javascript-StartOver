@@ -32,8 +32,19 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
         productContainer.appendChild(productElelement);
       });
+      const pagination = document.createElement("div");
+      pagination.classList.add("pagination");
+
+      if (page > 1) {
+        const previousBtn = createPaginationBtn("⏪", () => {
+          selectPageHandler(page - 1);
+        });
+      }
     }
     app.appendChild(productContainer);
   }
+
+  const createPaginationBtn = () => {};
+  const selectPageHandler = () => {};
   fetchProducts();
 });
