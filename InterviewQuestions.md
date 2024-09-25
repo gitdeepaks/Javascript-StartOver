@@ -1284,20 +1284,6 @@ console.log(copied); // { a: 1, b: { c: 2 } }
   // '?name=John&age=30&hobby=sports&hobby=reading'
   ```
 
-### **11. Implement a Custom Form Hook**
-
-- **Question:**
-  Create a custom hook `useForm` that manages form state and validation.
-
-- **Explanation:**
-  "Hi, my name is Deepak Sankhyan. I'm a Full Stack Developer with 8 years of experience, specializing in React.js for the past 3 years. Currently, at Cognizant in Gurugram, I've focused on implementing responsive designs and improved application performance through back-end optimization. I also developed a single-page web application using React, Redux, and TypeScript to enhance user access to company resources.
-
-Previously, at Napino Auto & Electronics Ltd, I created reusable components and a custom UI library that increased developer productivity and code reuse. I utilized CSS-in-JS to ensure a consistent UI look and feel across devices. Earlier in my career at Enecon Solar Power Ltd, I developed RESTful APIs that improved scalability and reduced latency by 50%.
-
-I'm proficient in Next.js, React.js, JavaScript, CSS, AWS, DevOps, and Linux. I hold a Bachelor's degree in Information Technology from the Global College of Technology in Jaipur. I'm passionate about building high-performance, scalable applications and am excited about the opportunity to contribute my skills to your team."
-
----
-
 # Comprehensive JavaScript Interview Questions and Answers
 
 As a full-stack developer with extensive experience in JavaScript and related technologies, it's essential to prepare for interview questions that test both your theoretical knowledge and practical skills in JavaScript. This document compiles a set of important JavaScript questions, including explanations and code examples, tailored to your experience and skills as highlighted in your resume.
@@ -1386,15 +1372,13 @@ console.log("Window resized!");
 
 window.addEventListener("resize", handleResize);
 
-````
-
 ### **2. Create a Deep Clone Function for Objects**
 
 - **Question:**
-Implement a function to deeply clone a JavaScript object, handling nested objects, arrays, and avoiding issues with circular references.
+  Implement a function to deeply clone a JavaScript object, handling nested objects, arrays, and avoiding issues with circular references.
 
 - **Explanation:**
-A deep clone creates a new object that is a copy of the original, including all nested objects and arrays. It's important to handle circular references to avoid infinite recursion.
+  A deep clone creates a new object that is a copy of the original, including all nested objects and arrays. It's important to handle circular references to avoid infinite recursion.
 
 - **Code:**
 
@@ -1418,7 +1402,7 @@ function deepClone(obj, hash = new WeakMap()) {
 const original = { a: 1, b: { c: 2 } };
 const copied = deepClone(original);
 console.log(copied); // { a: 1, b: { c: 2 } }
-````
+```
 
 ### **3. Build a Custom Promise Implementation**
 
@@ -1448,6 +1432,7 @@ console.log(copied); // { a: 1, b: { c: 2 } }
 - ```javascript
 
   ```
+
 - // Example of using React.memo for memoization
 - const MemoizedComponent = React.memo(function MemoizedComponent(props) {
 - // Render logic
@@ -1488,6 +1473,7 @@ console.log(copied); // { a: 1, b: { c: 2 } }
 - ```
 
   ```
+
 - -### **25. React Hooks Best Practices**
 - -- **Question:**
 - Share some best practices for using React hooks effectively.
@@ -1505,6 +1491,7 @@ console.log(copied); // { a: 1, b: { c: 2 } }
 - ```javascript
 
   ```
+
 - // Example of using hooks at the top level
 - function Component() {
 - const [count, setCount] = useState(0);
@@ -1550,6 +1537,7 @@ console.log(copied); // { a: 1, b: { c: 2 } }
 - ```
 
   ```
+
 - ***
 - -## **Additional Important Questions Considering Your Experience**
 - -### **26. ES6 and Beyond Features**
@@ -1573,6 +1561,7 @@ console.log(copied); // { a: 1, b: { c: 2 } }
 - ```javascript
 
   ```
+
 - // Example of using let and const
 - function example() {
 - if (true) {
@@ -1639,6 +1628,7 @@ console.log(copied); // { a: 1, b: { c: 2 } }
 - ```
 
   ```
+
 - -### **27. Working with `this` in Arrow Functions**
 - -- **Question:**
 - Explain how `this` works in arrow functions and how it differs from regular functions.
@@ -1649,6 +1639,7 @@ console.log(copied); // { a: 1, b: { c: 2 } }
 - ```javascript
 
   ```
+
 - // Example of using this in a regular function
 - function regularFunction() {
 - console.log(this);
@@ -1675,6 +1666,7 @@ console.log(copied); // { a: 1, b: { c: 2 } }
 - ```
 
   ```
+
 - -### **28. Understanding Event Loop with Async/Await**
 - -- **Question:**
 - Explain how the event loop works with async/await and how it affects the execution of asynchronous code.
@@ -1685,6 +1677,7 @@ console.log(copied); // { a: 1, b: { c: 2 } }
 - ```javascript
 
   ```
+
 - // Example of using async/await with the event loop
 - async function example() {
 - console.log("Start");
@@ -1701,6 +1694,7 @@ console.log(copied); // { a: 1, b: { c: 2 } }
 - ```
 
   ```
+
 - -### **29. JavaScript Design Patterns**
 - -- **Question:**
 - Discuss some common JavaScript design patterns and their use cases.
@@ -1718,6 +1712,7 @@ console.log(copied); // { a: 1, b: { c: 2 } }
 - ```javascript
 
   ```
+
 - // Example of using the module pattern
 - const module = (() => {
 - let privateVariable = "Private";
@@ -1805,6 +1800,7 @@ console.log(copied); // { a: 1, b: { c: 2 } }
 - ```
 
   ```
+
 - -### **30. Error Handling in JavaScript**
 - -- **Question:**
 - Discuss best practices for error handling in JavaScript, including try/catch, Promises, and async/await.
@@ -1821,6 +1817,7 @@ console.log(copied); // { a: 1, b: { c: 2 } }
 - ```javascript
 
   ```
+
 - // Example of using try/catch
 - try {
 - const result = someFunctionThatMightThrow();
