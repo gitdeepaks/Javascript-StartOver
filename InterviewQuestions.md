@@ -3065,15 +3065,15 @@ As a full-stack developer with extensive experience in React.js and related tech
         .then((response) => response.json())
         .then((data) => {
           if (isMounted) {
-            setData(data);
-            setLoading(false);
+          setData(data);
+          setLoading(false);
           }
         })
         .catch((error) => {
           if (isMounted) {
-            setError(error);
-            setLoading(false);
-          }
+          setError(error);
+          setLoading(false);
+        }
         });
       return () => {
         isMounted = false;
