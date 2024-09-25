@@ -1,8 +1,4 @@
-"Hi, my name is Deepak Sankhyan. I'm a Full Stack Developer with 8 years of experience, specializing in React.js for the past 3 years. Currently, at Cognizant in Gurugram, I've focused on implementing responsive designs and improved application performance through back-end optimization. I also developed a single-page web application using React, Redux, and TypeScript to enhance user access to company resources.
-
-Previously, at Napino Auto & Electronics Ltd, I created reusable components and a custom UI library that increased developer productivity and code reuse. I utilized CSS-in-JS to ensure a consistent UI look and feel across devices. Earlier in my career at Enecon Solar Power Ltd, I developed RESTful APIs that improved scalability and reduced latency by 50%.
-
-I'm proficient in Next.js, React.js, JavaScript, CSS, AWS, DevOps, and Linux. I hold a Bachelor's degree in Information Technology from the Global College of Technology in Jaipur. I'm passionate about building high-performance, scalable applications and am excited about the opportunity to contribute my skills to your team."
+"Deepak Sankhyan: Full Stack Developer with 8 years of experience, 3 years in React.js. Currently at Cognizant, focusing on responsive design and performance optimization. Previously developed reusable components and RESTful APIs. Skilled in React, Redux, TypeScript, Next.js, JavaScript, CSS, AWS, DevOps, and Linux. Bachelor's in IT. Passionate about building scalable, high-performance applications."
 
 ---
 
