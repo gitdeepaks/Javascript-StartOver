@@ -1550,4 +1550,914 @@ function App({ locale }) {
 
 ---
 
+# Part I
+
+## HTML & CSS
+
+---
+
+### Box-sizing Property
+
+The `box-sizing` CSS property defines how the total width and height of an element are calculated. It affects the calculation of an element's dimensions by including or excluding `padding` and `border`.
+
+- **`content-box`** (default): Width and height include only the content, not `padding`, `border`, or `margin`.
+- **`border-box`**: Width and height include content, `padding`, and `border`, but not `margin`.
+
+**Example:**
+
+```css
+/* Apply border-box to all elements */
+* {
+  box-sizing: border-box;
+}
+```
+
+By setting `box-sizing` to `border-box`, you simplify layout calculations, as the element's dimensions include the `padding` and `border`.
+
+---
+
+### How to Show Responsive Application in Mobile and Laptop
+
+To create a responsive application that adapts to different screen sizes, you can use:
+
+1. **Viewport Meta Tag**: Ensures proper scaling on mobile devices.
+
+   ```html
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   ```
+
+2. **Media Queries**: Apply CSS styles based on device characteristics.
+
+   ```css
+   /* For mobile devices */
+   @media only screen and (max-width: 767px) {
+     /* Mobile styles */
+   }
+
+   /* For tablets */
+   @media only screen and (min-width: 768px) and (max-width: 1024px) {
+     /* Tablet styles */
+   }
+
+   /* For desktops */
+   @media only screen and (min-width: 1025px) {
+     /* Desktop styles */
+   }
+   ```
+
+3. **Flexible Layouts**: Use relative units like percentages, `em`, or CSS Grid and Flexbox.
+
+   ```css
+   .container {
+     display: flex;
+     flex-wrap: wrap;
+   }
+
+   .item {
+     flex: 1 1 50%; /* Adjusts based on screen size */
+   }
+   ```
+
+---
+
+### What is Semantic HTML
+
+Semantic HTML uses elements that clearly describe their meaning in both the human and machine-readable code. It improves accessibility and SEO.
+
+**Common Semantic Elements:**
+
+- `<header>`: Defines a header section.
+- `<nav>`: Defines navigation links.
+- `<main>`: Indicates the main content.
+- `<section>`: Defines a section in a document.
+- `<article>`: Defines an independent piece of content.
+- `<aside>`: Defines content aside from the main content.
+- `<footer>`: Defines a footer section.
+
+**Example:**
+
+```html
+<article>
+  <header>
+    <h1>Article Title</h1>
+    <p>Author Name</p>
+  </header>
+  <p>Article content...</p>
+  <footer>
+    <p>Published on: Date</p>
+  </footer>
+</article>
+```
+
+---
+
+### Different Inline and Block-Level Elements
+
+**Block-Level Elements**:
+
+- Start on a new line and stretch to the full width.
+- Examples: `<div>`, `<p>`, `<h1>` to `<h6>`, `<ul>`, `<li>`, `<section>`, `<article>`.
+
+**Inline Elements**:
+
+- Do not start on a new line and only take up as much width as necessary.
+- Examples: `<span>`, `<a>`, `<img>`, `<strong>`, `<em>`, `<input>`.
+
+**Inline-Block Elements**:
+
+- Behave like inline elements but respect width and height properties.
+- Can be set using `display: inline-block;`.
+
+---
+
+### How to Show Video in Application
+
+Use the HTML `<video>` element to embed videos.
+
+**Example:**
+
+```html
+<video width="640" height="360" controls>
+  <source src="video.mp4" type="video/mp4" />
+  <source src="video.ogg" type="video/ogg" />
+  Your browser does not support the video tag.
+</video>
+```
+
+**Attributes:**
+
+- `controls`: Displays playback controls.
+- `autoplay`: Starts playing the video automatically.
+- `loop`: Repeats the video after it ends.
+- `muted`: Mutes the video's audio.
+- `poster`: Specifies an image to show while the video is downloading.
+
+---
+
+### What is z-index?
+
+The `z-index` CSS property controls the vertical stacking order of positioned elements that overlap.
+
+- Only works on elements with `position` set to `relative`, `absolute`, `fixed`, or `sticky`.
+- Elements with a higher `z-index` appear in front of elements with a lower `z-index`.
+
+**Example:**
+
+```css
+.div1 {
+  position: absolute;
+  z-index: 1;
+}
+
+.div2 {
+  position: absolute;
+  z-index: 2;
+}
+```
+
+In this example, `.div2` will appear above `.div1`.
+
+---
+
+### What is Default Position in CSS
+
+The default `position` value in CSS is `static`.
+
+- **`position: static;`**: The element is positioned according to the normal flow of the document.
+- Top, right, bottom, and left properties have no effect.
+
+---
+
+### Difference Between `display: none` and `visibility: hidden`; In Accordion Which One is Used?
+
+- **`display: none;`**
+
+  - The element is completely removed from the document flow.
+  - No space is allocated for the element.
+  - Child elements are also not displayed.
+
+- **`visibility: hidden;`**
+
+  - The element is hidden but still occupies space in the layout.
+  - Child elements are hidden but space is preserved.
+
+**In Accordions:**
+
+- **`display: none;`** is typically used because it collapses the hidden content, allowing other elements to adjust their position accordingly.
+
+**Example:**
+
+```css
+/* Using display: none; */
+.accordion-content {
+  display: none;
+}
+
+/* Using visibility: hidden; */
+.accordion-content {
+  visibility: hidden;
+}
+```
+
+---
+
+## ReactJS
+
+---
+
+### useReducer
+
+The `useReducer` Hook is an alternative to `useState`. It is preferable when you have complex state logic or when the next state depends on the previous one.
+
+**Syntax:**
+
+```javascript
+const [state, dispatch] = useReducer(reducer, initialState);
+```
+
+**Example:**
+
+```javascript
+import React, { useReducer } from "react";
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "increment":
+      return { count: state.count + 1 };
+    case "decrement":
+      return { count: state.count - 1 };
+    default:
+      throw new Error("Unexpected action");
+  }
+}
+
+function Counter() {
+  const initialState = { count: 0 };
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  return (
+    <div>
+      <p>Count: {state.count}</p>
+      <button onClick={() => dispatch({ type: "decrement" })}>–</button>
+      <button onClick={() => dispatch({ type: "increment" })}>+</button>
+    </div>
+  );
+}
+```
+
+---
+
+### React Lifecycle Methods in Hooks
+
+In functional components, you use Hooks to replicate lifecycle methods from class components.
+
+- **`componentDidMount`** → `useEffect` with empty dependency array `[]`.
+- **`componentDidUpdate`** → `useEffect` with specific dependencies.
+- **`componentWillUnmount`** → Return a cleanup function in `useEffect`.
+
+**Example:**
+
+```javascript
+useEffect(() => {
+  // ComponentDidMount and ComponentDidUpdate logic
+
+  return () => {
+    // ComponentWillUnmount logic (cleanup)
+  };
+}, [dependencies]); // Empty array [] for ComponentDidMount
+```
+
+---
+
+### How Function-Based Components are Different from Class-Based Components
+
+- **Syntax**:
+
+  - **Function Components**: Simple JavaScript functions.
+    ```javascript
+    function MyComponent() {
+      return <div>Hello</div>;
+    }
+    ```
+  - **Class Components**: Use ES6 classes.
+    ```javascript
+    class MyComponent extends React.Component {
+      render() {
+        return <div>Hello</div>;
+      }
+    }
+    ```
+
+- **State and Lifecycle**:
+
+  - **Function Components**: Use Hooks (`useState`, `useEffect`) for state and lifecycle methods.
+  - **Class Components**: Use `this.state` and lifecycle methods (`componentDidMount`, etc.).
+
+- **Performance**:
+
+  - Function components may have performance benefits due to optimizations like avoiding unnecessary constructor calls.
+
+- **`this` Keyword**:
+
+  - Function components do not use `this`, avoiding potential binding issues.
+
+---
+
+### What is Redux Middleware? What is `redux-thunk` and `redux-saga`
+
+**Redux Middleware** extends Redux capabilities by intercepting actions before they reach the reducer.
+
+- **Purpose**: Handle asynchronous operations, logging, crash reporting, etc.
+
+**`redux-thunk`**:
+
+- Allows you to write action creators that return a function (thunk) instead of an action object.
+- The thunk can dispatch actions asynchronously.
+
+**Example:**
+
+```javascript
+const fetchData = () => {
+  return (dispatch) => {
+    dispatch({ type: "FETCH_START" });
+    fetch("/api/data")
+      .then((response) => response.json())
+      .then((data) => dispatch({ type: "FETCH_SUCCESS", payload: data }))
+      .catch((error) => dispatch({ type: "FETCH_ERROR", error }));
+  };
+};
+```
+
+**`redux-saga`**:
+
+- Uses generator functions to manage side effects.
+- More powerful for complex asynchronous workflows.
+
+**Example:**
+
+```javascript
+function* fetchDataSaga() {
+  try {
+    const data = yield call(api.fetchData);
+    yield put({ type: "FETCH_SUCCESS", payload: data });
+  } catch (error) {
+    yield put({ type: "FETCH_ERROR", error });
+  }
+}
+
+function* watchFetchData() {
+  yield takeEvery("FETCH_START", fetchDataSaga);
+}
+```
+
+---
+
+### Redux Workflow
+
+1. **Action**: An object describing what happened.
+2. **Action Creator**: A function that creates an action.
+3. **Dispatch**: Sends the action to the Redux store.
+4. **Reducers**: Functions that handle actions and update the state.
+5. **Store**: Holds the application state.
+6. **View**: Displays the state.
+
+**Data Flow Diagram:**
+
+1. User interacts with the **View**.
+2. **Action Creator** creates an **Action**.
+3. **Dispatch** sends the action to the **Store**.
+4. **Reducers** update the **State** in the **Store**.
+5. The **View** re-renders based on the new state.
+
+---
+
+### Different React Hooks
+
+- **`useState`**: Manage state in functional components.
+- **`useEffect`**: Side effects and lifecycle methods.
+- **`useContext`**: Access React context.
+- **`useReducer`**: Complex state logic.
+- **`useCallback`**: Memoize functions to prevent unnecessary re-renders.
+- **`useMemo`**: Memoize expensive calculations.
+- **`useRef`**: Access DOM nodes or persist mutable values.
+- **`useLayoutEffect`**: Runs synchronously after all DOM mutations.
+- **`useImperativeHandle`**: Customize the instance value exposed to parent components.
+- **`useDebugValue`**: Display custom hook labels in React DevTools.
+
+---
+
+### Things to Care About During Code Review
+
+- **Code Readability**: Clear and understandable code.
+- **Functionality**: Meets requirements and works correctly.
+- **Performance**: Efficient code without unnecessary resource usage.
+- **Security**: No vulnerabilities or insecure code.
+- **Maintainability**: Easy to maintain and extend.
+- **Coding Standards**: Adheres to style guides and best practices.
+- **Error Handling**: Proper error checking and handling.
+- **Testing**: Adequate unit and integration tests.
+- **Documentation**: Comments and documentation where necessary.
+- **Modularity**: Reusable and modular code structure.
+
+---
+
+### What Will Happen If We Try to Set State Without Using `setState` or `useState`
+
+- **Direct State Mutation**:
+
+  - **Class Components**: Modifying `this.state` directly does not trigger a re-render.
+    ```javascript
+    this.state.count = 5; // Does not re-render the component
+    ```
+  - **Function Components**: Changing state variables directly is ineffective.
+    ```javascript
+    state = 5; // Ineffective; use setState function
+    ```
+
+- **Consequence**: The UI will not update to reflect the new state because React is unaware of the change.
+
+---
+
+### What is PureComponent?
+
+`React.PureComponent` is similar to `React.Component`, but it implements `shouldComponentUpdate` with a shallow prop and state comparison.
+
+- **Advantages**:
+
+  - Prevents unnecessary re-renders.
+  - Improves performance for components that render the same output given the same props and state.
+
+- **Usage**:
+
+  ```javascript
+  class MyComponent extends React.PureComponent {
+    // Component code
+  }
+  ```
+
+- **Note**: Only performs a shallow comparison; may not detect nested data structure changes.
+
+---
+
+### Difference Between Shallow and Mount in React Unit Test
+
+- **Shallow Rendering (`shallow`)**:
+
+  - Renders only the component itself, not its children.
+  - Ideal for unit testing individual components.
+  - Faster and requires less setup.
+
+  ```javascript
+  import { shallow } from "enzyme";
+  const wrapper = shallow(<MyComponent />);
+  ```
+
+- **Full DOM Rendering (`mount`)**:
+
+  - Renders the component and all its children into the DOM.
+  - Allows testing of lifecycle methods and interactions.
+  - Requires a DOM (may need tools like JSDOM).
+
+  ```javascript
+  import { mount } from "enzyme";
+  const wrapper = mount(<MyComponent />);
+  ```
+
+---
+
+### What is Merge and Rebase in GIT
+
+- **Merge**:
+
+  - Combines two branches by creating a new merge commit.
+  - Preserves the history of both branches.
+  - Results in a non-linear history.
+
+  ```bash
+  git checkout feature
+  git merge master
+  ```
+
+- **Rebase**:
+
+  - Moves the entire feature branch to begin on the tip of the master branch.
+  - Rewrites project history by creating new commits.
+  - Results in a linear history.
+
+  ```bash
+  git checkout feature
+  git rebase master
+  ```
+
+**Diagram:**
+
+- **Merge**:
+
+  ```
+  master
+    \
+     feature
+       \
+        merge commit
+  ```
+
+- **Rebase**:
+
+  ```
+  master -> feature
+  ```
+
+**Note**: Rebasing can make history cleaner but can cause issues if not used carefully, especially with shared branches.
+
+---
+
+### How to Store Form Values in JavaScript/React (Restore After Network Loss or Browser Close)
+
+- **Use `localStorage` or `sessionStorage`** to persist form data.
+
+**Example:**
+
+```javascript
+import React, { useState, useEffect } from "react";
+
+function MyForm() {
+  const [formData, setFormData] = useState(() => {
+    const saved = localStorage.getItem("formData");
+    return saved ? JSON.parse(saved) : { name: "", email: "" };
+  });
+
+  useEffect(() => {
+    localStorage.setItem("formData", JSON.stringify(formData));
+  }, [formData]);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  return (
+    <form>
+      <input name="name" value={formData.name} onChange={handleChange} />
+      <input name="email" value={formData.email} onChange={handleChange} />
+    </form>
+  );
+}
+```
+
+- **Explanation**:
+
+  - **Initialization**: Retrieve saved data from `localStorage`.
+  - **Update**: Save data to `localStorage` whenever form data changes.
+  - **Restoration**: Upon reloading, form data is restored from `localStorage`.
+
+---
+
+### What is Event Bubbling and What is the Default Behavior
+
+**Event Bubbling**:
+
+- When an event occurs on an element, it first triggers handlers on that element, then propagates up to its parent elements.
+
+**Default Behavior**:
+
+- **Bubbling Phase**: Event moves from the target element up to the root.
+- **Capturing Phase**: (Optional) Event moves from the root down to the target.
+
+**Example:**
+
+```html
+<div id="parent">
+  <button id="child">Click Me</button>
+</div>
+```
+
+```javascript
+document.getElementById("parent").addEventListener("click", () => {
+  console.log("Parent clicked");
+});
+
+document.getElementById("child").addEventListener("click", () => {
+  console.log("Child clicked");
+});
+```
+
+- Clicking the button logs:
+
+  ```
+  Child clicked
+  Parent clicked
+  ```
+
+---
+
+### How to Subscribe and Unsubscribe the Component Using `useEffect` Hooks
+
+**Subscribe**:
+
+- Perform the subscription inside the `useEffect` callback.
+
+**Unsubscribe**:
+
+- Return a cleanup function from `useEffect` to unsubscribe when the component unmounts or before re-running the effect.
+
+**Example:**
+
+```javascript
+useEffect(() => {
+  const subscription = dataService.subscribe((data) => {
+    setData(data);
+  });
+
+  return () => {
+    // Unsubscribe on cleanup
+    subscription.unsubscribe();
+  };
+}, []); // Empty dependency array ensures effect runs once
+```
+
+---
+
+### `useState` is Synchronous or Asynchronous
+
+- **Asynchronous Nature**:
+
+  - Updates to state using `setState` or the setter function from `useState` are asynchronous.
+  - React batches state updates for performance.
+  - The updated state value is available on the next render.
+
+- **Implication**:
+
+  - You cannot reliably use the updated state value immediately after calling the setter.
+
+**Example:**
+
+```javascript
+const [count, setCount] = useState(0);
+
+const increment = () => {
+  setCount(count + 1);
+  console.log(count); // May still log the old value
+};
+```
+
+---
+
+### What Will Happen If We Return Empty Callback Function in `useEffect`
+
+- **Returning an Empty Function**:
+
+  - The empty function serves as a cleanup function.
+  - If no cleanup is needed, you can omit the return statement.
+
+- **Effect**:
+
+  - No adverse effect, but it's unnecessary.
+  - It's better to return `undefined` or nothing if no cleanup is needed.
+
+**Example:**
+
+```javascript
+useEffect(() => {
+  // Effect logic
+  return () => {};
+}, []);
+```
+
+---
+
+### What is Lazy Loading in ReactJS
+
+**Lazy Loading**:
+
+- Technique to defer loading of non-critical components until they are needed.
+- Improves performance by reducing initial load time.
+
+**Implementation with `React.lazy` and `Suspense`:**
+
+```javascript
+import React, { Suspense } from "react";
+
+const LazyComponent = React.lazy(() => import("./LazyComponent"));
+
+function App() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LazyComponent />
+    </Suspense>
+  );
+}
+```
+
+- **`React.lazy`**: Dynamically imports the component.
+- **`Suspense`**: Provides a fallback UI until the component loads.
+
+---
+
+### What is Code Splitting?
+
+**Code Splitting**:
+
+- Breaking up code into smaller chunks.
+- Allows the application to load only the necessary code for the current user interaction.
+- Implemented using dynamic `import()` statements.
+
+**Benefits**:
+
+- Reduces initial load time.
+- Improves performance and user experience.
+
+**Example with Webpack and React:**
+
+```javascript
+// Before code splitting
+import HeavyComponent from "./HeavyComponent";
+
+// After code splitting
+const HeavyComponent = React.lazy(() => import("./HeavyComponent"));
+```
+
+---
+
+### What are Promises
+
+A **Promise** is an object representing the eventual completion or failure of an asynchronous operation.
+
+- **States**:
+
+  - **Pending**: Initial state.
+  - **Fulfilled**: Operation completed successfully.
+  - **Rejected**: Operation failed.
+
+- **Usage**:
+
+  ```javascript
+  const promise = new Promise((resolve, reject) => {
+    // Asynchronous operation
+    if (success) {
+      resolve(result);
+    } else {
+      reject(error);
+    }
+  });
+
+  promise
+    .then((result) => {
+      // Handle success
+    })
+    .catch((error) => {
+      // Handle error
+    });
+  ```
+
+---
+
+### What is Closure?
+
+A **Closure** is a function that has access to its own scope, the outer function's scope, and the global scope.
+
+- **Characteristics**:
+
+  - Retains access to variables from the outer scope even after the outer function has returned.
+  - Useful for data privacy and implementing private variables.
+
+**Example:**
+
+```javascript
+function outerFunction() {
+  const outerVariable = "Outer";
+
+  function innerFunction() {
+    console.log(outerVariable); // Accesses outerVariable
+  }
+
+  return innerFunction;
+}
+
+const inner = outerFunction();
+inner(); // Logs: 'Outer'
+```
+
+---
+
+### What is Bubble Sort?
+
+**Bubble Sort** is a simple comparison-based sorting algorithm.
+
+- **Algorithm Steps**:
+
+  1. Compare each pair of adjacent items.
+  2. Swap them if they are in the wrong order.
+  3. Repeat until no swaps are needed.
+
+- **Characteristics**:
+
+  - Time Complexity: O(n²)
+  - Space Complexity: O(1)
+  - Not efficient for large datasets.
+
+**Example Implementation:**
+
+```javascript
+function bubbleSort(array) {
+  let n = array.length;
+  let swapped;
+  do {
+    swapped = false;
+    for (let i = 0; i < n - 1; i++) {
+      if (array[i] > array[i + 1]) {
+        // Swap elements
+        [array[i], array[i + 1]] = [array[i + 1], array[i]];
+        swapped = true;
+      }
+    }
+    n--; // Optimizes by reducing the range
+  } while (swapped);
+  return array;
+}
+
+// Usage
+const arr = [5, 3, 8, 4, 2];
+console.log(bubbleSort(arr)); // Output: [2, 3, 4, 5, 8]
+```
+
+---
+
+### How to Do Type Checking in JavaScript
+
+- **`typeof` Operator**: Checks the type of a variable.
+
+  ```javascript
+  typeof 42; // "number"
+  typeof "Hello"; // "string"
+  typeof true; // "boolean"
+  typeof undefined; // "undefined"
+  typeof null; // "object" (quirk of JS)
+  typeof {}; // "object"
+  typeof function () {}; // "function"
+  ```
+
+- **`instanceof` Operator**: Checks if an object is an instance of a constructor.
+
+  ```javascript
+  [] instanceof Array;      // true
+  {} instanceof Object;     // true
+  new Date() instanceof Date; // true
+  ```
+
+- **Strict Equality Checks**:
+
+  ```javascript
+  if (Array.isArray(value)) {
+    // value is an array
+  }
+  ```
+
+- **TypeScript or Flow**: Use static type checkers for robust type safety.
+
+---
+
+### What are Iterators & Generators in JavaScript?
+
+#### Iterators
+
+- An **Iterator** is an object that defines a sequence and potentially a return value upon its termination.
+- It implements the **`next()`** method that returns an object with `{ value, done }`.
+
+**Example:**
+
+```javascript
+const iterable = [1, 2, 3];
+const iterator = iterable[Symbol.iterator]();
+
+console.log(iterator.next()); // { value: 1, done: false }
+console.log(iterator.next()); // { value: 2, done: false }
+```
+
+#### Generators
+
+- **Generators** are functions that can be paused and resumed.
+- Defined using the `function*` syntax.
+- Use the `yield` keyword to pause execution.
+
+**Example:**
+
+```javascript
+function* generatorFunction() {
+  yield 1;
+  yield 2;
+  yield 3;
+}
+
+const generator = generatorFunction();
+
+console.log(generator.next()); // { value: 1, done: false }
+console.log(generator.next()); // { value: 2, done: false }
+```
+
+- **Use Cases**:
+
+  - Simplify asynchronous code.
+  - Implement custom iterators.
+
+---
+
 **Good luck with your interview!** Make sure to understand these concepts thoroughly and be prepared to explain them in your own words, drawing from your extensive experience to provide real-world examples.
