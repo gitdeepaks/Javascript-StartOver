@@ -340,7 +340,7 @@ By focusing on these areas, you'll be well-prepared to tackle the questions your
 # Hooks
 
 - useState
-- useEffect
+- useEffect (Deep Dive with good code examples)
 - useContext
 - useReducer
 - useMemo
@@ -397,3 +397,29 @@ By focusing on these areas, you'll be well-prepared to tackle the questions your
 # Testing
 
 - React Unit testing
+
+# Async Tasks - (useEffect in depth (how it works behind the seen))
+
+- API calls {}
+- Events
+- Promises (deep dive)
+
+# Reussabilit/Modularity/Testablity
+
+- Coding practices
+
+# Performance
+
+- Lazy Loading
+- Asset optimization
+- Reandaring a componenets
+
+# Styling
+
+- Tailwind
+- StyleX - from Meta
+- Bootstarp
+- MUI
+- Tamagui
+
+# Accessiblity
