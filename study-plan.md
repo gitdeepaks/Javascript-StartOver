@@ -336,3 +336,64 @@ Here's an updated study plan tailored to these areas, designed to maximize your 
 By focusing on these areas, you'll be well-prepared to tackle the questions your interviewer mentioned. Remember to balance your preparation with adequate rest to keep your mind sharp.
 
 **Best of luck with your interview preparation!**
+
+# Hooks
+
+- useState
+- useEffect
+- useContext
+- useReducer
+- useMemo
+- useCallBack
+- useRef
+
+# Higher Order Componement
+
+- What, When ,Why , How with code examples
+
+# Life cycle methode of the componenets
+
+- Class Componenets
+- 3 phases - Mounting, updating and Unmounting
+
+# State manegement
+
+- State vs Props with Code examples
+- React Context
+- Context API
+- Redux - how it works , how , when why (code examples) ?
+- Redux tool- kit how it works , how , when why (code examples)
+- Zusatand how it works , how , when why (code examples)
+
+# Custom Hooks
+
+- How to use to use it.
+
+- When to use it and code examples
+
+# Lazy Loading (Highly Asked)
+
+- Code Splitting
+- chunking
+- suspense
+
+# Virtual DOM
+
+- Reconciliation Algorithem
+- React Fiber
+- Diffing Algo
+
+# SSR vs CSR (Hot)
+
+- performance
+- SEO
+
+# Routing (RBAC)
+
+- React Router
+- How to manege protected routes ?
+- queryParams.
+
+# Testing
+
+- React Unit testing
