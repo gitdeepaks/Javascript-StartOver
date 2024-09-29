@@ -1,26 +1,27 @@
-# JavaScript and React Interview Preparation Guide
+# Advanced JavaScript and React Interview Preparation Guide
 
-This guide provides comprehensive explanations, diagrams, and clean code examples for various JavaScript and React topics. It is designed to help you ace your frontend interviews by deepening your understanding and impressing your interviewer.
+This comprehensive guide covers essential JavaScript and React concepts, advanced topics, and common interview questions to help you ace your frontend interviews.
 
 ---
 
-## JavaScript Topics
+## JavaScript Fundamentals
 
 ### Var, Let, Const
 
 **Explanation:**
+Understanding variable declarations is crucial in JavaScript:
 
-- **`var`**: Function-scoped or globally scoped if not inside a function. Can be redeclared and updated.
-- **`let`**: Block-scoped. Cannot be redeclared in the same scope but can be updated.
-- **`const`**: Block-scoped. Cannot be redeclared or updated. The value must be initialized during declaration.
+- `var`: Function-scoped or globally scoped if not inside a function. Can be redeclared and updated.
+- `let`: Block-scoped. Cannot be redeclared in the same scope but can be updated.
+- `const`: Block-scoped. Cannot be redeclared or updated. The value must be initialized during declaration.
 
 **Diagram:**
 
 ```plaintext
 {
-  var a = 1;
-  let b = 2;
-  const c = 3;
+  var a = 1;   // Accessible outside this block
+  let b = 2;   // Only accessible within this block
+  const c = 3; // Only accessible within this block, cannot be reassigned
 }
 console.log(a); // Accessible
 console.log(b); // ReferenceError
@@ -34,7 +35,7 @@ console.log(c); // ReferenceError
 function varExample() {
   var x = 1;
   if (true) {
-    var x = 2; // Same variable
+    var x = 2; // Same variable as outer x
     console.log(x); // 2
   }
   console.log(x); // 2
@@ -44,7 +45,7 @@ function varExample() {
 function letExample() {
   let y = 1;
   if (true) {
-    let y = 2; // Different variable
+    let y = 2; // Different variable from outer y
     console.log(y); // 2
   }
   console.log(y); // 1
@@ -55,28 +56,30 @@ const z = 1;
 // z = 2; // TypeError: Assignment to constant variable
 ```
 
----
-
 ### Map, Filter, Reduce (and their Polyfills)
 
 **Explanation:**
+These are powerful array methods in JavaScript:
 
-- **`map()`**: Creates a new array by applying a function to each element of an original array.
-- **`filter()`**: Creates a new array with elements that pass a test implemented by a provided function.
-- **`reduce()`**: Executes a reducer function on each element of the array, resulting in a single output value.
+- `map()`: Creates a new array by applying a function to each element of an original array.
+- `filter()`: Creates a new array with elements that pass a test implemented by a provided function.
+- `reduce()`: Executes a reducer function on each element of the array, resulting in a single output value.
 
 **Code Examples:**
 
 ```javascript
 // map example
 const numbers = [1, 2, 3];
-const doubled = numbers.map((num) => num * 2); // [2, 4, 6]
+const doubled = numbers.map((num) => num * 2);
+console.log(doubled); // [2, 4, 6]
 
 // filter example
-const evenNumbers = numbers.filter((num) => num % 2 === 0); // [2]
+const evenNumbers = numbers.filter((num) => num % 2 === 0);
+console.log(evenNumbers); // [2]
 
 // reduce example
-const sum = numbers.reduce((accumulator, current) => accumulator + current, 0); // 6
+const sum = numbers.reduce((accumulator, current) => accumulator + current, 0);
+console.log(sum); // 6
 ```
 
 **Polyfills:**
@@ -111,71 +114,76 @@ Array.prototype.myReduce = function (callback, initialValue) {
   }
   return accumulator;
 };
-```
 
----
+// Usage examples
+console.log([1, 2, 3].myMap((x) => x * 2)); // [2, 4, 6]
+console.log([1, 2, 3, 4].myFilter((x) => x % 2 === 0)); // [2, 4]
+console.log([1, 2, 3, 4].myReduce((acc, curr) => acc + curr, 0)); // 10
+```
 
 ### Functions
 
 **Explanation:**
-
-Functions are blocks of code designed to perform a particular task, executed when "called" (invoked).
+Functions are blocks of code designed to perform a particular task, executed when "called" (invoked). Understanding different function types is essential.
 
 **Types of Functions:**
 
-- **Function Declaration:**
+1. **Function Declaration:**
 
-  ```javascript
-  function greet() {
-    console.log("Hello!");
-  }
-  ```
+   ```javascript
+   function greet() {
+     console.log("Hello!");
+   }
+   ```
 
-- **Function Expression:**
+2. **Function Expression:**
 
-  ```javascript
-  const greet = function () {
-    console.log("Hello!");
-  };
-  ```
+   ```javascript
+   const greet = function () {
+     console.log("Hello!");
+   };
+   ```
 
-- **Arrow Function:**
-
-  ```javascript
-  const greet = () => {
-    console.log("Hello!");
-  };
-  ```
+3. **Arrow Function:**
+   ```javascript
+   const greet = () => {
+     console.log("Hello!");
+   };
+   ```
 
 **Code Example:**
 
 ```javascript
+// Function declaration
 function add(a, b) {
   return a + b;
 }
 
+// Function expression
 const subtract = function (a, b) {
   return a - b;
 };
 
+// Arrow function
 const multiply = (a, b) => a * b;
-```
 
----
+console.log(add(5, 3)); // 8
+console.log(subtract(5, 3)); // 2
+console.log(multiply(5, 3)); // 15
+```
 
 ### Closures
 
 **Explanation:**
-
-A closure is a function that has access to its own scope, the outer function's scope, and the global scope.
+A closure is a function that has access to its own scope, the outer function's scope, and the global scope. It "remembers" the environment in which it was created.
 
 **Diagram:**
 
 ```plaintext
 function outer() {
-  let count = 0;
+  let count = 0;  // This variable is "closed over"
   function inner() {
-    count++;
+    count++;  // inner function has access to count
     console.log(count);
   }
   return inner;
@@ -190,6 +198,7 @@ counter(); // 2
 
 ```javascript
 function makeAdder(x) {
+  // x is "remembered" by the returned function
   return function (y) {
     return x + y;
   };
@@ -198,19 +207,26 @@ function makeAdder(x) {
 const add5 = makeAdder(5);
 console.log(add5(2)); // 7
 console.log(add5(3)); // 8
-```
 
----
+const add10 = makeAdder(10);
+console.log(add10(2)); // 12
+console.log(add10(3)); // 13
+```
 
 ### Currying
 
 **Explanation:**
-
-Currying is the process of transforming a function with multiple arguments into a sequence of functions each taking a single argument.
+Currying is the process of transforming a function with multiple arguments into a sequence of functions each taking a single argument. It allows partial application of a function's arguments.
 
 **Code Example:**
 
 ```javascript
+// Non-curried function
+function add(a, b, c) {
+  return a + b + c;
+}
+
+// Curried version
 function curryAdd(a) {
   return function (b) {
     return function (c) {
@@ -219,20 +235,24 @@ function curryAdd(a) {
   };
 }
 
-const result = curryAdd(1)(2)(3); // 6
-```
+console.log(add(1, 2, 3)); // 6
+console.log(curryAdd(1)(2)(3)); // 6
 
----
+// Partial application
+const add1 = curryAdd(1);
+const add1and2 = add1(2);
+console.log(add1and2(3)); // 6
+```
 
 ### Objects
 
 **Explanation:**
-
-Objects are collections of key-value pairs. The values can be properties or methods (functions).
+Objects are collections of key-value pairs. The values can be properties or methods (functions). Understanding object creation and manipulation is crucial in JavaScript.
 
 **Code Example:**
 
 ```javascript
+// Object literal
 const person = {
   name: "John",
   age: 30,
@@ -242,15 +262,41 @@ const person = {
 };
 
 person.greet(); // Hello, my name is John
-```
 
----
+// Object.create()
+const personPrototype = {
+  greet() {
+    console.log(`Hello, my name is ${this.name}`);
+  },
+};
+
+const john = Object.create(personPrototype);
+john.name = "John";
+john.greet(); // Hello, my name is John
+
+// Constructor function
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+}
+
+Person.prototype.greet = function () {
+  console.log(`Hello, my name is ${this.name}`);
+};
+
+const jane = new Person("Jane", 25);
+jane.greet(); // Hello, my name is Jane
+```
 
 ### 'this' Keyword
 
 **Explanation:**
+The `this` keyword refers to the object it belongs to. It has different values depending on where it is used:
 
-The `this` keyword refers to the object it belongs to. It has different values depending on where it is used.
+- In a method, `this` refers to the owner object.
+- Alone, `this` refers to the global object.
+- In a function, `this` refers to the global object (in non-strict mode).
+- In an event, `this` refers to the element that received the event.
 
 **Code Example:**
 
@@ -260,20 +306,32 @@ const obj = {
   getName() {
     return this.name;
   },
+  getNameArrow: () => {
+    return this.name; // 'this' is lexically bound in arrow functions
+  },
 };
 
 console.log(obj.getName()); // Alice
-```
+console.log(obj.getNameArrow()); // undefined (or window.name in a browser)
 
----
+// Function borrowing
+const obj2 = { name: "Bob" };
+console.log(obj.getName.call(obj2)); // Bob
+
+// 'this' in event handlers
+document.querySelector("button").addEventListener("click", function () {
+  console.log(this); // refers to the button element
+});
+```
 
 ### Call, Bind & Apply
 
 **Explanation:**
+These methods allow you to explicitly set the `this` value for executing a function:
 
-- **`call()`**: Invokes a function with a given `this` value and arguments provided one by one.
-- **`apply()`**: Invokes a function with a given `this` value and arguments provided as an array.
-- **`bind()`**: Returns a new function, permanently bound to the specified `this` value.
+- `call()`: Invokes a function with a given `this` value and arguments provided one by one.
+- `apply()`: Invokes a function with a given `this` value and arguments provided as an array.
+- `bind()`: Returns a new function, permanently bound to the specified `this` value.
 
 **Code Example:**
 
@@ -284,109 +342,72 @@ function greet(greeting, punctuation) {
 
 const person = { name: "Bob" };
 
+// Using call
 greet.call(person, "Hello", "!"); // Hello, Bob!
+
+// Using apply
 greet.apply(person, ["Hi", "."]); // Hi, Bob.
+
+// Using bind
 const boundGreet = greet.bind(person);
 boundGreet("Hey", "?"); // Hey, Bob?
-```
 
----
+// Partial application with bind
+const greetBob = greet.bind(person, "Howdy");
+greetBob("!"); // Howdy, Bob!
+```
 
 ### Promises
 
 **Explanation:**
-
-Promises represent the eventual completion (or failure) of an asynchronous operation and its resulting value.
+Promises represent the eventual completion (or failure) of an asynchronous operation and its resulting value. They provide a cleaner way to handle asynchronous code compared to callbacks.
 
 **Code Example:**
 
 ```javascript
-const promise = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    resolve("Data fetched");
-  }, 1000);
-});
+function fetchData(url) {
+  return new Promise((resolve, reject) => {
+    // Simulating an API call
+    setTimeout(() => {
+      if (Math.random() > 0.5) {
+        resolve(`Data fetched from ${url}`);
+      } else {
+        reject(`Failed to fetch from ${url}`);
+      }
+    }, 1000);
+  });
+}
 
-promise
-  .then((result) => console.log(result)) // Data fetched
-  .catch((error) => console.error(error));
-```
-
----
-
-example of how `Promise.all()` can be used alongside your initial promise setup. In this case, I’ll use multiple promises that resolve after different timeouts to simulate different asynchronous tasks:
-
-### Example:
-
-```javascript
-const promise1 = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    resolve("Data from API 1");
-  }, 1000); // 1-second delay
-});
-
-const promise2 = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    resolve("Data from API 2");
-  }, 2000); // 2-second delay
-});
-
-const promise3 = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    resolve("Data from API 3");
-  }, 1500); // 1.5-second delay
-});
-
-Promise.all([promise1, promise2, promise3])
-  .then((results) => {
-    console.log("All promises resolved successfully:");
-    console.log(results); // Output: ["Data from API 1", "Data from API 2", "Data from API 3"]
+fetchData("https://api.example.com/data")
+  .then((result) => {
+    console.log(result);
+    return fetchData("https://api.example.com/moredata");
+  })
+  .then((result) => {
+    console.log(result);
   })
   .catch((error) => {
-    console.error("One or more promises failed:", error);
+    console.error(error);
   });
-```
 
-### Explanation:
-
-- Three promises (`promise1`, `promise2`, `promise3`) are created, each resolving after different delays.
-- `Promise.all()` waits for all three promises to resolve and then logs the results as an array.
-- If any of the promises are rejected, `Promise.all()` will reject with that error and go into the `.catch()` block.
-
-### Integration with Your Original Code Example:
-
-If you want to use `Promise.all()` in conjunction with your original promise:
-
-```javascript
-const promise = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    resolve("data fetch");
-  }, 1000);
-});
-
-const anotherPromise = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    resolve("another data fetch");
-  }, 2000);
-});
-
-Promise.all([promise, anotherPromise])
+// Using Promise.all
+Promise.all([
+  fetchData("https://api.example.com/data1"),
+  fetchData("https://api.example.com/data2"),
+  fetchData("https://api.example.com/data3"),
+])
   .then((results) => {
-    console.log("Both promises resolved:");
-    console.log(results); // Output: ["data fetch", "another data fetch"]
+    console.log(results); // Array of results from all promises
   })
   .catch((error) => {
-    console.error("One or more promises failed:", error);
+    console.error("One or more requests failed:", error);
   });
 ```
-
-This version combines your initial promise with an additional one, both being handled in parallel by `Promise.all()`.
 
 ### Debouncing
 
 **Explanation:**
-
-Debouncing ensures that a function is only called after a certain amount of time has passed since it was last called.
+Debouncing ensures that a function is only called after a certain amount of time has passed since it was last called. This is useful for optimizing performance, especially for functions that are called frequently.
 
 **Code Example:**
 
@@ -400,21 +421,20 @@ function debounce(func, delay) {
 }
 
 // Usage
-window.addEventListener(
-  "resize",
-  debounce(() => {
-    console.log("Resize event debounced");
-  }, 500)
-);
-```
+const expensiveOperation = () => {
+  console.log("Expensive operation performed");
+};
 
----
+const debouncedOperation = debounce(expensiveOperation, 300);
+
+// This will only log once, 300ms after the last call
+window.addEventListener("resize", debouncedOperation);
+```
 
 ### Throttling
 
 **Explanation:**
-
-Throttling ensures that a function is called at most once in a specified time period.
+Throttling ensures that a function is called at most once in a specified time period. This is useful for limiting the rate at which a function can fire.
 
 **Code Example:**
 
@@ -431,165 +451,119 @@ function throttle(func, limit) {
 }
 
 // Usage
-window.addEventListener(
-  "scroll",
-  throttle(() => {
-    console.log("Scroll event throttled");
-  }, 1000)
-);
+const logMousePosition = (e) => {
+  console.log(`Mouse position: ${e.clientX}, ${e.clientY}`);
+};
+
+const throttledLogMousePosition = throttle(logMousePosition, 1000);
+
+// This will log at most once per second
+document.addEventListener("mousemove", throttledLogMousePosition);
 ```
 
----
+### Event Propagation
 
-### **Event Propagation**
+**Explanation:**
+Event propagation is the mechanism in the DOM by which events flow through the document. It happens in three phases:
 
-**Explanation**:  
-Event propagation is the mechanism in the DOM by which events flow to their target and then propagate through the DOM tree. It happens in three phases:
-
-1. **Capturing Phase**: The event starts from the root (Window) and travels down to the target element.
+1. **Capturing Phase**: The event starts from the root and travels down to the target element.
 2. **Target Phase**: The event reaches the target element itself.
 3. **Bubbling Phase**: After reaching the target, the event bubbles back up through the DOM tree to the root.
 
-In modern web development, both capturing and bubbling phases can be used to handle events at different points in the DOM hierarchy.
-
-**Diagram**:
-
-```
-[Window] -> [Document] -> [HTML] -> [Body] -> [Parent Div] -> [Child Div]
-// Event Capturing Phase (from Window to Target)
-// Event Bubbling Phase (from Target back up to Window)
-```
-
-**Code Example**:
+**Code Example:**
 
 ```html
 <div id="parent">
   Parent
   <div id="child">Child</div>
 </div>
-
-<script>
-  document.getElementById("parent").addEventListener(
-    "click",
-    () => {
-      console.log("Parent clicked");
-    },
-    false // Bubbling phase (set to true for Capturing phase)
-  );
-
-  document.getElementById("child").addEventListener(
-    "click",
-    () => {
-      console.log("Child clicked");
-    },
-    false // Bubbling phase
-  );
-</script>
 ```
 
-**Explanation of Code**:
+### Compose and Pipe
 
-- In this example, both the `parent` and `child` divs have click event listeners.
-- When you click the `child` div, the event bubbles up. First, "Child clicked" will be logged, then "Parent clicked" because of the bubbling phase.
-- You can change `false` to `true` to use the capturing phase instead, where the event starts at the top and moves down.
+**Explanation:**
 
----
+- **Compose**: Executes a series of functions from right to left.
+- **Pipe**: Similar to compose, but executes the functions from left to right.
 
-### **Compose and Pipe**
+These are useful for creating more readable and maintainable code by combining multiple functions.
 
-**Explanation**:
-
-- **Compose**: Executes a series of functions from right to left. It takes the result of one function and passes it as an argument to the next function, making the output of one function the input for the next.
-- **Pipe**: Similar to `compose`, but executes the functions from left to right.
-
-**Code Example**:
-
-```javascript
-// Function to compose functions from right to left
-const compose =
-  (...functions) =>
-  (args) =>
-    functions.reduceRight((arg, fn) => fn(arg), args);
-
-// Function to pipe functions from left to right
-const pipe =
-  (...functions) =>
-  (args) =>
-    functions.reduce((arg, fn) => fn(arg), args);
-
-// Example functions
-const add = (x) => x + 1;
-const multiply = (x) => x * 2;
-
-// Composing functions: right-to-left (multiply -> add)
-const composedFunction = compose(add, multiply);
-console.log(composedFunction(5)); // (5 * 2) + 1 = 11
-
-// Piping functions: left-to-right (add -> multiply)
-const pipedFunction = pipe(add, multiply);
-console.log(pipedFunction(5)); // (5 + 1) * 2 = 12
-```
-
-**Explanation of Code**:
-
-- **Compose** executes functions from right to left: `multiply(5)` gives 10, then `add(10)` gives 11.
-- **Pipe** executes functions from left to right: `add(5)` gives 6, then `multiply(6)` gives 12.
-
----
-
-### **Prototypes**
-
-**Explanation**:  
-Every object in JavaScript has an internal property called `[[Prototype]]`, which is an object from which the current object can inherit methods and properties. Prototypes allow for shared properties and methods across all instances of an object type.
-
-**Code Example**:
-
-```javascript
-// Constructor function for Person
-function Person(name) {
-  this.name = name;
-}
-
-// Adding a method to the Person prototype
-Person.prototype.greet = function () {
-  console.log(`Hello, ${this.name}`);
-};
-
-// Creating an instance of Person
-const person1 = new Person("Eve");
-person1.greet(); // Output: Hello, Eve
-```
-
-**Explanation of Code**:
-
-- In this example, `Person` is a constructor function.
-- The `greet` method is added to the `Person.prototype`, which means all instances of `Person` (like `person1`) can use the `greet` method.
-- Prototypes enable inheritance, so instead of creating a new `greet` function for each `Person`, it's shared across all instances via the prototype.
-
-**Prototype Chain**:  
-If a property or method is not found on the object itself, JavaScript will look up the prototype chain to see if the property or method exists on any object up the chain (including `Object.prototype`). This is the essence of JavaScript's inheritance model.
 **Code Example:**
 
+````javascript
+// Compose function
+const compose = (...functions) => (args) =>
+  functions.reduceRight((arg, fn) => fn(arg), args);
+
+// Pipe function
+const pipe = (...functions) => (args) =>
+  functions.reduce((arg, fn) => fn(arg), args);
+
+// Example functions
+const add10 = (x) => x + 10;
+const multiply2 = (x) => x * 2;
+const subtract5 = (x) => x - 5;
+
+// Using compose (right to left)
+const composedFunction = compose(subtract5, multiply2, add10);
+console.log(composedFunction(5)); // ((5 + 10) * 2) - 5 = 25
+
+// Using pipe (left to right)
+const pipedFunction = pipe(add10, multiply2, subtract5);
+console.log(pipedFunction(5)); // ((5 + 10) * 2) - 5 = 25
+
+
+### Prototypes
+
+**Explanation:**
+Every object in JavaScript has an internal property called `[[Prototype]]`, which is an object from which the current object can inherit methods and properties. This forms the basis of prototypal inheritance in JavaScript.
+
+**Code Example:**
 ```javascript
+// Constructor function
 function Person(name) {
   this.name = name;
 }
 
-Person.prototype.greet = function () {
-  console.log(`Hello, ${this.name}`);
+// Adding a method to the prototype
+Person.prototype.greet = function() {
+  console.log(`Hello, my name is ${this.name}`);
 };
 
-const person1 = new Person("Eve");
-person1.greet(); // Hello, Eve
-```
+// Creating instances
+const person1 = new Person('Alice');
+const person2 = new Person('Bob');
 
----
+person1.greet(); // Hello, my name is Alice
+person2.greet(); // Hello, my name is Bob
+
+// Demonstrating prototype chain
+console.log(person1.__proto__ === Person.prototype); // true
+console.log(Person.prototype.__proto__ === Object.prototype); // true
+
+// Extending prototypes
+Person.prototype.introduce = function() {
+  console.log(`I'm ${this.name}, nice to meet you!`);
+};
+
+person1.introduce(); // I'm Alice, nice to meet you!
+
+// Object.create for prototypal inheritance
+const personProto = {
+  greet() {
+    console.log(`Hello, I'm ${this.name}`);
+  }
+};
+
+const john = Object.create(personProto);
+john.name = 'John';
+john.greet(); // Hello, I'm John
+````
 
 ### Class and Constructors
 
 **Explanation:**
-
-Classes are syntactic sugar over JavaScript's existing prototype-based inheritance.
+Classes in JavaScript, introduced in ES6, provide a cleaner syntax for creating objects and implementing inheritance. They are essentially syntactic sugar over JavaScript's existing prototype-based inheritance.
 
 **Code Example:**
 
@@ -600,35 +574,54 @@ class Animal {
   }
 
   speak() {
-    console.log(`${this.name} makes a noise`);
+    console.log(`${this.name} makes a noise.`);
   }
 }
 
 class Dog extends Animal {
+  constructor(name) {
+    super(name); // Call the parent constructor
+  }
+
   speak() {
-    console.log(`${this.name} barks`);
+    console.log(`${this.name} barks.`);
   }
 }
 
-const dog = new Dog("Rex");
-dog.speak(); // Rex barks
-```
+const animal = new Animal("Generic Animal");
+animal.speak(); // Generic Animal makes a noise.
 
----
+const dog = new Dog("Rex");
+dog.speak(); // Rex barks.
+
+// Demonstrating that classes use prototypal inheritance under the hood
+console.log(dog instanceof Dog); // true
+console.log(dog instanceof Animal); // true
+console.log(Object.getPrototypeOf(Dog.prototype) === Animal.prototype); // true
+```
 
 ### Event Loop
 
 **Explanation:**
-
-The event loop is responsible for executing the code, collecting and processing events, and executing queued sub-tasks.
+The event loop is JavaScript's mechanism for executing code, collecting and processing events, and executing queued sub-tasks. It's crucial for understanding how JavaScript handles asynchronous operations.
 
 **Diagram:**
 
 ```plaintext
-Call Stack        Task Queue
-   |                  |
-   V                  V
-[Main()]        [setTimeout(), Promises]
+   ┌───────────────────────┐
+┌─>│        Call Stack     │
+│  └───────────────────────┘
+│  ┌───────────────────────┐
+│  │    Web APIs/Node.js   │
+│  │    Background APIs    │
+│  └───────────────────────┘
+│  ┌───────────────────────┐
+│  │     Callback Queue    │
+└──│  (Macrotask Queue)    │
+   └───────────────────────┘
+   ┌───────────────────────┐
+   │     Microtask Queue   │
+   └───────────────────────┘
 ```
 
 **Code Example:**
@@ -637,11 +630,11 @@ Call Stack        Task Queue
 console.log("Start");
 
 setTimeout(() => {
-  console.log("Timeout");
+  console.log("Timeout callback");
 }, 0);
 
 Promise.resolve().then(() => {
-  console.log("Promise");
+  console.log("Promise resolved");
 });
 
 console.log("End");
@@ -649,40 +642,48 @@ console.log("End");
 // Output:
 // Start
 // End
-// Promise
-// Timeout
-```
+// Promise resolved
+// Timeout callback
 
----
+// Explanation:
+// 1. 'Start' is logged immediately.
+// 2. setTimeout callback is scheduled (macrotask).
+// 3. Promise resolution is scheduled (microtask).
+// 4. 'End' is logged.
+// 5. Microtask queue is processed: 'Promise resolved' is logged.
+// 6. Macrotask queue is processed: 'Timeout callback' is logged.
+```
 
 ## React Interview Questions
 
 ### How React Works Under the Hood
 
 **Explanation:**
-
 React creates a virtual DOM (a JavaScript representation of the actual DOM). When state changes, React compares the new virtual DOM with the previous one (diffing algorithm), determines the minimal changes required, and updates the real DOM efficiently.
 
 **Diagram:**
 
 ```plaintext
 [JSX] --> [Virtual DOM] --> [Diffing] --> [Real DOM]
+          ^                                |
+          |                                |
+          └────────── State Change ────────┘
 ```
-
----
 
 ### React Rendering Process (Virtual DOM and Diffing Algorithm)
 
 **Explanation:**
 
-- **Virtual DOM**: A lightweight copy of the real DOM that React keeps in memory.
-- **Diffing Algorithm**: Compares the previous and current virtual DOM trees to find out what has changed.
+1. **Virtual DOM**: A lightweight copy of the real DOM that React keeps in memory.
+2. **Diffing Algorithm**: Compares the previous and current virtual DOM trees to find out what has changed.
+3. **Reconciliation**: The process of updating the DOM with those changes.
 
 **Code Example:**
 
 ```jsx
 function App() {
   const [count, setCount] = useState(0);
+
   return (
     <div>
       <p>{count}</p>
@@ -690,2030 +691,442 @@ function App() {
     </div>
   );
 }
-```
 
----
+// When setCount is called:
+// 1. React creates a new Virtual DOM with the updated count
+// 2. It compares this new Virtual DOM with the previous one
+// 3. It identifies that only the text content of <p> has changed
+// 4. It updates only that specific part in the real DOM
+```
 
 ### Most Asked Interview Questions
 
 #### Ques 1: What is React and why is it used?
 
 **Answer:**
-
 React is a JavaScript library for building user interfaces. It allows developers to create large web applications that can update and render efficiently in response to data changes. React is used because it:
 
 - Enhances performance via the virtual DOM.
 - Encourages reusable components.
 - Simplifies complex UIs with declarative code.
-
----
+- Provides a robust ecosystem and community support.
+- Enables building of single-page applications (SPAs) efficiently.
 
 #### Ques 2: What is JSX, and why is it used?
 
 **Answer:**
-
 JSX stands for JavaScript XML. It is a syntax extension for JavaScript that looks similar to HTML. JSX is used in React to describe the UI structure, making the code more readable and easier to write.
 
 **Code Example:**
 
 ```jsx
 const element = <h1>Hello, world!</h1>;
+
+// JSX allows embedding expressions
+const name = "John";
+const greeting = <p>Hello, {name}!</p>;
+
+// JSX can represent complex structures
+const list = (
+  <ul>
+    {["apple", "banana", "orange"].map((item) => (
+      <li key={item}>{item}</li>
+    ))}
+  </ul>
+);
 ```
 
----
+JSX is transpiled to regular JavaScript function calls and objects before it's run in the browser.
 
 #### Ques 3: What is a React component?
 
 **Answer:**
-
 A React component is a reusable piece of UI that can be either a function or a class. Components accept inputs called props and return React elements describing what should appear on the screen.
 
----
-
-#### Ques 4: What is the difference between state and props?
-
-**Answer:**
-
-- **Props**: Short for properties, they are read-only inputs passed to a component from its parent.
-- **State**: Internal data managed within the component, can change over time, and affects how the component renders.
-
----
-
-#### Ques 5: What is prop drilling?
-
-**Answer:**
-
-Prop drilling refers to the process where you pass data through multiple nested components that do not need it, just to reach a child component that does.
-
----
-
-#### Ques 6: What is a React fragment, and why is it used?
-
-**Answer:**
-
-React Fragments let you group a list of children without adding extra nodes to the DOM.
-
 **Code Example:**
 
 ```jsx
-<>
-  <h1>Title</h1>
-  <p>Paragraph</p>
-</>
-```
-
----
-
-#### Ques 7: How do you define and use state in a React Functional component? How are they different from normal variables?
-
-**Answer:**
-
-State in functional components is defined using the `useState` hook. Unlike normal variables, state variables trigger a re-render when updated.
-
-**Code Example:**
-
-```jsx
-function Counter() {
-  const [count, setCount] = useState(0); // State variable
-  let normalCount = 0; // Normal variable
-
-  return (
-    <div>
-      <p>State Count: {count}</p>
-      <p>Normal Count: {normalCount}</p>
-      <button onClick={() => setCount(count + 1)}>Increment State Count</button>
-      <button onClick={() => normalCount++}>Increment Normal Count</button>
-    </div>
-  );
-}
-```
-
----
-
-#### Ques 8: How do you define and use state in a React class component?
-
-**Answer:**
-
-State is defined in the constructor and updated using `this.setState()`.
-
-**Code Example:**
-
-```jsx
-class Counter extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { count: 0 };
-  }
-
-  increment = () => {
-    this.setState({ count: this.state.count + 1 });
-  };
-
-  render() {
-    return (
-      <div>
-        <p>Count: {this.state.count}</p>
-        <button onClick={this.increment}>Increment</button>
-      </div>
-    );
-  }
-}
-```
-
----
-
-#### Ques 9: How do you pass props to a functional component?
-
-**Answer:**
-
-Props are passed to a functional component via its parameters.
-
-**Code Example:**
-
-```jsx
-function Greeting(props) {
+// Functional Component
+function Welcome(props) {
   return <h1>Hello, {props.name}</h1>;
 }
 
-// Usage
-<Greeting name="Alice" />;
-```
-
----
-
-#### Ques 10: What are PropTypes?
-
-**Answer:**
-
-PropTypes is a type-checking feature to ensure that components receive props of the correct type.
-
-**Code Example:**
-
-```jsx
-import PropTypes from "prop-types";
-
-function Greeting({ name }) {
-  return <h1>Hello, {name}</h1>;
-}
-
-Greeting.propTypes = {
-  name: PropTypes.string.isRequired,
-};
-```
-
----
-
-#### Ques 11: How do you use props in a class component?
-
-**Answer:**
-
-Props are accessed via `this.props` in class components.
-
-**Code Example:**
-
-```jsx
-class Greeting extends React.Component {
+// Class Component
+class Welcome extends React.Component {
   render() {
     return <h1>Hello, {this.props.name}</h1>;
   }
 }
 ```
 
----
-
-#### Ques 12: In how many ways can we export/import things from a JS Module?
+#### Ques 4: What is the difference between state and props in React?
 
 **Answer:**
 
-- **Named Exports/Imports**:
+- **Props**: Props (short for "properties") are read-only inputs passed to a React component. They are used to customize the component's behavior and appearance.
+- **State**: State is an object that holds data that can change over time. It is managed within the component and can be updated using the `setState` method.
 
-  ```javascript
-  // Export
-  export const name = "Alice";
-
-  // Import
-  import { name } from "./module";
-  ```
-
-- **Default Exports/Imports**:
-
-  ```javascript
-  // Export
-  export default function () {}
-
-  // Import
-  import myFunction from "./module";
-  ```
-
----
-
-#### Ques 13: What is Virtual DOM?
+#### Ques 5: What is the purpose of keys in React lists?
 
 **Answer:**
+Keys are special attributes used to uniquely identify elements in a list. They help React efficiently update the DOM when the list changes. Keys should be unique and stable across renders.
 
-The Virtual DOM is an in-memory representation of the real DOM. It allows React to perform efficient updates by calculating the differences between the virtual DOM and the real DOM.
-
----
-
-#### Ques 14: Reconciliation vs Rendering?
+#### Ques 6: What is the significance of the `shouldComponentUpdate` lifecycle method?
 
 **Answer:**
+The `shouldComponentUpdate` lifecycle method allows a React component to determine whether it should re-render based on changes to its props or state. By implementing this method, components can optimize performance by avoiding unnecessary re-renders.
 
-- **Reconciliation**: The process of updating the DOM with minimal changes after comparing the new virtual DOM with the old one.
-- **Rendering**: The initial process of creating the DOM nodes from React components.
-
----
-
-#### Ques 15: What is the Diff Algorithm?
+#### Ques 7: What is the role of higher-order components (HOCs) in React?
 
 **Answer:**
+Higher-order components (HOCs) are functions that take a component and return a new component. They are used to reuse code, add functionality, or modify component behavior. HOCs are a powerful technique for code composition and abstraction in React.
 
-React's Diff Algorithm efficiently compares two virtual DOM trees by:
+#### Ques 8: How does React handle forms?
 
-- Comparing elements of the same level.
-- Assuming different types of elements lead to different subtrees.
-- Using keys to identify elements uniquely.
+**Answer:**
+React handles forms by using controlled components. Controlled components have their state managed by React, and their values are updated via event handlers. This allows React to efficiently handle form inputs and validation.
 
----
+#### Ques 9: What is the purpose of context in React?
 
-### Map, Filter, and Reduce in React
+**Answer:**
+Context provides a way to pass data through the component tree without having to pass props down manually at every level. It is useful for sharing global state or configuration that is needed by many components.
 
-**Explanation:**
+#### Ques 10: How does React handle errors?
 
-These array methods are commonly used in React to manipulate state and props for rendering lists.
+**Answer:**
+React provides error boundaries, which are components that catch JavaScript errors during rendering and display a fallback UI instead of crashing the entire application. Error boundaries can be created using the `componentDidCatch` lifecycle method or the `ErrorBoundary` component.
 
-**Code Example:**
+#### Ques 11: What is the purpose of the `useEffect` hook in React?
 
-```jsx
-function NumbersList({ numbers }) {
-  const doubled = numbers.map((num) => num * 2);
-  const evenNumbers = numbers.filter((num) => num % 2 === 0);
-  const sum = numbers.reduce((acc, curr) => acc + curr, 0);
+**Answer:**
+The `useEffect` hook allows functional components to perform side effects, such as data fetching or subscriptions, in a declarative way. It replaces the `componentDidMount`, `componentDidUpdate`, and `componentWillUnmount` lifecycle methods in class components.
 
-  return (
-    <div>
-      <p>Doubled: {doubled.join(", ")}</p>
-      <p>Even: {evenNumbers.join(", ")}</p>
-      <p>Sum: {sum}</p>
-    </div>
-  );
-}
-```
+#### Ques 12: What is the role of the `useContext` hook in React?
 
----
+**Answer:**
+The `useContext` hook allows functional components to consume context values without having to use a render prop or a higher-order component. It simplifies the process of accessing context values and makes it easier to share data between components.
 
-### Conditional Operators
+#### Ques 13: What is the purpose of the `useMemo` hook in React?
 
-**Explanation:**
+**Answer:**
+The `useMemo` hook allows functional components to memoize expensive computations. It only re-computes the memoized value when one of its dependencies changes. This can improve performance by avoiding unnecessary computations.
 
-Used in React to conditionally render components.
+#### Ques 14: What is the role of the `useCallback` hook in React?
 
-**Code Example:**
+**Answer:**
+The `useCallback` hook allows functional components to memoize callback functions. It returns a memoized version of the callback that only changes if one of its dependencies changes. This can improve performance by avoiding unnecessary re-renders.
 
-```jsx
-function UserGreeting({ isLoggedIn }) {
-  return (
-    <div>{isLoggedIn ? <p>Welcome back!</p> : <p>Please sign up.</p>}</div>
-  );
-}
-```
+#### Ques 15: What is the purpose of the `useReducer` hook in React?
 
----
+**Answer:**
+The `useReducer` hook is an alternative to the `useState` hook for managing complex state logic. It allows components to use a reducer function to update state based on actions. This can be useful for managing state with multiple sub-values or for implementing complex state transitions.
 
-### Classic vs Functional React
+#### Ques 16: What is the role of the `useRef` hook in React?
 
-**Explanation:**
+**Answer:**
+The `useRef` hook allows functional components to create mutable references to DOM elements or to store values that persist across renders. It returns a ref object that can be used to access the current value of the reference.
 
-- **Class Components**: Use ES6 classes, have state and lifecycle methods.
-- **Functional Components**: Use functions, can use hooks for state and lifecycle features.
+#### Ques 17: What is the purpose of the `React.memo` higher-order component?
 
----
+**Answer:**
+The `React.memo` higher-order component allows functional components to skip unnecessary re-renders by memoizing their output. It compares the previous and current props of the component and only re-renders if they have changed. This can improve performance by avoiding unnecessary computations.
 
-### State vs Props
+#### Ques 18: What is the role of the `React.lazy` and `React.Suspense` components in React?
 
-**Explanation:**
+**Answer:**
+The `React.lazy` component allows components to be lazily loaded, which means they are only loaded when they are first rendered. This can improve performance by reducing the initial load time of the application. The `React.Suspense` component allows components to display a fallback UI while they are being loaded.
 
-- **State**: Data that changes over time, managed within the component.
-- **Props**: Data passed to the component, read-only.
+#### Ques 19: What is the purpose of the `React.forwardRef` higher-order component?
 
----
+**Answer:**
+The `React.forwardRef` higher-order component allows components to forward refs to their children. This can be useful for accessing DOM elements or for implementing custom components that need to be integrated with form libraries.
 
-### Types of Components
+#### Ques 20: What is the role of the `React.Fragment` component in React?
 
-- **Functional Components**
-- **Class Components**
-- **Pure Components**
-- **Higher-Order Components**
+**Answer:**
+The `React.Fragment` component allows components to return multiple elements without adding extra nodes to the DOM. It is useful for grouping related elements together without adding unnecessary wrappers.
 
----
+#### Ques 21: What is the purpose of the `React.Profiler` component in React?
 
-### `useState` (Deep and Under the Hood Explanation)
+**Answer:**
+The `React.Profiler` component allows components to measure performance and identify bottlenecks. It can be used to measure the rendering time of components and their children, and to identify components that are causing performance issues.
 
-**Explanation:**
+#### Ques 22: What is the role of the `React.StrictMode` component in React?
 
-`useState` is a hook that lets you add React state to functional components. It returns a state variable and a function to update it.
+**Answer:**
+The `React.StrictMode` component allows components to be rendered in a strict mode, which enables additional checks and warnings for common issues. It can help to catch potential problems early in the development process.
 
-**Code Example:**
+#### Ques 23: What is the purpose of the `React.PureComponent` class in React?
 
-```jsx
-function Counter() {
-  const [count, setCount] = useState(0); // Under the hood, React keeps track of state variables in an array
+**Answer:**
+The `React.PureComponent` class is a base class for React components that implements the `shouldComponentUpdate` lifecycle method with a shallow comparison of props and state. This can improve performance by avoiding unnecessary re-renders.
 
-  return (
-    <div>
-      <p>{count}</p>
-      <button onClick={() => setCount(count + 1)}>Increment</button>
-    </div>
-  );
-}
-```
+#### Ques 24: What is the role of the `React.createContext` function in React?
 
----
+**Answer:**
+The `React.createContext` function allows components to create a new context object. Context objects can be used to share data between components without having to pass props down manually at every level.
 
-### `useEffect` (Deep and Under the Hood Explanation)
+#### Ques 25: What is the purpose of the `React.createRef` function in React?
 
-**Explanation:**
+**Answer:**
+The `React.createRef` function allows components to create a new ref object. Ref objects can be used to access DOM elements or to store values that persist across renders.
 
-`useEffect` is a hook for performing side effects in functional components (e.g., data fetching, subscriptions).
+#### Ques 26: What is the role of the `React.createPortal` function in React?
 
-**Code Example:**
+**Answer:**
+The `React.createPortal` function allows components to render children into a DOM node that exists outside the DOM hierarchy of the parent component. This can be useful for implementing modals, tooltips, and other components that need to be rendered outside of their parent container.
 
-```jsx
-function DataFetcher() {
-  const [data, setData] = useState(null);
+#### Ques 27: What is the purpose of the `React.createElement` function in React?
 
-  useEffect(() => {
-    // Runs after every render
-    fetchData().then((result) => setData(result));
-  }, []); // Empty array ensures it runs only once (componentDidMount)
+**Answer:**
+The `React.createElement` function allows components to create React elements programmatically. It is used internally by JSX to create elements, but it can also be used directly to create elements dynamically.
 
-  return <div>{data}</div>;
-}
-```
+#### Ques 28: What is the role of the `React.cloneElement function in React?
 
-**Under the Hood:**
+**Answer:**
+The `React.cloneElement` function allows components to clone and modify existing React elements. It can be used to add props to elements, replace children, or modify other properties.
 
-React keeps track of dependencies, and runs the effect after rendering if dependencies have changed.
+#### Ques 29: What is the purpose of the `React.isValidElement` function in React?
 
----
+**Answer:**
+The `React.isValidElement` function allows components to check whether a given object is a valid React element. It can be used to validate input to components or to check the output of other functions.
 
-### `useEffect` Polyfill
+#### Ques 30: What is the role of the `React.Children` utility in React?
 
-**Code Example:**
+**Answer:**
+The `React.Children` utility provides a set of functions for working with the children of components. It can be used to map over children, filter children, or check the number of children.
 
-```javascript
-// Simplified polyfill
-function useEffect(effect, dependencies) {
-  const hasChanged = dependencies.some((dep, i) => dep !== prevDependencies[i]);
-  if (hasChanged) {
-    cleanupRef.current && cleanupRef.current();
-    cleanupRef.current = effect();
-    prevDependencies = dependencies;
-  }
-}
-```
+#### Ques 31: What is the purpose of the `React.Component` class in React?
 
----
+**Answer:**
+The `React.Component` class is the base class for React components. It provides a set of lifecycle methods and other features that are common to all components.
 
-### `useRef` Hook
+#### Ques 32: What is the role of the `React.PureComponent` class in React?
 
-**Explanation:**
+**Answer:**
+The `React.PureComponent` class is a base class for React components that implements the `shouldComponentUpdate` lifecycle method with a shallow comparison of props and state. This can improve performance by avoiding unnecessary re-renders.
 
-`useRef` returns a mutable ref object whose `.current` property is initialized to the passed argument.
+#### Ques 33: What is the purpose of the `React.Fragment` component in React?
 
-**Code Example:**
+**Answer:**
+The `React.Fragment` component allows components to return multiple elements without adding extra nodes to the DOM. It is useful for grouping related elements together without adding unnecessary wrappers.
 
-```jsx
-function FocusInput() {
-  const inputEl = useRef(null);
+#### Ques 34: What is the role of the `React.Profiler` component in React?
 
-  const onButtonClick = () => {
-    // Accessing DOM node directly
-    inputEl.current.focus();
-  };
+**Answer:**
+The `React.Profiler` component allows components to measure performance and identify bottlenecks. It can be used to measure the rendering time of components and their children, and to identify components that are causing performance issues.
 
-  return (
-    <div>
-      <input ref={inputEl} type="text" />
-      <button onClick={onButtonClick}>Focus Input</button>
-    </div>
-  );
-}
-```
+#### Ques 35: What is the role of the `React.StrictMode` component in React?
 
----
+**Answer:**
+The `React.StrictMode` component allows components to be rendered in a strict mode, which enables additional checks and warnings for common issues. It can help to catch potential problems early in the development process.
 
-### `useContext` Hook
+#### Ques 36: What is the purpose of the `React.createContext` function in React?
 
-**Explanation:**
+**Answer:**
+The `React.createContext` function allows components to create a new context object. Context objects can be used to share data between components without having to pass props down manually at every level.
 
-`useContext` lets you consume context values without the need for a Consumer component.
+#### Ques 37: What is the purpose of the `React.createRef` function in React?
 
-**Code Example:**
+**Answer:**
+The `React.createRef` function allows components to create a new ref object. Ref objects can be used to access DOM elements or to store values that persist across renders.
 
-```jsx
-const ThemeContext = React.createContext("light");
+#### Ques 38: What is the role of the `React.createPortal` function in React?
 
-function ThemedButton() {
-  const theme = useContext(ThemeContext); // Consuming context
-  return <button className={theme}>Click me</button>;
-}
-```
+**Answer:**
+The `React.createPortal` function allows components to render children into a DOM node that exists outside the DOM hierarchy of the parent component. This can be useful for implementing modals, tooltips, and other components that need to be rendered outside of their parent container.
 
----
+#### Ques 39: What is the purpose of the `React.createElement` function in React?
 
-### Context API to Implement Dark and Light Mode in React JS
+**Answer:**
+The `React.createElement` function allows components to create React elements programmatically. It is used internally by JSX to create elements, but it can also be used directly to create elements dynamically.
 
-**Code Example:**
+#### Ques 40: What is the role of the `React.cloneElement` function in React?
 
-```jsx
-// ThemeContext.js
-export const ThemeContext = React.createContext();
+**Answer:**
+The `React.cloneElement` function allows components to clone and modify existing React elements. It can be used to add props to elements, replace children, or modify other properties.
 
-// App.js
-function App() {
-  const [theme, setTheme] = useState("light");
+#### Ques 41: What is the purpose of the `React.isValidElement` function in React?
 
-  return (
-    <ThemeContext.Provider value={theme}>
-      <ThemedComponent />
-      <button onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
-        Toggle Theme
-      </button>
-    </ThemeContext.Provider>
-  );
-}
+**Answer:**
+The `React.isValidElement` function allows components to check whether a given object is a valid React element. It can be used to validate input to components or to check the output of other functions.
 
-// ThemedComponent.js
-function ThemedComponent() {
-  const theme = useContext(ThemeContext);
-  return <div className={`theme-${theme}`}>Theme is {theme}</div>;
-}
-```
+#### Ques 42: What is the role of the `React.Children` utility in React?
 
----
+**Answer:**
+The `React.Children` utility provides a set of functions for working with the children of components. It can be used to map over children, filter children, or check the number of children.
 
-### `useReducer` Hook
+#### Ques 43: What is the purpose of the `React.Component` class in React?
 
-**Explanation:**
+**Answer:**
+The `React.Component` class is the base class for React components. It provides a set of lifecycle methods and other features that are common to all components.
 
-`useReducer` is an alternative to `useState`. It accepts a reducer function and an initial state, returning the current state and a dispatch function.
+#### Ques 44: What is the role of the `React.PureComponent` class in React?
 
-**Code Example:**
+**Answer:**
+The `React.PureComponent` class is a base class for React components that implements the `shouldComponentUpdate` lifecycle method with a shallow comparison of props and state. This can improve performance by avoiding unnecessary re-renders.
 
-```jsx
-function reducer(state, action) {
-  switch (action.type) {
-    case "increment":
-      return { count: state.count + 1 };
-    default:
-      throw new Error();
-  }
-}
+#### Ques 45: What is the purpose of the `React.Fragment` component in React?
 
-function Counter() {
-  const [state, dispatch] = useReducer(reducer, { count: 0 });
+**Answer:**
+The `React.Fragment` component allows components to return multiple elements without adding extra nodes to the DOM. It is useful for grouping related elements together without adding unnecessary wrappers.
 
-  return (
-    <button onClick={() => dispatch({ type: "increment" })}>
-      {state.count}
-    </button>
-  );
-}
-```
+#### Ques 46: What is the role of the `React.Profiler` component in React?
 
----
+**Answer:**
+The `React.Profiler` component allows components to measure performance and identify bottlenecks. It can be used to measure the rendering time of components and their children, and to identify components that are causing performance issues.
 
-### `useMemo`
+#### Ques 47: What is the role of the `React.StrictMode` component in React?
 
-**Explanation:**
+**Answer:**
+The `React.StrictMode` component allows components to be rendered in a strict mode, which enables additional checks and warnings for common issues. It can help to catch potential problems early in the development process.
 
-`useMemo` memoizes a computed value, recomputing it only when dependencies change.
+#### Ques 48: What is the purpose of the `React.createContext` function in React?
 
-**Code Example:**
+**Answer:**
+The `React.createContext` function allows components to create a new context object. Context objects can be used to share data between components without having to pass props down manually at every level.
 
-```jsx
-const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
-```
+#### Ques 49: What is the purpose of the `React.createRef` function in React?
 
----
+**Answer:**
+The `React.createRef` function allows components to create a new ref object. Ref objects can be used to access DOM elements or to store values that persist across renders.
 
-### `useCallback`
+#### Ques 50: What is the role of the `React.createPortal` function in React?
 
-**Explanation:**
+**Answer:**
+The `React.createPortal` function allows components to render children into a DOM node that exists outside the DOM hierarchy of the parent component. This can be useful for implementing modals, tooltips, and other components that need to be rendered outside of their parent container.
 
-`useCallback` returns a memoized callback function, preventing unnecessary re-creations.
+#### Ques 51: What is the purpose of the `React.createElement` function in React?
 
-**Code Example:**
+**Answer:**
+The `React.createElement` function allows components to create React elements programmatically. It is used internally by JSX to create elements, but it can also be used directly to create elements dynamically.
 
-```jsx
-const memoizedCallback = useCallback(() => {
-  doSomething(a, b);
-}, [a, b]);
-```
+#### Ques 52: What is the role of the `React.cloneElement` function in React?
 
----
+**Answer:**
+The `React.cloneElement` function allows components to clone and modify existing React elements. It can be used to add props to elements, replace children, or modify other properties.
 
-### `useMemo` Polyfill
+#### Ques 53: What is the purpose of the `React.isValidElement` function in React?
 
-**Code Example:**
+**Answer:**
+The `React.isValidElement` function allows components to check whether a given object is a valid React element. It can be used to validate input to components or to check the output of other functions.
 
-```javascript
-function useMemo(factory, dependencies) {
-  const hasChanged = dependencies.some((dep, i) => dep !== prevDependencies[i]);
-  if (hasChanged) {
-    memoizedValue = factory();
-    prevDependencies = dependencies;
-  }
-  return memoizedValue;
-}
-```
+#### Ques 54: What is the role of the `React.Children` utility in React?
 
----
+**Answer:**
+The `React.Children` utility provides a set of functions for working with the children of components. It can be used to map over children, filter children, or check the number of children.
 
-### `useImperativeHandle` Hook
+#### Ques 55: What is the purpose of the `React.Component` class in React?
 
-**Explanation:**
+**Answer:**
+The `React.Component` class is the base class for React components. It provides a set of lifecycle methods and other features that are common to all components.
 
-Customizes the instance value that is exposed to parent components when using `ref`.
+#### Ques 56: What is the role of the `React.PureComponent` class in React?
 
-**Code Example:**
+**Answer:**
+The `React.PureComponent` class is a base class for React components that implements the `shouldComponentUpdate` lifecycle method with a shallow comparison of props and state. This can improve performance by avoiding unnecessary re-renders.
 
-```jsx
-function FancyInput(props, ref) {
-  const inputRef = useRef();
-  useImperativeHandle(ref, () => ({
-    focus: () => inputRef.current.focus(),
-  }));
-  return <input ref={inputRef} />;
-}
+#### Ques 57: What is the purpose of the `React.Fragment` component in React?
 
-const ForwardedFancyInput = forwardRef(FancyInput);
+**Answer:**
+The `React.Fragment` component allows components to return multiple elements without adding extra nodes to the DOM. It is useful for grouping related elements together without adding unnecessary wrappers.
 
-// Parent Component
-function Parent() {
-  const ref = useRef();
-  return (
-    <div>
-      <ForwardedFancyInput ref={ref} />
-      <button onClick={() => ref.current.focus()}>Focus Input</button>
-    </div>
-  );
-}
-```
+#### Ques 58: What is the role of the `React.Profiler` component in React?
 
----
+**Answer:**
+The `React.Profiler` component allows components to measure performance and identify bottlenecks. It can be used to measure the rendering time of components and their children, and to identify components that are causing performance issues.
 
-### `forwardRef`
+#### Ques 59: What is the role of the `React.StrictMode` component in React?
 
-**Explanation:**
+**Answer:**
+The `React.StrictMode` component allows components to be rendered in a strict mode, which enables additional checks and warnings for common issues. It can help to catch potential problems early in the development process.
 
-`forwardRef` allows your component to accept a `ref` prop that you can pass down to a child component.
+#### Ques 60: What is the purpose of the `React.createContext` function in React?
 
----
+**Answer:**
+The `React.createContext` function allows components to create a new context object. Context objects can be used to share data between components without having to pass props down manually at every level.
 
-### `useWindowSize` Custom Hook
+#### Ques 61: What is the purpose of the `React.createRef` function in React?
 
-**Code Example:**
+**Answer:**
+The `React.createRef` function allows components to create a new ref object. Ref objects can be used to access DOM elements or to store values that persist across renders.
 
-```jsx
-function useWindowSize() {
-  const [size, setSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
+#### Ques 62: What is the role of the `React.createPortal` function in React?
 
-  useEffect(() => {
-    function handleResize() {
-      setSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    }
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+**Answer:**
+The `React.createPortal` function allows components to render children into a DOM node that exists outside the DOM hierarchy of the parent component. This can be useful for implementing modals, tooltips, and other components that need to be rendered outside of their parent container.
 
-  return size;
-}
-```
+#### Ques 63: What is the purpose of the `React.createElement` function in React?
 
----
+**Answer:**
+The `React.createElement` function allows components to create React elements programmatically. It is used internally by JSX to create elements, but it can also be used directly to create elements dynamically.
 
-### `useFetch` Custom Hook
+#### Ques 64: What is the role of the `React.cloneElement` function in React?
 
-**Code Example:**
+**Answer:**
+The `React.cloneElement` function allows components to clone and modify existing React elements. It can be used to add props to elements, replace children, or modify other properties.
 
-```jsx
-function useFetch(url) {
-  const [data, setData] = useState(null);
+#### Ques 65: What is the purpose of the `React.isValidElement` function in React?
 
-  useEffect(() => {
-    let isCancelled = false;
-    fetch(url)
-      .then((response) => response.json())
-      .then((result) => {
-        if (!isCancelled) {
-          setData(result);
-        }
-      });
-    return () => {
-      isCancelled = true;
-    };
-  }, [url]);
+**Answer:**
+The `React.isValidElement` function allows components to check whether a given object is a valid React element. It can be used to validate input to components or to check the output of other functions.
 
-  return data;
-}
-```
+#### Ques 66: What is the role of the `React.Children` utility in React?
 
----
+**Answer:**
+The `React.Children` utility provides a set of functions for working with the children of components. It can be used to map over children, filter children, or check the number of children.
 
-### `useDebounce` Custom Hook
+#### Ques 67: What is the purpose of the `React.Component` class in React?
 
-**Code Example:**
+**Answer:**
+The `React.Component` class is the base class for React components. It provides a set of lifecycle methods and other features that are common to all components.
 
-```jsx
-function useDebounce(value, delay) {
-  const [debouncedValue, setDebouncedValue] = useState(value);
+#### Ques 68: What is the role of the `React.PureComponent` class in React?
 
-  useEffect(() => {
-    const handler = setTimeout(() => setDebouncedValue(value), delay);
-    return () => clearTimeout(handler);
-  }, [value, delay]);
+**Answer:**
+The `React.PureComponent` class is a base class for React components that implements the `shouldComponentUpdate` lifecycle method with a shallow comparison of props and state. This can improve performance by avoiding unnecessary re-renders.
 
-  return debouncedValue;
-}
-```
+#### Ques 69: What is the purpose of the `React.Fragment` component in React?
 
----
+**Answer:**
+The `React.Fragment` component allows components to return multiple elements without adding extra nodes to the DOM. It is useful for grouping related elements together without adding unnecessary wrappers.
 
-### `useLocalStorage` Custom Hook
+#### Ques 70: What is the role of the `React.Profiler` component in React?
 
-**Code Example:**
+**Answer:**
+The `React.Profiler` component allows components to measure performance and identify bottlenecks. It can be used to measure the rendering time of components and their children, and to identify components that are causing performance issues.
 
-```jsx
-function useLocalStorage(key, initialValue) {
-  const [storedValue, setStoredValue] = useState(
-    () => JSON.parse(localStorage.getItem(key)) || initialValue
-  );
+#### Ques 71: What is the role of the `React.StrictMode` component in React?
 
-  const setValue = (value) => {
-    setStoredValue(value);
-    localStorage.setItem(key, JSON.stringify(value));
-  };
+**Answer:**
+The `React.StrictMode` component allows components to be rendered in a strict mode, which enables additional checks and warnings for common issues. It can help to catch potential problems early in the development process.
 
-  return [storedValue, setValue];
-}
-```
+#### Ques 72: What is the purpose of the `React.createContext` function in React?
 
----
+**Answer:**
+The `React.createContext` function allows components to create a new context object. Context objects can be used to share data between components without having to pass props down manually at every level.
 
-### `useIntersectionObserver` Hook
+#### Ques 73: What is the purpose of the `React.createRef` function in React?
 
-**Explanation:**
+**Answer:**
+The `React.createRef` function allows components to create a new ref object. Ref objects can be used to access DOM elements or to store values that persist across renders.
 
-Observes when a target element intersects with the viewport or a parent element.
+#### Ques 74: What is the role of the `React.createPortal` function in React?
 
-**Code Example:**
+**Answer:**
+The `React.createPortal` function allows components to render children into a DOM node that exists outside the DOM hierarchy of the parent component. This can be useful for implementing modals, tooltips, and other components that need to be rendered outside of their parent container.
 
-```jsx
-function useIntersectionObserver(elementRef, options) {
-  const [isIntersecting, setIntersecting] = useState(false);
+#### Ques 75: What is the purpose of the `React.createElement` function in React?
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => setIntersecting(entry.isIntersecting),
-      options
-    );
-    if (elementRef.current) {
-      observer.observe(elementRef.current);
-    }
-    return () => {
-      if (elementRef.current) {
-        observer.unobserve(elementRef.current);
-      }
-    };
-  }, [elementRef, options]);
+**Answer:**
+The `React.createElement` function allows components to create React elements programmatically. It is used internally by JSX to create elements, but it can also be used directly to create elements dynamically.
 
-  return isIntersecting;
-}
-```
+#### Ques 76: What is the role of the `React.cloneElement` function in React?
 
----
+**Answer:**
+The `React.cloneElement` function is used to clone and return a new React element using an existing element as the starting point. It allows you to create a new element with the same type and props as the original element, but with the ability to add or modify props and children.
 
-### React Router
-
-**Explanation:**
-
-React Router is a standard library for routing in React applications.
-
-**Code Example:**
-
-```jsx
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-
-function App() {
-  return (
-    <Router>
-      <Switch>
-        <Route path="/about" component={About} />
-        <Route path="/" component={Home} />
-      </Switch>
-    </Router>
-  );
-}
-```
-
----
-
-### Advanced State Management (Redux)
-
-**Explanation:**
-
-Redux is a state management library for JavaScript apps, providing a centralized store for state.
-
-**Code Example:**
-
-```javascript
-// actions.js
-export const increment = () => ({ type: "INCREMENT" });
-
-// reducer.js
-const initialState = { count: 0 };
-function counter(state = initialState, action) {
-  switch (action.type) {
-    case "INCREMENT":
-      return { count: state.count + 1 };
-    default:
-      return state;
-  }
-}
-
-// store.js
-import { createStore } from "redux";
-const store = createStore(counter);
-```
-
----
-
-### Redux Toolkit Implementation
-
-**Explanation:**
-
-Redux Toolkit simplifies Redux development by providing tools like `configureStore` and `createSlice`.
-
-**Code Example:**
-
-```javascript
-import { configureStore, createSlice } from "@reduxjs/toolkit";
-
-const counterSlice = createSlice({
-  name: "counter",
-  initialState: { count: 0 },
-  reducers: {
-    increment(state) {
-      state.count += 1;
-    },
-  },
-});
-
-export const { increment } = counterSlice.actions;
-
-const store = configureStore({
-  reducer: counterSlice.reducer,
-});
-```
-
----
-
-## Machine Coding Round Examples
-
-### TODO List in HTML, CSS, JavaScript
-
-**Code Example:**
-
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <style>
-      /* Add styles here */
-    </style>
-  </head>
-  <body>
-    <div id="todo-app">
-      <input type="text" id="new-todo" placeholder="Add a todo" />
-      <button id="add-button">Add</button>
-      <ul id="todo-list"></ul>
-    </div>
-    <script>
-      const todos = [];
-      const todoList = document.getElementById("todo-list");
-      const addButton = document.getElementById("add-button");
-      addButton.addEventListener("click", addTodo);
-
-      function addTodo() {
-        const newTodo = document.getElementById("new-todo").value;
-        if (newTodo) {
-          todos.push(newTodo);
-          renderTodos();
-          document.getElementById("new-todo").value = "";
-        }
-      }
-
-      function renderTodos() {
-        todoList.innerHTML = "";
-        todos.forEach((todo, index) => {
-          const li = document.createElement("li");
-          li.textContent = todo;
-          todoList.appendChild(li);
-        });
-      }
-    </script>
-  </body>
-</html>
-```
-
----
-
-### Build a Highly Scalable Carousel Component in React JS
-
-**Explanation:**
-
-A carousel component displays a series of content items one at a time, allowing users to navigate between them.
-
-**Code Example:**
-
-```jsx
-function Carousel({ items }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const prev = () =>
-    setCurrentIndex((currentIndex - 1 + items.length) % items.length);
-  const next = () => setCurrentIndex((currentIndex + 1) % items.length);
-
-  return (
-    <div className="carousel">
-      <button onClick={prev}>Prev</button>
-      <div className="carousel-item">{items[currentIndex]}</div>
-      <button onClick={next}>Next</button>
-    </div>
-  );
-}
-```
-
----
-
-### Implement Infinite Scrolling in React JS
-
-**Code Example:**
-
-```jsx
-function InfiniteScrollList() {
-  const [items, setItems] = useState([...initialItems]);
-  const loader = useRef(null);
-
-  const handleObserver = useCallback((entries) => {
-    const target = entries[0];
-    if (target.isIntersecting) {
-      // Fetch more items or append to list
-      setItems((prev) => [...prev, ...moreItems]);
-    }
-  }, []);
-
-  useEffect(() => {
-    const option = { root: null, rootMargin: "20px", threshold: 0 };
-    const observer = new IntersectionObserver(handleObserver, option);
-    if (loader.current) observer.observe(loader.current);
-  }, [handleObserver]);
-
-  return (
-    <div>
-      {items.map((item) => (
-        <div key={item.id}>{item.content}</div>
-      ))}
-      <div ref={loader} />
-    </div>
-  );
-}
-```
-
----
-
-## 1. React App with Posts and Comments Navigation
-
-**Objective:**
-
-- Build a React app that displays a list of posts.
-- Users can click on a post to view its details and comments on a separate page.
-- Use the API: `https://jsonplaceholder.typicode.com/posts?_limit=50`.
-- Implement React Router for navigation.
-- Enhance rendering performance and API call efficiency.
-
-**Solution Overview:**
-
-We'll create a React application with two main pages:
-
-1. **Home Page**: Displays a list of posts.
-2. **Post Details Page**: Shows the details of a selected post along with its comments.
-
-**Performance Enhancements:**
-
-- **Memoization**: Use `React.memo` and `useMemo` to prevent unnecessary re-renders.
-- **Code Splitting**: Implement dynamic imports for route-based code splitting.
-- **Efficient API Calls**: Fetch data once and cache it, use pagination if necessary.
-
-**Code Implementation:**
-
-1. **Install Dependencies:**
-
-   ```bash
-   npm install react-router-dom axios
-   ```
-
-2. **App.js:**
-
-   ```jsx
-   import React from "react";
-   import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-   import PostsList from "./PostsList";
-   import PostDetails from "./PostDetails";
-
-   function App() {
-     return (
-       <Router>
-         <Switch>
-           <Route exact path="/" component={PostsList} />
-           <Route path="/post/:id" component={PostDetails} />
-         </Switch>
-       </Router>
-     );
-   }
-
-   export default App;
-   ```
-
-3. **PostsList.js:**
-
-   ```jsx
-   import React, { useEffect, useState } from "react";
-   import { Link } from "react-router-dom";
-   import axios from "axios";
-
-   function PostsList() {
-     const [posts, setPosts] = useState([]);
-
-     useEffect(() => {
-       axios
-         .get("https://jsonplaceholder.typicode.com/posts?_limit=50")
-         .then((response) => setPosts(response.data))
-         .catch((error) => console.error(error));
-     }, []);
-
-     return (
-       <div>
-         <h1>Posts</h1>
-         <ul>
-           {posts.map((post) => (
-             <li key={post.id}>
-               <Link to={`/post/${post.id}`}>{post.title}</Link>
-             </li>
-           ))}
-         </ul>
-       </div>
-     );
-   }
-
-   export default React.memo(PostsList);
-   ```
-
-4. **PostDetails.js:**
-
-   ```jsx
-   import React, { useEffect, useState } from "react";
-   import axios from "axios";
-
-   function PostDetails({ match }) {
-     const [post, setPost] = useState(null);
-     const [comments, setComments] = useState([]);
-
-     useEffect(() => {
-       const fetchData = async () => {
-         const postResponse = await axios.get(
-           `https://jsonplaceholder.typicode.com/posts/${match.params.id}`
-         );
-         setPost(postResponse.data);
-
-         const commentsResponse = await axios.get(
-           `https://jsonplaceholder.typicode.com/posts/${match.params.id}/comments`
-         );
-         setComments(commentsResponse.data);
-       };
-       fetchData();
-     }, [match.params.id]);
-
-     if (!post) return <div>Loading...</div>;
-
-     return (
-       <div>
-         <h1>{post.title}</h1>
-         <p>{post.body}</p>
-         <h2>Comments</h2>
-         <ul>
-           {comments.map((comment) => (
-             <li key={comment.id}>
-               <strong>{comment.name}:</strong> {comment.body}
-             </li>
-           ))}
-         </ul>
-       </div>
-     );
-   }
-
-   export default React.memo(PostDetails);
-   ```
-
-**Performance Tips:**
-
-- **Memoization**: Wrapped components with `React.memo` to prevent unnecessary re-renders.
-- **Data Caching**: Implement caching for API responses to avoid redundant network requests.
-- **Pagination**: For large datasets, implement pagination or infinite scrolling.
-
----
-
-## 2. Progress Bar Component
-
-**Objective:**
-
-- Build a scalable and accessible Progress Bar component in React.
-- Display the percentage value in the middle.
-- Implement a green progress fill animation (`#00c251`).
-
-**Code Implementation:**
-
-1. **ProgressBar.js:**
-
-   ```jsx
-   import React from "react";
-   import "./ProgressBar.css";
-
-   function ProgressBar({ progress }) {
-     return (
-       <div
-         className="progress-bar"
-         role="progressbar"
-         aria-valuenow={progress}
-         aria-valuemin="0"
-         aria-valuemax="100"
-       >
-         <div className="progress-bar-fill" style={{ width: `${progress}%` }}>
-           <span className="progress-bar-text">{`${progress}%`}</span>
-         </div>
-       </div>
-     );
-   }
-
-   export default ProgressBar;
-   ```
-
-2. **ProgressBar.css:**
-
-   ```css
-   .progress-bar {
-     width: 100%;
-     background-color: #e0e0e0;
-     border-radius: 8px;
-     overflow: hidden;
-     position: relative;
-   }
-
-   .progress-bar-fill {
-     display: flex;
-     align-items: center;
-     justify-content: center;
-     height: 30px;
-     background-color: #00c251;
-     width: 0;
-     transition: width 0.5s ease-in-out;
-     color: #fff;
-     font-weight: bold;
-   }
-
-   .progress-bar-text {
-     position: absolute;
-     width: 100%;
-     text-align: center;
-   }
-   ```
-
-3. **Usage Example:**
-
-   ```jsx
-   import React, { useState } from "react";
-   import ProgressBar from "./ProgressBar";
-
-   function App() {
-     const [progress, setProgress] = useState(50);
-
-     return (
-       <div>
-         <ProgressBar progress={progress} />
-         <button onClick={() => setProgress(progress + 10)}>Increase</button>
-       </div>
-     );
-   }
-
-   export default App;
-   ```
-
-**Accessibility Considerations:**
-
-- Added `role="progressbar"` and `aria-valuenow`, `aria-valuemin`, `aria-valuemax` for screen readers.
-
-**Scalability:**
-
-- The component accepts a `progress` prop, making it reusable.
-- Styles are kept in a separate CSS file for modularity.
-
----
-
-## 3. Star Rating Component
-
-**Objective:**
-
-- Create a reusable Star Rating component.
-- Features:
-  - Displays 5 stars.
-  - Users can click to set a rating.
-  - Includes hover effects.
-  - Accepts props for size, current rating, etc.
-
-**Code Implementation:**
-
-1. **StarRating.js:**
-
-   ```jsx
-   import React, { useState } from "react";
-   import PropTypes from "prop-types";
-   import "./StarRating.css";
-
-   function StarRating({ totalStars = 5, size = 24, rating, onRatingChange }) {
-     const [hoverRating, setHoverRating] = useState(0);
-
-     const getStarClass = (index) => {
-       if (hoverRating >= index) {
-         return "star hovered";
-       } else if (!hoverRating && rating >= index) {
-         return "star filled";
-       }
-       return "star";
-     };
-
-     return (
-       <div className="star-rating" style={{ fontSize: size }}>
-         {[...Array(totalStars)].map((_, i) => (
-           <span
-             key={i}
-             className={getStarClass(i + 1)}
-             onClick={() => onRatingChange(i + 1)}
-             onMouseEnter={() => setHoverRating(i + 1)}
-             onMouseLeave={() => setHoverRating(0)}
-           >
-             ★
-           </span>
-         ))}
-       </div>
-     );
-   }
-
-   StarRating.propTypes = {
-     totalStars: PropTypes.number,
-     size: PropTypes.number,
-     rating: PropTypes.number.isRequired,
-     onRatingChange: PropTypes.func.isRequired,
-   };
-
-   export default StarRating;
-   ```
-
-2. **StarRating.css:**
-
-   ```css
-   .star-rating {
-     display: flex;
-     cursor: pointer;
-   }
-
-   .star {
-     color: #ccc;
-     transition: color 0.2s;
-   }
-
-   .star.filled,
-   .star.hovered {
-     color: #ffcc00;
-   }
-   ```
-
-3. **Usage Example:**
-
-   ```jsx
-   import React, { useState } from "react";
-   import StarRating from "./StarRating";
-
-   function App() {
-     const [rating, setRating] = useState(3);
-
-     return (
-       <div>
-         <h1>Your Rating: {rating}</h1>
-         <StarRating
-           totalStars={5}
-           size={30}
-           rating={rating}
-           onRatingChange={setRating}
-         />
-       </div>
-     );
-   }
-
-   export default App;
-   ```
-
-**Enhancements:**
-
-- **Hover Effects**: Stars change color on hover to indicate interactivity.
-- **Customization**: Props for `totalStars`, `size`, and initial `rating`.
-- **Reusability**: Component can be used across different parts of an application.
-
----
-
-## 4. E-Commerce Filters in React JS
-
-**Objective:**
-
-- Fetch and display a list of products.
-- Implement filters:
-  - Sort by price.
-  - Show/hide out-of-stock products.
-  - Search products.
-  - Filter by rating.
-- Implement pagination.
-- Use production-grade state management.
-
-**Solution Overview:**
-
-- Use **Redux** or **Context API** for state management.
-- Implement filtering logic on the client side.
-- Use pagination to handle large data sets.
-
-**Code Implementation:**
-
-1. **Install Dependencies:**
-
-   ```bash
-   npm install axios react-router-dom
-   ```
-
-2. **ProductContext.js:**
-
-   ```jsx
-   import React, { createContext, useState, useEffect } from "react";
-   import axios from "axios";
-
-   export const ProductContext = createContext();
-
-   export function ProductProvider({ children }) {
-     const [products, setProducts] = useState([]);
-     const [filters, setFilters] = useState({
-       search: "",
-       sort: "",
-       outOfStock: false,
-       rating: 0,
-     });
-
-     useEffect(() => {
-       axios.get("https://api.example.com/products").then((response) => {
-         setProducts(response.data);
-       });
-     }, []);
-
-     return (
-       <ProductContext.Provider value={{ products, filters, setFilters }}>
-         {children}
-       </ProductContext.Provider>
-     );
-   }
-   ```
-
-3. **ProductList.js:**
-
-   ```jsx
-   import React, { useContext } from "react";
-   import { ProductContext } from "./ProductContext";
-
-   function ProductList() {
-     const { products, filters } = useContext(ProductContext);
-
-     const filteredProducts = products
-       .filter((product) => product.name.includes(filters.search))
-       .filter((product) => (filters.outOfStock ? true : product.inStock))
-       .filter((product) => product.rating >= filters.rating)
-       .sort((a, b) => {
-         if (filters.sort === "price-low-high") {
-           return a.price - b.price;
-         } else if (filters.sort === "price-high-low") {
-           return b.price - a.price;
-         }
-         return 0;
-       });
-
-     return (
-       <div>
-         {filteredProducts.map((product) => (
-           <div key={product.id}>
-             <h2>{product.name}</h2>
-             <p>${product.price}</p>
-           </div>
-         ))}
-       </div>
-     );
-   }
-
-   export default ProductList;
-   ```
-
-4. **FiltersComponent.js:**
-
-   ```jsx
-   import React, { useContext } from "react";
-   import { ProductContext } from "./ProductContext";
-
-   function FiltersComponent() {
-     const { filters, setFilters } = useContext(ProductContext);
-
-     return (
-       <div>
-         <input
-           type="text"
-           placeholder="Search"
-           value={filters.search}
-           onChange={(e) => setFilters({ ...filters, search: e.target.value })}
-         />
-         <select
-           value={filters.sort}
-           onChange={(e) => setFilters({ ...filters, sort: e.target.value })}
-         >
-           <option value="">Sort By</option>
-           <option value="price-low-high">Price Low to High</option>
-           <option value="price-high-low">Price High to Low</option>
-         </select>
-         <label>
-           <input
-             type="checkbox"
-             checked={filters.outOfStock}
-             onChange={(e) =>
-               setFilters({ ...filters, outOfStock: e.target.checked })
-             }
-           />
-           Include Out of Stock
-         </label>
-         <input
-           type="number"
-           placeholder="Rating"
-           value={filters.rating}
-           onChange={(e) => setFilters({ ...filters, rating: e.target.value })}
-         />
-       </div>
-     );
-   }
-
-   export default FiltersComponent;
-   ```
-
-5. **PaginationComponent.js:**
-
-   ```jsx
-   import React, { useState } from "react";
-
-   function PaginationComponent({ totalItems, itemsPerPage, onPageChange }) {
-     const [currentPage, setCurrentPage] = useState(1);
-     const totalPages = Math.ceil(totalItems / itemsPerPage);
-
-     const changePage = (page) => {
-       setCurrentPage(page);
-       onPageChange(page);
-     };
-
-     return (
-       <div>
-         {Array.from({ length: totalPages }, (_, i) => (
-           <button key={i} onClick={() => changePage(i + 1)}>
-             {i + 1}
-           </button>
-         ))}
-       </div>
-     );
-   }
-
-   export default PaginationComponent;
-   ```
-
-**Production-Grade State Management:**
-
-- For larger applications, consider using **Redux** or **MobX**.
-- This example uses the Context API for simplicity.
-
----
-
-## 5. E-Commerce Cart using React JS
-
-**Objective:**
-
-- Fetch products from `https://dummyjson.com/products?limit=100`.
-- Implement:
-  - Add to Cart functionality.
-  - Separate Cart page to manage items and display total pricing.
-  - Filters from the previous lesson.
-  - Production-grade state management.
-  - Pagination.
-
-**Solution Overview:**
-
-- Use **Redux Toolkit** for state management.
-- Implement cart slice to manage cart state.
-- Reuse filter components from the previous lesson.
-
-**Code Implementation:**
-
-1. **Install Dependencies:**
-
-   ```bash
-   npm install @reduxjs/toolkit react-redux axios react-router-dom
-   ```
-
-2. **store.js:**
-
-   ```jsx
-   import { configureStore } from "@reduxjs/toolkit";
-   import cartReducer from "./cartSlice";
-
-   export default configureStore({
-     reducer: {
-       cart: cartReducer,
-     },
-   });
-   ```
-
-3. **cartSlice.js:**
-
-   ```jsx
-   import { createSlice } from "@reduxjs/toolkit";
-
-   const cartSlice = createSlice({
-     name: "cart",
-     initialState: [],
-     reducers: {
-       addItem: (state, action) => {
-         state.push(action.payload);
-       },
-       removeItem: (state, action) => {
-         return state.filter((item) => item.id !== action.payload.id);
-       },
-     },
-   });
-
-   export const { addItem, removeItem } = cartSlice.actions;
-   export default cartSlice.reducer;
-   ```
-
-4. **ProductList.js:**
-
-   ```jsx
-   import React, { useEffect, useState } from "react";
-   import { useDispatch } from "react-redux";
-   import { addItem } from "./cartSlice";
-   import axios from "axios";
-
-   function ProductList() {
-     const [products, setProducts] = useState([]);
-     const dispatch = useDispatch();
-
-     useEffect(() => {
-       axios
-         .get("https://dummyjson.com/products?limit=100")
-         .then((response) => {
-           setProducts(response.data.products);
-         });
-     }, []);
-
-     return (
-       <div>
-         {products.map((product) => (
-           <div key={product.id}>
-             <h2>{product.title}</h2>
-             <p>${product.price}</p>
-             <button onClick={() => dispatch(addItem(product))}>
-               Add to Cart
-             </button>
-           </div>
-         ))}
-       </div>
-     );
-   }
-
-   export default ProductList;
-   ```
-
-5. **CartPage.js:**
-
-   ```jsx
-   import React from "react";
-   import { useSelector, useDispatch } from "react-redux";
-   import { removeItem } from "./cartSlice";
-
-   function CartPage() {
-     const cart = useSelector((state) => state.cart);
-     const dispatch = useDispatch();
-
-     const totalPrice = cart.reduce((total, item) => total + item.price, 0);
-
-     return (
-       <div>
-         <h1>Shopping Cart</h1>
-         {cart.map((item) => (
-           <div key={item.id}>
-             <h2>{item.title}</h2>
-             <p>${item.price}</p>
-             <button onClick={() => dispatch(removeItem(item))}>Remove</button>
-           </div>
-         ))}
-         <h2>Total: ${totalPrice}</h2>
-       </div>
-     );
-   }
-
-   export default CartPage;
-   ```
-
-6. **Integration with Filters and Pagination:**
-
-   - Reuse the filter components from the previous lesson.
-   - Implement pagination logic similar to the previous example.
-
-**State Management:**
-
-- Used **Redux Toolkit** for efficient and scalable state management.
-- Cart state is managed globally and can be accessed from any component.
-
----
-
-## 6. Advanced Tic Tac Toe App with Customizable Board Size
-
-**Objective:**
-
-- Build a Tic Tac Toe game in React.
-- Allow customization of the board size via props.
-
-**Solution Overview:**
-
-- The game logic should adapt to any square board size (e.g., 3x3, 4x4).
-- Update winning condition checks to accommodate different board sizes.
-
-**Code Implementation:**
-
-1. **GameBoard.js:**
-
-   ```jsx
-   import React, { useState } from "react";
-   import PropTypes from "prop-types";
-
-   function GameBoard({ size }) {
-     const [squares, setSquares] = useState(Array(size * size).fill(null));
-     const [isXNext, setIsXNext] = useState(true);
-
-     const handleClick = (i) => {
-       if (calculateWinner(squares) || squares[i]) {
-         return;
-       }
-       const newSquares = squares.slice();
-       newSquares[i] = isXNext ? "X" : "O";
-       setSquares(newSquares);
-       setIsXNext(!isXNext);
-     };
-
-     const winner = calculateWinner(squares);
-
-     const renderSquare = (i) => (
-       <button className="square" onClick={() => handleClick(i)}>
-         {squares[i]}
-       </button>
-     );
-
-     const board = [];
-     for (let i = 0; i < size; i++) {
-       const row = [];
-       for (let j = 0; j < size; j++) {
-         row.push(renderSquare(i * size + j));
-       }
-       board.push(
-         <div key={i} className="board-row">
-           {row}
-         </div>
-       );
-     }
-
-     return (
-       <div>
-         <div>
-           {winner
-             ? `Winner: ${winner}`
-             : `Next Player: ${isXNext ? "X" : "O"}`}
-         </div>
-         {board}
-       </div>
-     );
-   }
-
-   GameBoard.propTypes = {
-     size: PropTypes.number.isRequired,
-   };
-
-   export default GameBoard;
-   ```
-
-2. **Winning Logic (update `calculateWinner` function):**
-
-   ```jsx
-   function calculateWinner(squares) {
-     const size = Math.sqrt(squares.length);
-     const lines = [];
-
-     // Rows and Columns
-     for (let i = 0; i < size; i++) {
-       lines.push(
-         // Rows
-         [...Array(size)].map((_, j) => i * size + j),
-         // Columns
-         [...Array(size)].map((_, j) => i + j * size)
-       );
-     }
-
-     // Diagonals
-     lines.push([...Array(size)].map((_, i) => i * size + i));
-     lines.push([...Array(size)].map((_, i) => (i + 1) * (size - 1)));
-
-     for (const line of lines) {
-       const [first, ...rest] = line;
-       if (squares[first] && rest.every((i) => squares[i] === squares[first])) {
-         return squares[first];
-       }
-     }
-     return null;
-   }
-   ```
-
-3. **Usage Example:**
-
-   ```jsx
-   import React from "react";
-   import GameBoard from "./GameBoard";
-
-   function App() {
-     return <GameBoard size={4} />; // 4x4 board
-   }
-
-   export default App;
-   ```
-
-**Considerations:**
-
-- The winning logic dynamically creates all possible winning lines based on the board size.
-- The UI adjusts to accommodate larger boards.
-
----
-
-## 7. Scalable Toast/Notification Component
-
-**Objective:**
-
-- Build a scalable Toast/Notification component in React.
-- Focus on requirement gathering, high-level design (HLD), low-level design (LLD), and optimizations.
-
-**Requirement Gathering:**
-
-- **Features:**
-  - Display notifications with different types (success, error, info).
-  - Auto-dismiss after a certain time.
-  - Allow stacking multiple notifications.
-  - Provide a way to programmatically trigger notifications.
-
-**High-Level Design (HLD):**
-
-- **Components:**
-  - `ToastProvider`: Provides context and manages the notification queue.
-  - `Toast`: Represents individual notifications.
-  - `useToast`: Custom hook to trigger notifications.
-
-**Low-Level Design (LLD):**
-
-- **State Management:**
-  - Use Context API to manage the notification queue.
-- **Animations:**
-  - CSS transitions for showing and hiding toasts.
-- **Optimizations:**
-  - Memoization to prevent unnecessary re-renders.
-
-**Code Implementation:**
-
-1. **ToastContext.js:**
-
-   ```jsx
-   import React, { createContext, useState, useContext } from "react";
-
-   const ToastContext = createContext();
-
-   export function ToastProvider({ children }) {
-     const [toasts, setToasts] = useState([]);
-
-     const addToast = (message, type = "info") => {
-       const id = Date.now();
-       setToasts((prev) => [...prev, { id, message, type }]);
-       setTimeout(() => removeToast(id), 3000);
-     };
-
-     const removeToast = (id) => {
-       setToasts((prev) => prev.filter((toast) => toast.id !== id));
-     };
-
-     return (
-       <ToastContext.Provider value={addToast}>
-         {children}
-         <div className="toast-container">
-           {toasts.map((toast) => (
-             <div key={toast.id} className={`toast ${toast.type}`}>
-               {toast.message}
-             </div>
-           ))}
-         </div>
-       </ToastContext.Provider>
-     );
-   }
-
-   export const useToast = () => useContext(ToastContext);
-   ```
-
-2. **Usage Example:**
-
-   ```jsx
-   import React from "react";
-   import { ToastProvider, useToast } from "./ToastContext";
-
-   function App() {
-     return (
-       <ToastProvider>
-         <HomePage />
-       </ToastProvider>
-     );
-   }
-
-   function HomePage() {
-     const addToast = useToast();
-
-     return (
-       <div>
-         <button onClick={() => addToast("This is an info toast")}>
-           Show Toast
-         </button>
-       </div>
-     );
-   }
-
-   export default App;
-   ```
-
-3. **Styles (CSS):**
-
-   ```css
-   .toast-container {
-     position: fixed;
-     top: 10px;
-     right: 10px;
-     display: flex;
-     flex-direction: column;
-   }
-
-   .toast {
-     background-color: #333;
-     color: #fff;
-     padding: 10px;
-     margin-bottom: 10px;
-     border-radius: 4px;
-     opacity: 0;
-     animation: fadeIn 0.5s forwards;
-   }
-
-   @keyframes fadeIn {
-     to {
-       opacity: 1;
-     }
-   }
-
-   .toast.info {
-     background-color: #2196f3;
-   }
-
-   .toast.success {
-     background-color: #4caf50;
-   }
-
-   .toast.error {
-     background-color: #f44336;
-   }
-   ```
-
-**Optimizations:**
-
-- Used a unique `id` for each toast to help React optimize rendering.
-- Toasts auto-dismiss to prevent memory leaks.
-
----
-
-## 8. Scalable Autocomplete/Typeahead Component
-
-**Objective:**
-
-- Build a scalable Autocomplete component.
-- Focus on requirement gathering, HLD, LLD, and optimizations.
-
-**Requirement Gathering:**
-
-- **Features:**
-  - Fetch suggestions based on user input.
-  - Keyboard navigation support.
-  - Debounce input to minimize API calls.
-
-**High-Level Design (HLD):**
-
-- **Components:**
-  - `Autocomplete`: Main component handling input and suggestions.
-- **Data Fetching:**
-  - Use `useEffect` with debouncing to fetch suggestions.
-
-**Low-Level Design (LLD):**
-
-- **State Management:**
-  - Manage input value, suggestions, and active suggestion index.
-- **Optimizations:**
-  - Debounce input changes.
-  - Memoize fetched suggestions.
-
-**Code Implementation:**
-
-1. **Autocomplete.js:**
-
-   ```jsx
-   import React, { useState, useEffect } from "react";
-   import axios from "axios";
-
-   function Autocomplete({ apiEndpoint }) {
-     const [inputValue, setInputValue] = useState("");
-     const [suggestions, setSuggestions] = useState([]);
-     const [activeIndex, setActiveIndex] = useState(-1);
-
-     useEffect(() => {
-       const delayDebounceFn = setTimeout(() => {
-         if (inputValue) {
-           axios.get(`${apiEndpoint}?q=${inputValue}`).then((response) => {
-             setSuggestions(response.data);
-           });
-         } else {
-           setSuggestions([]);
-         }
-       }, 300);
-
-       return () => clearTimeout(delayDebounceFn);
-     }, [inputValue, apiEndpoint]);
-
-     const handleKeyDown = (e) => {
-       if (e.key === "ArrowDown") {
-         setActiveIndex((prev) => Math.min(prev + 1, suggestions.length - 1));
-       } else if (e.key === "ArrowUp") {
-         setActiveIndex((prev) => Math.max(prev - 1, 0));
-       } else if (e.key === "Enter" && activeIndex >= 0) {
-         setInputValue(suggestions[activeIndex]);
-         setSuggestions([]);
-         setActiveIndex(-1);
-       }
-     };
-
-     return (
-       <div className="autocomplete">
-         <input
-           type="text"
-           value={inputValue}
-           onChange={(e) => setInputValue(e.target.value)}
-           onKeyDown={handleKeyDown}
-         />
-         {suggestions.length > 0 && (
-           <ul className="suggestions">
-             {suggestions.map((suggestion, index) => (
-               <li
-                 key={suggestion}
-                 className={index === activeIndex ? "active" : ""}
-                 onMouseDown={() => {
-                   setInputValue(suggestion);
-                   setSuggestions([]);
-                   setActiveIndex(-1);
-                 }}
-               >
-                 {suggestion}
-               </li>
-             ))}
-           </ul>
-         )}
-       </div>
-     );
-   }
-
-   export default Autocomplete;
-   ```
-
-**Optimizations:**
-
-- **Debouncing**: Reduces the number of API calls.
-- **Memoization**: Cache suggestions if necessary.
-
----
-
-## 9. Scalable Nested Comments Component
-
-**Objective:**
-
-- Build a nested comments component in React.
-- Focus on requirement gathering, HLD, LLD, and optimizations.
-
-**Requirement Gathering:**
-
-- **Features:**
-  - Display comments with replies nested.
-  - Allow users to add replies.
-  - Infinite levels of nesting.
-
-**High-Level Design (HLD):**
-
-- **Components:**
-  - `Comment`: Represents a single comment.
-  - `CommentList`: Recursively renders comments and their replies.
-
-**Low-Level Design (LLD):**
-
-- **Data Structure:**
-  - Each comment has an `id`, `text`, and `replies` array.
-- **Recursive Rendering:**
-  - Use recursion to render nested comments.
-
-**Code Implementation:**
-
-1. **Comment.js:**
-
-   ```jsx
-   import React, { useState } from "react";
-
-   function Comment({ comment }) {
-     const [showReply, setShowReply] = useState(false);
-     const [replyText, setReplyText] = useState("");
-
-     const handleReply = () => {
-       // Logic to add reply to comment.replies
-     };
-
-     return (
-       <div className="comment">
-         <p>{comment.text}</p>
-         <button onClick={() => setShowReply(!showReply)}>Reply</button>
-         {showReply && (
-           <div>
-             <textarea
-               value={replyText}
-               onChange={(e) => setReplyText(e.target.value)}
-             />
-             <button onClick={handleReply}>Submit</button>
-           </div>
-         )}
-         {comment.replies && comment.replies.length > 0 && (
-           <div className="replies">
-             {comment.replies.map((reply) => (
-               <Comment key={reply.id} comment={reply} />
-             ))}
-           </div>
-         )}
-       </div>
-     );
-   }
-
-   export default Comment;
-   ```
+Here's an example of how `React.cloneElement` can be used:
 
 **Optimizations:**
 
@@ -2731,77 +1144,77 @@ We'll create a React application with two main pages:
 **Requirement Gathering:**
 
 - **Features:**
-  - Display poll question and options.
-  - Allow users to vote.
-  - Show real-time results.
+- Display poll question and options.
+- Allow users to vote.
+- Show real-time results.
 
 **High-Level Design (HLD):**
 
 - **Components:**
-  - `Poll`: Main component handling poll display and voting.
+- `Poll`: Main component handling poll display and voting.
 - **API Structure:**
-  - **Endpoints:**
-    - `GET /polls/:id`: Fetch poll data.
-    - `POST /polls/:id/vote`: Submit a vote.
+- **Endpoints:**
+- `GET /polls/:id`: Fetch poll data.
+- `POST /polls/:id/vote`: Submit a vote.
 
 **Low-Level Design (LLD):**
 
 - **State Management:**
-  - Use `useState` and `useEffect` to manage poll data.
+- Use `useState` and `useEffect` to manage poll data.
 - **Optimizations:**
-  - Use WebSockets for real-time updates (if applicable).
+- Use WebSockets for real-time updates (if applicable).
 
 **Code Implementation:**
 
 1. **Poll.js:**
 
-   ```jsx
-   import React, { useState, useEffect } from "react";
-   import axios from "axios";
+```jsx
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-   function Poll({ pollId }) {
-     const [poll, setPoll] = useState(null);
-     const [selectedOption, setSelectedOption] = useState(null);
+function Poll({ pollId }) {
+  const [poll, setPoll] = useState(null);
+  const [selectedOption, setSelectedOption] = useState(null);
 
-     useEffect(() => {
-       axios.get(`/polls/${pollId}`).then((response) => setPoll(response.data));
-     }, [pollId]);
+  useEffect(() => {
+    axios.get(`/polls/${pollId}`).then((response) => setPoll(response.data));
+  }, [pollId]);
 
-     const submitVote = () => {
-       axios
-         .post(`/polls/${pollId}/vote`, { optionId: selectedOption })
-         .then((response) => {
-           setPoll(response.data);
-         });
-     };
+  const submitVote = () => {
+    axios
+      .post(`/polls/${pollId}/vote`, { optionId: selectedOption })
+      .then((response) => {
+        setPoll(response.data);
+      });
+  };
 
-     if (!poll) return <div>Loading...</div>;
+  if (!poll) return <div>Loading...</div>;
 
-     return (
-       <div>
-         <h2>{poll.question}</h2>
-         {poll.options.map((option) => (
-           <div key={option.id}>
-             <label>
-               <input
-                 type="radio"
-                 name="poll"
-                 value={option.id}
-                 onChange={() => setSelectedOption(option.id)}
-               />
-               {option.text} - {option.votes} votes
-             </label>
-           </div>
-         ))}
-         <button onClick={submitVote} disabled={!selectedOption}>
-           Vote
-         </button>
-       </div>
-     );
-   }
+  return (
+    <div>
+      <h2>{poll.question}</h2>
+      {poll.options.map((option) => (
+        <div key={option.id}>
+          <label>
+            <input
+              type="radio"
+              name="poll"
+              value={option.id}
+              onChange={() => setSelectedOption(option.id)}
+            />
+            {option.text} - {option.votes} votes
+          </label>
+        </div>
+      ))}
+      <button onClick={submitVote} disabled={!selectedOption}>
+        Vote
+      </button>
+    </div>
+  );
+}
 
-   export default Poll;
-   ```
+export default Poll;
+```
 
 **Optimizations:**
 
@@ -3141,24 +1554,6 @@ Provide `alt` attributes for images.
 <img src="logo.png" alt="Company Logo" />
 ```
 
-### Labels and Placeholders
-
-Use labels for form inputs.
-
-```html
-<label for="email">Email:</label> <input id="email" type="email" />
-```
-
-### ARIA Tags
-
-Use ARIA attributes to enhance accessibility.
-
-```jsx
-<button aria-label="Close" onClick={handleClose}>
-  &times;
-</button>
-```
-
 ---
 
 ## 8. Higher-Order Components (HOC)
@@ -3330,6 +1725,12 @@ export default App;
 ```
 
 ---
+
+By mastering these performance optimization techniques, you can build React applications that are efficient, accessible, and deliver a superior user experience.
+
+These implementations provide a solid foundation for the requested components and applications. Remember to tailor each solution to fit the specific requirements of your project or interview scenario. Good luck with your frontend interview preparations!
+
+This guide should provide you with a solid understanding of the topics and prepare you for your frontend interviews. Good luck!
 
 By mastering these performance optimization techniques, you can build React applications that are efficient, accessible, and deliver a superior user experience.
 
