@@ -312,7 +312,102 @@ promise
   .catch((error) => console.error(error));
 ```
 
+const promise1 = new Promise((resolve, reject) => {
+setTimeout(() => {
+resolve("Data from API 1");
+}, 1000); // 1-second delay
+});
+
+const promise2 = new Promise((resolve, reject) => {
+setTimeout(() => {
+resolve("Data from API 2");
+}, 2000); // 2-second delay
+});
+
+const promise3 = new Promise((resolve, reject) => {
+setTimeout(() => {
+resolve("Data from API 3");
+}, 1500); // 1.5-second delay
+});
+
+Promise.all([promise1, promise2, promise3])
+.then((results) => {
+console.log("All promises resolved successfully:");
+console.log(results); // Output: ["Data from API 1", "Data from API 2", "Data from API 3"]
+})
+.catch((error) => {
+console.error("One or more promises failed:", error);
+});
+
 ---
+
+Sure! Here’s another example of how `Promise.all()` can be used alongside your initial promise setup. In this case, I’ll use multiple promises that resolve after different timeouts to simulate different asynchronous tasks:
+
+### Example:
+
+```javascript
+const promise1 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve("Data from API 1");
+  }, 1000); // 1-second delay
+});
+
+const promise2 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve("Data from API 2");
+  }, 2000); // 2-second delay
+});
+
+const promise3 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve("Data from API 3");
+  }, 1500); // 1.5-second delay
+});
+
+Promise.all([promise1, promise2, promise3])
+  .then((results) => {
+    console.log("All promises resolved successfully:");
+    console.log(results); // Output: ["Data from API 1", "Data from API 2", "Data from API 3"]
+  })
+  .catch((error) => {
+    console.error("One or more promises failed:", error);
+  });
+```
+
+### Explanation:
+
+- Three promises (`promise1`, `promise2`, `promise3`) are created, each resolving after different delays.
+- `Promise.all()` waits for all three promises to resolve and then logs the results as an array.
+- If any of the promises are rejected, `Promise.all()` will reject with that error and go into the `.catch()` block.
+
+### Integration with Your Original Code Example:
+
+If you want to use `Promise.all()` in conjunction with your original promise:
+
+```javascript
+const promise = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve("data fetch");
+  }, 1000);
+});
+
+const anotherPromise = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve("another data fetch");
+  }, 2000);
+});
+
+Promise.all([promise, anotherPromise])
+  .then((results) => {
+    console.log("Both promises resolved:");
+    console.log(results); // Output: ["data fetch", "another data fetch"]
+  })
+  .catch((error) => {
+    console.error("One or more promises failed:", error);
+  });
+```
+
+This version combines your initial promise with an additional one, both being handled in parallel by `Promise.all()`.
 
 ### Debouncing
 

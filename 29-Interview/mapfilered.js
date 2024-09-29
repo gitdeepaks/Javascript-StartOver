@@ -14,6 +14,11 @@ console.log(sum);
 
 //map polyfill
 
+/**
+ * myMap polyfill
+ * @param {Function} cb - callback function to run on each element
+ * @returns {Array} - new array with elements that pass the test implemented by the provided function
+ */
 Array.prototype.myMap = function (cb) {
   const res = [];
 
@@ -38,6 +43,12 @@ Array.prototype.myFilter = function (cb) {
 
 // reduce polyfill
 
+/**
+ * myReduce polyfill
+ * @param {Function} cb - callback function to run on each element
+ * @param {*} initVal - initial value for accumulator
+ * @returns {*} - result of reduction
+ */
 Array.prototype.myReduce = (cb, initVal) => {
   let accumVal = initVal !== undefined ? initVal : this[0];
   let startIndex = initVal !== undefined ? 0 : 1;
