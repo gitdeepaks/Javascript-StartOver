@@ -441,34 +441,40 @@ window.addEventListener(
 
 ---
 
-### Event Propagation
+### **Event Propagation**
 
-**Explanation:**
+**Explanation**:  
+Event propagation is the mechanism in the DOM by which events flow to their target and then propagate through the DOM tree. It happens in three phases:
 
-Event propagation is the order in which events are received on the page (capturing, target, bubbling).
+1. **Capturing Phase**: The event starts from the root (Window) and travels down to the target element.
+2. **Target Phase**: The event reaches the target element itself.
+3. **Bubbling Phase**: After reaching the target, the event bubbles back up through the DOM tree to the root.
 
-**Diagram:**
+In modern web development, both capturing and bubbling phases can be used to handle events at different points in the DOM hierarchy.
 
-```plaintext
+**Diagram**:
+
+```
 [Window] -> [Document] -> [HTML] -> [Body] -> [Parent Div] -> [Child Div]
 // Event Capturing Phase (from Window to Target)
 // Event Bubbling Phase (from Target back up to Window)
 ```
 
-**Code Example:**
+**Code Example**:
 
 ```html
 <div id="parent">
   Parent
   <div id="child">Child</div>
 </div>
+
 <script>
   document.getElementById("parent").addEventListener(
     "click",
     () => {
       console.log("Parent clicked");
     },
-    false // Bubbling phase
+    false // Bubbling phase (set to true for Capturing phase)
   );
 
   document.getElementById("child").addEventListener(
@@ -476,28 +482,36 @@ Event propagation is the order in which events are received on the page (capturi
     () => {
       console.log("Child clicked");
     },
-    false
+    false // Bubbling phase
   );
 </script>
 ```
 
+**Explanation of Code**:
+
+- In this example, both the `parent` and `child` divs have click event listeners.
+- When you click the `child` div, the event bubbles up. First, "Child clicked" will be logged, then "Parent clicked" because of the bubbling phase.
+- You can change `false` to `true` to use the capturing phase instead, where the event starts at the top and moves down.
+
 ---
 
-### Compose and Pipe
+### **Compose and Pipe**
 
-**Explanation:**
+**Explanation**:
 
-- **Compose**: Combines functions from right to left.
-- **Pipe**: Combines functions from left to right.
+- **Compose**: Executes a series of functions from right to left. It takes the result of one function and passes it as an argument to the next function, making the output of one function the input for the next.
+- **Pipe**: Similar to `compose`, but executes the functions from left to right.
 
-**Code Example:**
+**Code Example**:
 
 ```javascript
+// Function to compose functions from right to left
 const compose =
   (...functions) =>
   (args) =>
     functions.reduceRight((arg, fn) => fn(arg), args);
 
+// Function to pipe functions from left to right
 const pipe =
   (...functions) =>
   (args) =>
@@ -507,21 +521,53 @@ const pipe =
 const add = (x) => x + 1;
 const multiply = (x) => x * 2;
 
+// Composing functions: right-to-left (multiply -> add)
 const composedFunction = compose(add, multiply);
 console.log(composedFunction(5)); // (5 * 2) + 1 = 11
 
+// Piping functions: left-to-right (add -> multiply)
 const pipedFunction = pipe(add, multiply);
 console.log(pipedFunction(5)); // (5 + 1) * 2 = 12
 ```
 
+**Explanation of Code**:
+
+- **Compose** executes functions from right to left: `multiply(5)` gives 10, then `add(10)` gives 11.
+- **Pipe** executes functions from left to right: `add(5)` gives 6, then `multiply(6)` gives 12.
+
 ---
 
-### Prototypes
+### **Prototypes**
 
-**Explanation:**
+**Explanation**:  
+Every object in JavaScript has an internal property called `[[Prototype]]`, which is an object from which the current object can inherit methods and properties. Prototypes allow for shared properties and methods across all instances of an object type.
 
-Every JavaScript object has a prototype. The prototype is an object from which other objects inherit properties.
+**Code Example**:
 
+```javascript
+// Constructor function for Person
+function Person(name) {
+  this.name = name;
+}
+
+// Adding a method to the Person prototype
+Person.prototype.greet = function () {
+  console.log(`Hello, ${this.name}`);
+};
+
+// Creating an instance of Person
+const person1 = new Person("Eve");
+person1.greet(); // Output: Hello, Eve
+```
+
+**Explanation of Code**:
+
+- In this example, `Person` is a constructor function.
+- The `greet` method is added to the `Person.prototype`, which means all instances of `Person` (like `person1`) can use the `greet` method.
+- Prototypes enable inheritance, so instead of creating a new `greet` function for each `Person`, it's shared across all instances via the prototype.
+
+**Prototype Chain**:  
+If a property or method is not found on the object itself, JavaScript will look up the prototype chain to see if the property or method exists on any object up the chain (including `Object.prototype`). This is the essence of JavaScript's inheritance model.
 **Code Example:**
 
 ```javascript
