@@ -312,36 +312,9 @@ promise
   .catch((error) => console.error(error));
 ```
 
-const promise1 = new Promise((resolve, reject) => {
-setTimeout(() => {
-resolve("Data from API 1");
-}, 1000); // 1-second delay
-});
-
-const promise2 = new Promise((resolve, reject) => {
-setTimeout(() => {
-resolve("Data from API 2");
-}, 2000); // 2-second delay
-});
-
-const promise3 = new Promise((resolve, reject) => {
-setTimeout(() => {
-resolve("Data from API 3");
-}, 1500); // 1.5-second delay
-});
-
-Promise.all([promise1, promise2, promise3])
-.then((results) => {
-console.log("All promises resolved successfully:");
-console.log(results); // Output: ["Data from API 1", "Data from API 2", "Data from API 3"]
-})
-.catch((error) => {
-console.error("One or more promises failed:", error);
-});
-
 ---
 
-Sure! Here’s another example of how `Promise.all()` can be used alongside your initial promise setup. In this case, I’ll use multiple promises that resolve after different timeouts to simulate different asynchronous tasks:
+example of how `Promise.all()` can be used alongside your initial promise setup. In this case, I’ll use multiple promises that resolve after different timeouts to simulate different asynchronous tasks:
 
 ### Example:
 
