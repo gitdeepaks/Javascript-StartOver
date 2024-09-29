@@ -1,620 +1,523 @@
-# Ace Your Interview: Comprehensive React and JavaScript Concepts
+# JavaScript and React Interview Preparation Guide
+
+This guide provides comprehensive explanations, diagrams, and clean code examples for various JavaScript and React topics. It is designed to help you ace your frontend interviews by deepening your understanding and impressing your interviewer.
 
 ---
 
-## Table of Contents
+## JavaScript Topics
 
-1. [React Search Bar Functionality with an API Call](#1-react-search-bar-functionality-with-an-api-call)
-2. [Debouncing for Performance Optimization](#2-debouncing-for-performance-optimization)
-3. [Lazy Loading - Making the App More Efficient](#3-lazy-loading---making-the-app-more-efficient)
-4. [How to Improve React Performance](#4-how-to-improve-react-performance)
-5. [JavaScript Output Questions](#5-javascript-output-questions)
-6. [Types vs. Interfaces in TypeScript](#6-types-vs-interfaces-in-typescript)
-7. [React Hooks Deep Dive](#7-react-hooks-deep-dive)
-8. [Custom Hooks vs. Utility Functions](#8-custom-hooks-vs-utility-functions)
-9. [Error Handling Best Practices](#9-error-handling-best-practices)
-10. [Popular Array and String Methods](#10-popular-array-and-string-methods)
-11. [Prop Drilling & State Management in React](#11-prop-drilling--state-management-in-react)
-12. [CSS Positioning Challenge](#12-css-positioning-challenge)
-13. [Advanced React Patterns](#13-advanced-react-patterns)
-14. [State Management Libraries](#14-state-management-libraries)
-15. [Testing in React](#15-testing-in-react)
-16. [Performance Profiling](#16-performance-profiling)
-17. [Webpack and Babel](#17-webpack-and-babel)
-18. [Security in Web Applications](#18-security-in-web-applications)
-19. [RESTful APIs and GraphQL](#19-restful-apis-and-graphql)
-20. [DevOps and CI/CD Practices](#20-devops-and-cicd-practices)
-21. [Cloud Services and Infrastructure](#21-cloud-services-and-infrastructure)
-22. [Microservices Architecture](#22-microservices-architecture)
-23. [Containerization and Orchestration](#23-containerization-and-orchestration)
-24. [Software Design Principles](#24-software-design-principles)
-25. [Accessibility and Internationalization](#25-accessibility-and-internationalization)
-26. [Leadership and Mentoring](#26-leadership-and-mentoring)
-27. [Behavioral Questions Preparation](#27-behavioral-questions-preparation)
+### Var, Let, Const
 
----
+**Explanation:**
 
-## 1. React Search Bar Functionality with an API Call 🛠️
+- **`var`**: Function-scoped or globally scoped if not inside a function. Can be redeclared and updated.
+- **`let`**: Block-scoped. Cannot be redeclared in the same scope but can be updated.
+- **`const`**: Block-scoped. Cannot be redeclared or updated. The value must be initialized during declaration.
 
-Implementing a search bar in React that fetches data from an API involves controlled components and handling asynchronous calls.
+**Diagram:**
 
-### Example:
+```plaintext
+{
+  var a = 1;
+  let b = 2;
+  const c = 3;
+}
+console.log(a); // Accessible
+console.log(b); // ReferenceError
+console.log(c); // ReferenceError
+```
 
-```jsx
-import React, { useState } from "react";
+**Code Example:**
 
-function SearchBar() {
-  const [query, setQuery] = useState("");
-  const [results, setResults] = useState([]);
-
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    const response = await fetch(`https://api.example.com/search?q=${query}`);
-    const data = await response.json();
-    setResults(data.items);
-  };
-
-  return (
-    <div>
-      <form onSubmit={handleSearch}>
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search..."
-        />
-      </form>
-      <ul>
-        {results.map((item) => (
-          <li key={item.id}>{item.name}</li>
-        ))}
-      </ul>
-    </div>
-  );
+```javascript
+// var example
+function varExample() {
+  var x = 1;
+  if (true) {
+    var x = 2; // Same variable
+    console.log(x); // 2
+  }
+  console.log(x); // 2
 }
 
-export default SearchBar;
+// let example
+function letExample() {
+  let y = 1;
+  if (true) {
+    let y = 2; // Different variable
+    console.log(y); // 2
+  }
+  console.log(y); // 1
+}
+
+// const example
+const z = 1;
+// z = 2; // TypeError: Assignment to constant variable
 ```
 
 ---
 
-## 2. Debouncing for Performance Optimization
+### Map, Filter, Reduce (and their Polyfills)
 
-Debouncing ensures a function is only called after a certain period, improving performance by limiting API calls.
+**Explanation:**
 
-### Example:
+- **`map()`**: Creates a new array by applying a function to each element of an original array.
+- **`filter()`**: Creates a new array with elements that pass a test implemented by a provided function.
+- **`reduce()`**: Executes a reducer function on each element of the array, resulting in a single output value.
 
-```jsx
-import React, { useState, useEffect } from 'react';
+**Code Examples:**
 
-function SearchBar() {
-  const [query, setQuery] = useState('');
-  const [results, setResults] = useState([]);
+```javascript
+// map example
+const numbers = [1, 2, 3];
+const doubled = numbers.map((num) => num * 2); // [2, 4, 6]
 
-  useEffect(() => {
-    const debounceTimer = setTimeout(() => {
-      if (query) {
-        fetchResults();
-      }
-    }, 500);
+// filter example
+const evenNumbers = numbers.filter((num) => num % 2 === 0); // [2]
 
-    return () => clearTimeout(debounceTimer);
-  }, [query]);
-
-  const fetchResults = async () => {
-    const response = await fetch(`https://api.example.com/search?q=${query}`);
-    const data = await response.json();
-    setResults(data.items);
-  };
-
-  return (
-    // ...same as above
-  );
-}
+// reduce example
+const sum = numbers.reduce((accumulator, current) => accumulator + current, 0); // 6
 ```
 
-Or using Lodash's `debounce` function:
+**Polyfills:**
 
-```jsx
-import React, { useState, useEffect, useCallback } from "react";
-import { debounce } from "lodash";
+```javascript
+// map polyfill
+Array.prototype.myMap = function (callback) {
+  const result = [];
+  for (let i = 0; i < this.length; i++) {
+    result.push(callback(this[i], i, this));
+  }
+  return result;
+};
 
-function SearchBar() {
-  const [query, setQuery] = useState("");
-  const [results, setResults] = useState([]);
-
-  const fetchResults = async (searchQuery) => {
-    const response = await fetch(
-      `https://api.example.com/search?q=${searchQuery}`
-    );
-    const data = await response.json();
-    setResults(data.items);
-  };
-
-  const debouncedFetch = useCallback(
-    debounce((nextValue) => fetchResults(nextValue), 500),
-    []
-  );
-
-  useEffect(() => {
-    if (query) {
-      debouncedFetch(query);
+// filter polyfill
+Array.prototype.myFilter = function (callback) {
+  const result = [];
+  for (let i = 0; i < this.length; i++) {
+    if (callback(this[i], i, this)) {
+      result.push(this[i]);
     }
-  }, [query, debouncedFetch]);
+  }
+  return result;
+};
 
-  return (
-    <div>
-      <form onSubmit={handleSearch}>
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search..."
-        />
-      </form>
-      <ul>
-        {results.map((item) => (
-          <li key={item.id}>{item.name}</li>
-        ))}
-      </ul>
-    </div>
-  );
-}
+// reduce polyfill
+Array.prototype.myReduce = function (callback, initialValue) {
+  let accumulator = initialValue !== undefined ? initialValue : this[0];
+  let startIndex = initialValue !== undefined ? 0 : 1;
+  for (let i = startIndex; i < this.length; i++) {
+    accumulator = callback(accumulator, this[i], i, this);
+  }
+  return accumulator;
+};
 ```
 
 ---
 
-## 3. Lazy Loading - Making the App More Efficient 🌟
+### Functions
 
-Lazy loading delays the loading of components until they're needed, reducing the initial load time.
+**Explanation:**
 
-### Example:
+Functions are blocks of code designed to perform a particular task, executed when "called" (invoked).
 
-```jsx
-import React, { Suspense, lazy } from "react";
+**Types of Functions:**
 
-const HeavyComponent = lazy(() => import("./HeavyComponent"));
+- **Function Declaration:**
 
-function App() {
-  return (
-    <div>
-      <Suspense fallback={<div>Loading...</div>}>
-        <HeavyComponent />
-      </Suspense>
-    </div>
-  );
+  ```javascript
+  function greet() {
+    console.log("Hello!");
+  }
+  ```
+
+- **Function Expression:**
+
+  ```javascript
+  const greet = function () {
+    console.log("Hello!");
+  };
+  ```
+
+- **Arrow Function:**
+
+  ```javascript
+  const greet = () => {
+    console.log("Hello!");
+  };
+  ```
+
+**Code Example:**
+
+```javascript
+function add(a, b) {
+  return a + b;
 }
 
-export default App;
+const subtract = function (a, b) {
+  return a - b;
+};
+
+const multiply = (a, b) => a * b;
 ```
 
 ---
 
-## 4. How to Improve React Performance 🔍
+### Closures
 
-Enhancing the performance of a React application is crucial for providing a smooth user experience. Below are detailed explanations and code examples for each strategy.
+**Explanation:**
 
-### 1. Memoization: Using `React.memo`, `useMemo`, and `useCallback`
+A closure is a function that has access to its own scope, the outer function's scope, and the global scope.
 
-Memoization helps prevent unnecessary re-renders by caching the results of expensive function calls and reusing them when the same inputs occur.
+**Diagram:**
 
-#### **`React.memo`**
-
-`React.memo` is a higher-order component that memoizes functional components, preventing re-renders if the props haven't changed.
-
-**Example without `React.memo`:**
-
-```jsx
-import React from "react";
-
-function ChildComponent({ data }) {
-  console.log("ChildComponent re-rendered");
-  return <div>{data}</div>;
+```plaintext
+function outer() {
+  let count = 0;
+  function inner() {
+    count++;
+    console.log(count);
+  }
+  return inner;
 }
 
-function ParentComponent() {
-  const [count, setCount] = React.useState(0);
-  const data = "Some static data";
-
-  return (
-    <div>
-      <button onClick={() => setCount(count + 1)}>Increment</button>
-      <ChildComponent data={data} />
-    </div>
-  );
-}
-
-export default ParentComponent;
+const counter = outer();
+counter(); // 1
+counter(); // 2
 ```
 
-**Issue:** Every time the `ParentComponent` re-renders (e.g., when `count` changes), `ChildComponent` also re-renders, even though `data` hasn't changed.
+**Code Example:**
 
-**Optimized with `React.memo`:**
+```javascript
+function makeAdder(x) {
+  return function (y) {
+    return x + y;
+  };
+}
 
-```jsx
-import React from "react";
+const add5 = makeAdder(5);
+console.log(add5(2)); // 7
+console.log(add5(3)); // 8
+```
 
-const ChildComponent = React.memo(({ data }) => {
-  console.log("ChildComponent re-rendered");
-  return <div>{data}</div>;
+---
+
+### Currying
+
+**Explanation:**
+
+Currying is the process of transforming a function with multiple arguments into a sequence of functions each taking a single argument.
+
+**Code Example:**
+
+```javascript
+function curryAdd(a) {
+  return function (b) {
+    return function (c) {
+      return a + b + c;
+    };
+  };
+}
+
+const result = curryAdd(1)(2)(3); // 6
+```
+
+---
+
+### Objects
+
+**Explanation:**
+
+Objects are collections of key-value pairs. The values can be properties or methods (functions).
+
+**Code Example:**
+
+```javascript
+const person = {
+  name: "John",
+  age: 30,
+  greet() {
+    console.log(`Hello, my name is ${this.name}`);
+  },
+};
+
+person.greet(); // Hello, my name is John
+```
+
+---
+
+### 'this' Keyword
+
+**Explanation:**
+
+The `this` keyword refers to the object it belongs to. It has different values depending on where it is used.
+
+**Code Example:**
+
+```javascript
+const obj = {
+  name: "Alice",
+  getName() {
+    return this.name;
+  },
+};
+
+console.log(obj.getName()); // Alice
+```
+
+---
+
+### Call, Bind & Apply
+
+**Explanation:**
+
+- **`call()`**: Invokes a function with a given `this` value and arguments provided one by one.
+- **`apply()`**: Invokes a function with a given `this` value and arguments provided as an array.
+- **`bind()`**: Returns a new function, permanently bound to the specified `this` value.
+
+**Code Example:**
+
+```javascript
+function greet(greeting, punctuation) {
+  console.log(`${greeting}, ${this.name}${punctuation}`);
+}
+
+const person = { name: "Bob" };
+
+greet.call(person, "Hello", "!"); // Hello, Bob!
+greet.apply(person, ["Hi", "."]); // Hi, Bob.
+const boundGreet = greet.bind(person);
+boundGreet("Hey", "?"); // Hey, Bob?
+```
+
+---
+
+### Promises
+
+**Explanation:**
+
+Promises represent the eventual completion (or failure) of an asynchronous operation and its resulting value.
+
+**Code Example:**
+
+```javascript
+const promise = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve("Data fetched");
+  }, 1000);
 });
 
-function ParentComponent() {
-  const [count, setCount] = React.useState(0);
-  const data = "Some static data";
-
-  return (
-    <div>
-      <button onClick={() => setCount(count + 1)}>Increment</button>
-      <ChildComponent data={data} />
-    </div>
-  );
-}
-
-export default ParentComponent;
+promise
+  .then((result) => console.log(result)) // Data fetched
+  .catch((error) => console.error(error));
 ```
-
-**Result:** `ChildComponent` will not re-render when `ParentComponent` updates unless the `data` prop changes.
 
 ---
 
-#### **`useMemo`**
+### Debouncing
 
-`useMemo` memoizes the result of a function, recomputing it only when its dependencies change.
+**Explanation:**
 
-**Example without `useMemo`:**
+Debouncing ensures that a function is only called after a certain amount of time has passed since it was last called.
 
-```jsx
-function ExpensiveComponent({ num }) {
-  function computeExpensiveValue(n) {
-    console.log("Computing expensive value...");
-    let total = 0;
-    for (let i = 0; i < 1e7; i++) {
-      total += n * i;
+**Code Example:**
+
+```javascript
+function debounce(func, delay) {
+  let timeoutId;
+  return function (...args) {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => func.apply(this, args), delay);
+  };
+}
+
+// Usage
+window.addEventListener(
+  "resize",
+  debounce(() => {
+    console.log("Resize event debounced");
+  }, 500)
+);
+```
+
+---
+
+### Throttling
+
+**Explanation:**
+
+Throttling ensures that a function is called at most once in a specified time period.
+
+**Code Example:**
+
+```javascript
+function throttle(func, limit) {
+  let inThrottle;
+  return function (...args) {
+    if (!inThrottle) {
+      func.apply(this, args);
+      inThrottle = true;
+      setTimeout(() => (inThrottle = false), limit);
     }
-    return total;
+  };
+}
+
+// Usage
+window.addEventListener(
+  "scroll",
+  throttle(() => {
+    console.log("Scroll event throttled");
+  }, 1000)
+);
+```
+
+---
+
+### Event Propagation
+
+**Explanation:**
+
+Event propagation is the order in which events are received on the page (capturing, target, bubbling).
+
+**Diagram:**
+
+```plaintext
+[Window] -> [Document] -> [HTML] -> [Body] -> [Parent Div] -> [Child Div]
+// Event Capturing Phase (from Window to Target)
+// Event Bubbling Phase (from Target back up to Window)
+```
+
+**Code Example:**
+
+```html
+<div id="parent">
+  Parent
+  <div id="child">Child</div>
+</div>
+<script>
+  document.getElementById("parent").addEventListener(
+    "click",
+    () => {
+      console.log("Parent clicked");
+    },
+    false // Bubbling phase
+  );
+
+  document.getElementById("child").addEventListener(
+    "click",
+    () => {
+      console.log("Child clicked");
+    },
+    false
+  );
+</script>
+```
+
+---
+
+### Compose and Pipe
+
+**Explanation:**
+
+- **Compose**: Combines functions from right to left.
+- **Pipe**: Combines functions from left to right.
+
+**Code Example:**
+
+```javascript
+const compose =
+  (...functions) =>
+  (args) =>
+    functions.reduceRight((arg, fn) => fn(arg), args);
+
+const pipe =
+  (...functions) =>
+  (args) =>
+    functions.reduce((arg, fn) => fn(arg), args);
+
+// Example functions
+const add = (x) => x + 1;
+const multiply = (x) => x * 2;
+
+const composedFunction = compose(add, multiply);
+console.log(composedFunction(5)); // (5 * 2) + 1 = 11
+
+const pipedFunction = pipe(add, multiply);
+console.log(pipedFunction(5)); // (5 + 1) * 2 = 12
+```
+
+---
+
+### Prototypes
+
+**Explanation:**
+
+Every JavaScript object has a prototype. The prototype is an object from which other objects inherit properties.
+
+**Code Example:**
+
+```javascript
+function Person(name) {
+  this.name = name;
+}
+
+Person.prototype.greet = function () {
+  console.log(`Hello, ${this.name}`);
+};
+
+const person1 = new Person("Eve");
+person1.greet(); // Hello, Eve
+```
+
+---
+
+### Class and Constructors
+
+**Explanation:**
+
+Classes are syntactic sugar over JavaScript's existing prototype-based inheritance.
+
+**Code Example:**
+
+```javascript
+class Animal {
+  constructor(name) {
+    this.name = name;
   }
 
-  const value = computeExpensiveValue(num);
-
-  return <div>Value: {value}</div>;
+  speak() {
+    console.log(`${this.name} makes a noise`);
+  }
 }
 
-function App() {
-  const [count, setCount] = React.useState(0);
-  const [num, setNum] = React.useState(1);
-
-  return (
-    <div>
-      <button onClick={() => setCount(count + 1)}>Re-render</button>
-      <ExpensiveComponent num={num} />
-    </div>
-  );
+class Dog extends Animal {
+  speak() {
+    console.log(`${this.name} barks`);
+  }
 }
+
+const dog = new Dog("Rex");
+dog.speak(); // Rex barks
 ```
-
-**Issue:** `computeExpensiveValue` runs on every render, even if `num` hasn't changed.
-
-**Optimized with `useMemo`:**
-
-```jsx
-function ExpensiveComponent({ num }) {
-  const value = React.useMemo(() => {
-    console.log("Computing expensive value...");
-    let total = 0;
-    for (let i = 0; i < 1e7; i++) {
-      total += num * i;
-    }
-    return total;
-  }, [num]);
-
-  return <div>Value: {value}</div>;
-}
-```
-
-**Result:** `computeExpensiveValue` only runs when `num` changes, saving computation time.
 
 ---
-
-#### **`useCallback`**
-
-`useCallback` returns a memoized version of a callback function, preventing unnecessary re-creation of functions during re-renders.
-
-**Example without `useCallback`:**
-
-```jsx
-function ChildComponent({ onClick }) {
-  console.log("ChildComponent re-rendered");
-  return <button onClick={onClick}>Click Me</button>;
-}
-
-function ParentComponent() {
-  const [count, setCount] = React.useState(0);
-
-  const handleClick = () => {
-    console.log("Button clicked");
-  };
-
-  return (
-    <div>
-      <button onClick={() => setCount(count + 1)}>Parent Re-render</button>
-      <ChildComponent onClick={handleClick} />
-    </div>
-  );
-}
-```
-
-**Issue:** `ChildComponent` re-renders every time `ParentComponent` re-renders because `handleClick` is a new function on each render.
-
-**Optimized with `useCallback`:**
-
-```jsx
-function ChildComponent({ onClick }) {
-  console.log("ChildComponent re-rendered");
-  return <button onClick={onClick}>Click Me</button>;
-}
-
-function ParentComponent() {
-  const [count, setCount] = React.useState(0);
-
-  const handleClick = React.useCallback(() => {
-    console.log("Button clicked");
-  }, []);
-
-  return (
-    <div>
-      <button onClick={() => setCount(count + 1)}>Parent Re-render</button>
-      <ChildComponent onClick={handleClick} />
-    </div>
-  );
-}
-```
-
-**Result:** `ChildComponent` doesn't re-render when `ParentComponent` re-renders because `handleClick` remains the same between renders.
-
----
-
-### 2. Code Splitting: Implementing Lazy Loading and Dynamic Imports
-
-Code splitting allows you to split your code into various bundles, which can then be loaded on demand. This can significantly improve the initial load time.
-
-**Dynamic Imports with `React.lazy` and `Suspense`**
-
-**Example:**
-
-```jsx
-import React, { Suspense } from "react";
-
-const HeavyComponent = React.lazy(() => import("./HeavyComponent"));
-
-function App() {
-  return (
-    <div>
-      <Suspense fallback={<div>Loading...</div>}>
-        <HeavyComponent />
-      </Suspense>
-    </div>
-  );
-}
-
-export default App;
-```
-
-**Explanation:** `HeavyComponent` is only loaded when it's rendered, not during the initial load of the app.
-
----
-
-### 3. Avoid Anonymous Functions: Define Functions Outside Render Methods
-
-Defining functions inside render methods can cause unnecessary re-creations, leading to re-renders of child components.
-
-**Example with Inline Functions:**
-
-```jsx
-function ParentComponent() {
-  const [count, setCount] = React.useState(0);
-
-  return (
-    <div>
-      <ChildComponent onClick={() => console.log("Clicked")} />
-      <button onClick={() => setCount(count + 1)}>Increment</button>
-    </div>
-  );
-}
-```
-
-**Issue:** The arrow function inside `onClick` is re-created on every render, causing `ChildComponent` to re-render.
-
-**Optimized by Defining Functions Outside:**
-
-```jsx
-function ParentComponent() {
-  const [count, setCount] = React.useState(0);
-
-  const handleClick = React.useCallback(() => {
-    console.log("Clicked");
-  }, []);
-
-  return (
-    <div>
-      <ChildComponent onClick={handleClick} />
-      <button onClick={() => setCount(count + 1)}>Increment</button>
-    </div>
-  );
-}
-```
-
-**Result:** `handleClick` remains the same across renders, preventing unnecessary re-renders of `ChildComponent`.
-
----
-
-### 4. Optimize Rendering Lists: Use Keys Properly and Avoid Re-rendering Unchanged Items
-
-When rendering lists, improper use of keys or re-rendering the entire list can degrade performance.
-
-**Using Stable Keys**
-
-**Example with Index as Key (Not Recommended):**
-
-```jsx
-function ItemList({ items }) {
-  return (
-    <ul>
-      {items.map((item, index) => (
-        <li key={index}>{item.name}</li>
-      ))}
-    </ul>
-  );
-}
-```
-
-**Issue:** If items are added or removed, keys change, causing unnecessary re-renders.
-
-**Optimized with Unique IDs as Keys:**
-
-```jsx
-function ItemList({ items }) {
-  return (
-    <ul>
-      {items.map((item) => (
-        <li key={item.id}>{item.name}</li>
-      ))}
-    </ul>
-  );
-}
-```
-
-**Result:** React can track items accurately, minimizing re-renders.
-
----
-
-**Avoid Re-rendering Unchanged Items**
-
-**Example without Optimization:**
-
-```jsx
-function ItemList({ items }) {
-  return (
-    <ul>
-      {items.map((item) => (
-        <Item key={item.id} item={item} />
-      ))}
-    </ul>
-  );
-}
-
-function Item({ item }) {
-  console.log(`Rendering item ${item.id}`);
-  return <li>{item.name}</li>;
-}
-```
-
-**Issue:** All `Item` components re-render even if only one item changes.
-
-**Optimized with `React.memo`:**
-
-```jsx
-const Item = React.memo(function Item({ item }) {
-  console.log(`Rendering item ${item.id}`);
-  return <li>{item.name}</li>;
-});
-```
-
-**Result:** Only the `Item` components with changed props re-render.
-
----
-
-### 5. Use Immutable Data Structures
-
-Using immutable data structures helps in efficient change detection, as comparing references is faster than deep comparisons.
-
-**Example with Mutable Updates (Not Recommended):**
-
-```jsx
-function App() {
-  const [items, setItems] = React.useState([{ id: 1, name: "Item 1" }]);
-
-  const addItem = () => {
-    items.push({ id: items.length + 1, name: `Item ${items.length + 1}` });
-    setItems(items); // Mutating state directly
-  };
-
-  return (
-    <div>
-      <button onClick={addItem}>Add Item</button>
-      {/* Render items */}
-    </div>
-  );
-}
-```
-
-**Issue:** React may not detect the change because the reference to `items` hasn't changed.
-
-**Optimized with Immutable Updates:**
-
-```jsx
-function App() {
-  const [items, setItems] = React.useState([{ id: 1, name: "Item 1" }]);
-
-  const addItem = () => {
-    const newItems = [
-      ...items,
-      { id: items.length + 1, name: `Item ${items.length + 1}` },
-    ];
-    setItems(newItems); // Creating a new array
-  };
-
-  return (
-    <div>
-      <button onClick={addItem}>Add Item</button>
-      {/* Render items */}
-    </div>
-  );
-}
-```
-
-**Result:** React detects the new reference to `items` and updates the component accordingly.
-
----
-
-**Using Libraries for Immutability**
-
-You can use libraries like **Immutable.js** or **Immer** to manage immutable data structures.
-
-**Example with Immer:**
-
-```jsx
-import produce from "immer";
-
-function App() {
-  const [items, setItems] = React.useState([{ id: 1, name: "Item 1" }]);
-
-  const addItem = () => {
-    setItems(
-      produce(items, (draft) => {
-        draft.push({ id: items.length + 1, name: `Item ${items.length + 1}` });
-      })
-    );
-  };
-
-  return (
-    <div>
-      <button onClick={addItem}>Add Item</button>
-      {/* Render items */}
-    </div>
-  );
-}
-```
-
-**Explanation:** `produce` creates a new immutable state based on changes made to the draft.
-
----
-
-## 5. JavaScript Output Questions 📜
 
 ### Event Loop
 
-JavaScript is single-threaded but can handle asynchronous operations via the event loop.
+**Explanation:**
+
+The event loop is responsible for executing the code, collecting and processing events, and executing queued sub-tasks.
+
+**Diagram:**
+
+```plaintext
+Call Stack        Task Queue
+   |                  |
+   V                  V
+[Main()]        [setTimeout(), Promises]
+```
+
+**Code Example:**
 
 ```javascript
 console.log("Start");
@@ -628,156 +531,566 @@ Promise.resolve().then(() => {
 });
 
 console.log("End");
+
+// Output:
+// Start
+// End
+// Promise
+// Timeout
 ```
 
-**Output:**
+---
 
-```
-Start
-End
-Promise
-Timeout
-```
+## React Interview Questions
+
+### How React Works Under the Hood
 
 **Explanation:**
 
-- **Synchronous Code**: `console.log('Start');` and `console.log('End');` execute first.
-- **Microtask Queue**: Promises go here; `console.log('Promise');` executes after the synchronous code.
-- **Macrotask Queue**: `setTimeout` callbacks go here; `console.log('Timeout');` executes last.
+React creates a virtual DOM (a JavaScript representation of the actual DOM). When state changes, React compares the new virtual DOM with the previous one (diffing algorithm), determines the minimal changes required, and updates the real DOM efficiently.
+
+**Diagram:**
+
+```plaintext
+[JSX] --> [Virtual DOM] --> [Diffing] --> [Real DOM]
+```
 
 ---
 
-### Closures
+### React Rendering Process (Virtual DOM and Diffing Algorithm)
 
-A closure gives access to an outer function's scope from an inner function.
+**Explanation:**
 
-```javascript
-function makeAdder(x) {
-  return function (y) {
-    return x + y;
+- **Virtual DOM**: A lightweight copy of the real DOM that React keeps in memory.
+- **Diffing Algorithm**: Compares the previous and current virtual DOM trees to find out what has changed.
+
+**Code Example:**
+
+```jsx
+function App() {
+  const [count, setCount] = useState(0);
+  return (
+    <div>
+      <p>{count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+```
+
+---
+
+### Most Asked Interview Questions
+
+#### Ques 1: What is React and why is it used?
+
+**Answer:**
+
+React is a JavaScript library for building user interfaces. It allows developers to create large web applications that can update and render efficiently in response to data changes. React is used because it:
+
+- Enhances performance via the virtual DOM.
+- Encourages reusable components.
+- Simplifies complex UIs with declarative code.
+
+---
+
+#### Ques 2: What is JSX, and why is it used?
+
+**Answer:**
+
+JSX stands for JavaScript XML. It is a syntax extension for JavaScript that looks similar to HTML. JSX is used in React to describe the UI structure, making the code more readable and easier to write.
+
+**Code Example:**
+
+```jsx
+const element = <h1>Hello, world!</h1>;
+```
+
+---
+
+#### Ques 3: What is a React component?
+
+**Answer:**
+
+A React component is a reusable piece of UI that can be either a function or a class. Components accept inputs called props and return React elements describing what should appear on the screen.
+
+---
+
+#### Ques 4: What is the difference between state and props?
+
+**Answer:**
+
+- **Props**: Short for properties, they are read-only inputs passed to a component from its parent.
+- **State**: Internal data managed within the component, can change over time, and affects how the component renders.
+
+---
+
+#### Ques 5: What is prop drilling?
+
+**Answer:**
+
+Prop drilling refers to the process where you pass data through multiple nested components that do not need it, just to reach a child component that does.
+
+---
+
+#### Ques 6: What is a React fragment, and why is it used?
+
+**Answer:**
+
+React Fragments let you group a list of children without adding extra nodes to the DOM.
+
+**Code Example:**
+
+```jsx
+<>
+  <h1>Title</h1>
+  <p>Paragraph</p>
+</>
+```
+
+---
+
+#### Ques 7: How do you define and use state in a React Functional component? How are they different from normal variables?
+
+**Answer:**
+
+State in functional components is defined using the `useState` hook. Unlike normal variables, state variables trigger a re-render when updated.
+
+**Code Example:**
+
+```jsx
+function Counter() {
+  const [count, setCount] = useState(0); // State variable
+  let normalCount = 0; // Normal variable
+
+  return (
+    <div>
+      <p>State Count: {count}</p>
+      <p>Normal Count: {normalCount}</p>
+      <button onClick={() => setCount(count + 1)}>Increment State Count</button>
+      <button onClick={() => normalCount++}>Increment Normal Count</button>
+    </div>
+  );
+}
+```
+
+---
+
+#### Ques 8: How do you define and use state in a React class component?
+
+**Answer:**
+
+State is defined in the constructor and updated using `this.setState()`.
+
+**Code Example:**
+
+```jsx
+class Counter extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { count: 0 };
+  }
+
+  increment = () => {
+    this.setState({ count: this.state.count + 1 });
   };
+
+  render() {
+    return (
+      <div>
+        <p>Count: {this.state.count}</p>
+        <button onClick={this.increment}>Increment</button>
+      </div>
+    );
+  }
 }
-
-const add5 = makeAdder(5);
-console.log(add5(2)); // Outputs 7
 ```
-
-**Explanation:** The inner function retains access to `x` even after `makeAdder` has finished executing.
 
 ---
 
-### Lexical Scope
+#### Ques 9: How do you pass props to a functional component?
 
-Variables are resolved in their lexical context.
+**Answer:**
 
-```javascript
-var a = 5;
-function foo() {
-  console.log(a);
+Props are passed to a functional component via its parameters.
+
+**Code Example:**
+
+```jsx
+function Greeting(props) {
+  return <h1>Hello, {props.name}</h1>;
 }
-function bar() {
-  var a = 10;
-  foo();
-}
-bar(); // Outputs 5
+
+// Usage
+<Greeting name="Alice" />;
 ```
-
-**Explanation:** `foo` looks for `a` in its own scope and then the global scope, ignoring `a` inside `bar`.
 
 ---
 
-### Hoisting
+#### Ques 10: What are PropTypes?
 
-Variable and function declarations are hoisted to the top of their scope.
+**Answer:**
 
-```javascript
-console.log(a); // Outputs undefined
-var a = 5;
-```
+PropTypes is a type-checking feature to ensure that components receive props of the correct type.
 
-**Explanation:** The declaration `var a;` is hoisted, but the assignment `a = 5;` is not, so `a` is `undefined` when logged.
+**Code Example:**
 
----
+```jsx
+import PropTypes from "prop-types";
 
-## 6. Types vs. Interfaces in TypeScript 💻
-
-- **Interfaces**: Can only describe object shapes.
-- **Types**: Can represent primitives, unions, tuples, and more.
-
-### Example:
-
-```typescript
-// Interface
-interface User {
-  name: string;
-  age: number;
+function Greeting({ name }) {
+  return <h1>Hello, {name}</h1>;
 }
 
-// Type
-type User = {
-  name: string;
-  age: number;
+Greeting.propTypes = {
+  name: PropTypes.string.isRequired,
 };
 ```
 
-**Differences:**
+---
 
-- **Declaration Merging**: Interfaces can be merged; types cannot.
+#### Ques 11: How do you use props in a class component?
 
-  ```typescript
-  interface User {
-    name: string;
+**Answer:**
+
+Props are accessed via `this.props` in class components.
+
+**Code Example:**
+
+```jsx
+class Greeting extends React.Component {
+  render() {
+    return <h1>Hello, {this.props.name}</h1>;
   }
-
-  interface User {
-    age: number;
-  }
-
-  // Merged Interface:
-  // interface User {
-  //   name: string;
-  //   age: number;
-  // }
-  ```
-
-- **Use Cases**: Use interfaces for public APIs and types for complex type definitions.
+}
+```
 
 ---
 
-## 7. React Hooks Deep Dive 🔍
+#### Ques 12: In how many ways can we export/import things from a JS Module?
 
-### `useState`
+**Answer:**
 
-Manages state in functional components.
+- **Named Exports/Imports**:
 
-```jsx
-const [count, setCount] = useState(0);
-```
+  ```javascript
+  // Export
+  export const name = "Alice";
 
-- **Updating State**:
-
-  ```jsx
-  setCount((prevCount) => prevCount + 1);
+  // Import
+  import { name } from "./module";
   ```
 
-### `useEffect`
+- **Default Exports/Imports**:
 
-Performs side effects.
+  ```javascript
+  // Export
+  export default function () {}
+
+  // Import
+  import myFunction from "./module";
+  ```
+
+---
+
+#### Ques 13: What is Virtual DOM?
+
+**Answer:**
+
+The Virtual DOM is an in-memory representation of the real DOM. It allows React to perform efficient updates by calculating the differences between the virtual DOM and the real DOM.
+
+---
+
+#### Ques 14: Reconciliation vs Rendering?
+
+**Answer:**
+
+- **Reconciliation**: The process of updating the DOM with minimal changes after comparing the new virtual DOM with the old one.
+- **Rendering**: The initial process of creating the DOM nodes from React components.
+
+---
+
+#### Ques 15: What is the Diff Algorithm?
+
+**Answer:**
+
+React's Diff Algorithm efficiently compares two virtual DOM trees by:
+
+- Comparing elements of the same level.
+- Assuming different types of elements lead to different subtrees.
+- Using keys to identify elements uniquely.
+
+---
+
+### Map, Filter, and Reduce in React
+
+**Explanation:**
+
+These array methods are commonly used in React to manipulate state and props for rendering lists.
+
+**Code Example:**
 
 ```jsx
-useEffect(() => {
-  // Side effect here
-  return () => {
-    // Cleanup
-  };
-}, [dependencies]);
+function NumbersList({ numbers }) {
+  const doubled = numbers.map((num) => num * 2);
+  const evenNumbers = numbers.filter((num) => num % 2 === 0);
+  const sum = numbers.reduce((acc, curr) => acc + curr, 0);
+
+  return (
+    <div>
+      <p>Doubled: {doubled.join(", ")}</p>
+      <p>Even: {evenNumbers.join(", ")}</p>
+      <p>Sum: {sum}</p>
+    </div>
+  );
+}
 ```
 
-- **Common Uses**: Data fetching, subscriptions, DOM manipulations.
+---
+
+### Conditional Operators
+
+**Explanation:**
+
+Used in React to conditionally render components.
+
+**Code Example:**
+
+```jsx
+function UserGreeting({ isLoggedIn }) {
+  return (
+    <div>{isLoggedIn ? <p>Welcome back!</p> : <p>Please sign up.</p>}</div>
+  );
+}
+```
+
+---
+
+### Classic vs Functional React
+
+**Explanation:**
+
+- **Class Components**: Use ES6 classes, have state and lifecycle methods.
+- **Functional Components**: Use functions, can use hooks for state and lifecycle features.
+
+---
+
+### State vs Props
+
+**Explanation:**
+
+- **State**: Data that changes over time, managed within the component.
+- **Props**: Data passed to the component, read-only.
+
+---
+
+### Types of Components
+
+- **Functional Components**
+- **Class Components**
+- **Pure Components**
+- **Higher-Order Components**
+
+---
+
+### `useState` (Deep and Under the Hood Explanation)
+
+**Explanation:**
+
+`useState` is a hook that lets you add React state to functional components. It returns a state variable and a function to update it.
+
+**Code Example:**
+
+```jsx
+function Counter() {
+  const [count, setCount] = useState(0); // Under the hood, React keeps track of state variables in an array
+
+  return (
+    <div>
+      <p>{count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+```
+
+---
+
+### `useEffect` (Deep and Under the Hood Explanation)
+
+**Explanation:**
+
+`useEffect` is a hook for performing side effects in functional components (e.g., data fetching, subscriptions).
+
+**Code Example:**
+
+```jsx
+function DataFetcher() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    // Runs after every render
+    fetchData().then((result) => setData(result));
+  }, []); // Empty array ensures it runs only once (componentDidMount)
+
+  return <div>{data}</div>;
+}
+```
+
+**Under the Hood:**
+
+React keeps track of dependencies, and runs the effect after rendering if dependencies have changed.
+
+---
+
+### `useEffect` Polyfill
+
+**Code Example:**
+
+```javascript
+// Simplified polyfill
+function useEffect(effect, dependencies) {
+  const hasChanged = dependencies.some((dep, i) => dep !== prevDependencies[i]);
+  if (hasChanged) {
+    cleanupRef.current && cleanupRef.current();
+    cleanupRef.current = effect();
+    prevDependencies = dependencies;
+  }
+}
+```
+
+---
+
+### `useRef` Hook
+
+**Explanation:**
+
+`useRef` returns a mutable ref object whose `.current` property is initialized to the passed argument.
+
+**Code Example:**
+
+```jsx
+function FocusInput() {
+  const inputEl = useRef(null);
+
+  const onButtonClick = () => {
+    // Accessing DOM node directly
+    inputEl.current.focus();
+  };
+
+  return (
+    <div>
+      <input ref={inputEl} type="text" />
+      <button onClick={onButtonClick}>Focus Input</button>
+    </div>
+  );
+}
+```
+
+---
+
+### `useContext` Hook
+
+**Explanation:**
+
+`useContext` lets you consume context values without the need for a Consumer component.
+
+**Code Example:**
+
+```jsx
+const ThemeContext = React.createContext("light");
+
+function ThemedButton() {
+  const theme = useContext(ThemeContext); // Consuming context
+  return <button className={theme}>Click me</button>;
+}
+```
+
+---
+
+### Context API to Implement Dark and Light Mode in React JS
+
+**Code Example:**
+
+```jsx
+// ThemeContext.js
+export const ThemeContext = React.createContext();
+
+// App.js
+function App() {
+  const [theme, setTheme] = useState("light");
+
+  return (
+    <ThemeContext.Provider value={theme}>
+      <ThemedComponent />
+      <button onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
+        Toggle Theme
+      </button>
+    </ThemeContext.Provider>
+  );
+}
+
+// ThemedComponent.js
+function ThemedComponent() {
+  const theme = useContext(ThemeContext);
+  return <div className={`theme-${theme}`}>Theme is {theme}</div>;
+}
+```
+
+---
+
+### `useReducer` Hook
+
+**Explanation:**
+
+`useReducer` is an alternative to `useState`. It accepts a reducer function and an initial state, returning the current state and a dispatch function.
+
+**Code Example:**
+
+```jsx
+function reducer(state, action) {
+  switch (action.type) {
+    case "increment":
+      return { count: state.count + 1 };
+    default:
+      throw new Error();
+  }
+}
+
+function Counter() {
+  const [state, dispatch] = useReducer(reducer, { count: 0 });
+
+  return (
+    <button onClick={() => dispatch({ type: "increment" })}>
+      {state.count}
+    </button>
+  );
+}
+```
+
+---
+
+### `useMemo`
+
+**Explanation:**
+
+`useMemo` memoizes a computed value, recomputing it only when dependencies change.
+
+**Code Example:**
+
+```jsx
+const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
+```
+
+---
 
 ### `useCallback`
 
-Returns a memoized callback.
+**Explanation:**
+
+`useCallback` returns a memoized callback function, preventing unnecessary re-creations.
+
+**Code Example:**
 
 ```jsx
 const memoizedCallback = useCallback(() => {
@@ -785,294 +1098,2093 @@ const memoizedCallback = useCallback(() => {
 }, [a, b]);
 ```
 
-- **Use Case**: Prevents functions from being recreated unless dependencies change.
+---
 
-### `useMemo`
+### `useMemo` Polyfill
 
-Memoizes expensive calculations.
+**Code Example:**
 
-```jsx
-const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
+```javascript
+function useMemo(factory, dependencies) {
+  const hasChanged = dependencies.some((dep, i) => dep !== prevDependencies[i]);
+  if (hasChanged) {
+    memoizedValue = factory();
+    prevDependencies = dependencies;
+  }
+  return memoizedValue;
+}
 ```
-
-- **Use Case**: Avoids unnecessary computations on every render.
-
-### `useRef`
-
-Creates a mutable ref object.
-
-```jsx
-const refContainer = useRef(initialValue);
-```
-
-- **Use Cases**: Accessing DOM elements, storing mutable variables that persist across renders.
 
 ---
 
-## 8. Custom Hooks vs. Utility Functions 🤔
+### `useImperativeHandle` Hook
 
-- **Custom Hooks**: Leverage React's hooks to share stateful logic.
+**Explanation:**
 
-  ```jsx
-  function useFetch(url) {
-    const [data, setData] = useState(null);
-    useEffect(() => {
-      fetch(url)
-        .then((response) => response.json())
-        .then(setData);
-    }, [url]);
-    return data;
-  }
-  ```
+Customizes the instance value that is exposed to parent components when using `ref`.
 
-- **Utility Functions**: Stateless functions used across components.
+**Code Example:**
 
-  ```javascript
-  export function formatDate(date) {
-    // Formatting logic
-    return formattedDate;
-  }
-  ```
+```jsx
+function FancyInput(props, ref) {
+  const inputRef = useRef();
+  useImperativeHandle(ref, () => ({
+    focus: () => inputRef.current.focus(),
+  }));
+  return <input ref={inputRef} />;
+}
 
-**Key Difference**: Custom hooks can use other hooks and manage state; utility functions are pure JavaScript functions without state or side effects.
+const ForwardedFancyInput = forwardRef(FancyInput);
+
+// Parent Component
+function Parent() {
+  const ref = useRef();
+  return (
+    <div>
+      <ForwardedFancyInput ref={ref} />
+      <button onClick={() => ref.current.focus()}>Focus Input</button>
+    </div>
+  );
+}
+```
 
 ---
 
-## 9. Error Handling Best Practices
+### `forwardRef`
 
-- **Try/Catch Blocks**: Handle synchronous errors.
+**Explanation:**
 
-  ```javascript
-  try {
-    // Code that may throw
-  } catch (error) {
-    // Handle error
+`forwardRef` allows your component to accept a `ref` prop that you can pass down to a child component.
+
+---
+
+### `useWindowSize` Custom Hook
+
+**Code Example:**
+
+```jsx
+function useWindowSize() {
+  const [size, setSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  useEffect(() => {
+    function handleResize() {
+      setSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    }
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return size;
+}
+```
+
+---
+
+### `useFetch` Custom Hook
+
+**Code Example:**
+
+```jsx
+function useFetch(url) {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    let isCancelled = false;
+    fetch(url)
+      .then((response) => response.json())
+      .then((result) => {
+        if (!isCancelled) {
+          setData(result);
+        }
+      });
+    return () => {
+      isCancelled = true;
+    };
+  }, [url]);
+
+  return data;
+}
+```
+
+---
+
+### `useDebounce` Custom Hook
+
+**Code Example:**
+
+```jsx
+function useDebounce(value, delay) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => setDebouncedValue(value), delay);
+    return () => clearTimeout(handler);
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+```
+
+---
+
+### `useLocalStorage` Custom Hook
+
+**Code Example:**
+
+```jsx
+function useLocalStorage(key, initialValue) {
+  const [storedValue, setStoredValue] = useState(
+    () => JSON.parse(localStorage.getItem(key)) || initialValue
+  );
+
+  const setValue = (value) => {
+    setStoredValue(value);
+    localStorage.setItem(key, JSON.stringify(value));
+  };
+
+  return [storedValue, setValue];
+}
+```
+
+---
+
+### `useIntersectionObserver` Hook
+
+**Explanation:**
+
+Observes when a target element intersects with the viewport or a parent element.
+
+**Code Example:**
+
+```jsx
+function useIntersectionObserver(elementRef, options) {
+  const [isIntersecting, setIntersecting] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => setIntersecting(entry.isIntersecting),
+      options
+    );
+    if (elementRef.current) {
+      observer.observe(elementRef.current);
+    }
+    return () => {
+      if (elementRef.current) {
+        observer.unobserve(elementRef.current);
+      }
+    };
+  }, [elementRef, options]);
+
+  return isIntersecting;
+}
+```
+
+---
+
+### React Router
+
+**Explanation:**
+
+React Router is a standard library for routing in React applications.
+
+**Code Example:**
+
+```jsx
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
+function App() {
+  return (
+    <Router>
+      <Switch>
+        <Route path="/about" component={About} />
+        <Route path="/" component={Home} />
+      </Switch>
+    </Router>
+  );
+}
+```
+
+---
+
+### Advanced State Management (Redux)
+
+**Explanation:**
+
+Redux is a state management library for JavaScript apps, providing a centralized store for state.
+
+**Code Example:**
+
+```javascript
+// actions.js
+export const increment = () => ({ type: "INCREMENT" });
+
+// reducer.js
+const initialState = { count: 0 };
+function counter(state = initialState, action) {
+  switch (action.type) {
+    case "INCREMENT":
+      return { count: state.count + 1 };
+    default:
+      return state;
   }
-  ```
+}
 
-- **Promise Catch**: Handle asynchronous errors.
+// store.js
+import { createStore } from "redux";
+const store = createStore(counter);
+```
 
-  ```javascript
-  fetch(url)
-    .then((response) => response.json())
-    .catch((error) => console.error(error));
-  ```
+---
 
-- **Async/Await with Try/Catch**:
+### Redux Toolkit Implementation
 
-  ```javascript
-  async function fetchData() {
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-    } catch (error) {
-      console.error(error);
+**Explanation:**
+
+Redux Toolkit simplifies Redux development by providing tools like `configureStore` and `createSlice`.
+
+**Code Example:**
+
+```javascript
+import { configureStore, createSlice } from "@reduxjs/toolkit";
+
+const counterSlice = createSlice({
+  name: "counter",
+  initialState: { count: 0 },
+  reducers: {
+    increment(state) {
+      state.count += 1;
+    },
+  },
+});
+
+export const { increment } = counterSlice.actions;
+
+const store = configureStore({
+  reducer: counterSlice.reducer,
+});
+```
+
+---
+
+## Machine Coding Round Examples
+
+### TODO List in HTML, CSS, JavaScript
+
+**Code Example:**
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      /* Add styles here */
+    </style>
+  </head>
+  <body>
+    <div id="todo-app">
+      <input type="text" id="new-todo" placeholder="Add a todo" />
+      <button id="add-button">Add</button>
+      <ul id="todo-list"></ul>
+    </div>
+    <script>
+      const todos = [];
+      const todoList = document.getElementById("todo-list");
+      const addButton = document.getElementById("add-button");
+      addButton.addEventListener("click", addTodo);
+
+      function addTodo() {
+        const newTodo = document.getElementById("new-todo").value;
+        if (newTodo) {
+          todos.push(newTodo);
+          renderTodos();
+          document.getElementById("new-todo").value = "";
+        }
+      }
+
+      function renderTodos() {
+        todoList.innerHTML = "";
+        todos.forEach((todo, index) => {
+          const li = document.createElement("li");
+          li.textContent = todo;
+          todoList.appendChild(li);
+        });
+      }
+    </script>
+  </body>
+</html>
+```
+
+---
+
+### Build a Highly Scalable Carousel Component in React JS
+
+**Explanation:**
+
+A carousel component displays a series of content items one at a time, allowing users to navigate between them.
+
+**Code Example:**
+
+```jsx
+function Carousel({ items }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const prev = () =>
+    setCurrentIndex((currentIndex - 1 + items.length) % items.length);
+  const next = () => setCurrentIndex((currentIndex + 1) % items.length);
+
+  return (
+    <div className="carousel">
+      <button onClick={prev}>Prev</button>
+      <div className="carousel-item">{items[currentIndex]}</div>
+      <button onClick={next}>Next</button>
+    </div>
+  );
+}
+```
+
+---
+
+### Implement Infinite Scrolling in React JS
+
+**Code Example:**
+
+```jsx
+function InfiniteScrollList() {
+  const [items, setItems] = useState([...initialItems]);
+  const loader = useRef(null);
+
+  const handleObserver = useCallback((entries) => {
+    const target = entries[0];
+    if (target.isIntersecting) {
+      // Fetch more items or append to list
+      setItems((prev) => [...prev, ...moreItems]);
     }
+  }, []);
+
+  useEffect(() => {
+    const option = { root: null, rootMargin: "20px", threshold: 0 };
+    const observer = new IntersectionObserver(handleObserver, option);
+    if (loader.current) observer.observe(loader.current);
+  }, [handleObserver]);
+
+  return (
+    <div>
+      {items.map((item) => (
+        <div key={item.id}>{item.content}</div>
+      ))}
+      <div ref={loader} />
+    </div>
+  );
+}
+```
+
+---
+
+## 1. React App with Posts and Comments Navigation
+
+**Objective:**
+
+- Build a React app that displays a list of posts.
+- Users can click on a post to view its details and comments on a separate page.
+- Use the API: `https://jsonplaceholder.typicode.com/posts?_limit=50`.
+- Implement React Router for navigation.
+- Enhance rendering performance and API call efficiency.
+
+**Solution Overview:**
+
+We'll create a React application with two main pages:
+
+1. **Home Page**: Displays a list of posts.
+2. **Post Details Page**: Shows the details of a selected post along with its comments.
+
+**Performance Enhancements:**
+
+- **Memoization**: Use `React.memo` and `useMemo` to prevent unnecessary re-renders.
+- **Code Splitting**: Implement dynamic imports for route-based code splitting.
+- **Efficient API Calls**: Fetch data once and cache it, use pagination if necessary.
+
+**Code Implementation:**
+
+1. **Install Dependencies:**
+
+   ```bash
+   npm install react-router-dom axios
+   ```
+
+2. **App.js:**
+
+   ```jsx
+   import React from "react";
+   import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+   import PostsList from "./PostsList";
+   import PostDetails from "./PostDetails";
+
+   function App() {
+     return (
+       <Router>
+         <Switch>
+           <Route exact path="/" component={PostsList} />
+           <Route path="/post/:id" component={PostDetails} />
+         </Switch>
+       </Router>
+     );
+   }
+
+   export default App;
+   ```
+
+3. **PostsList.js:**
+
+   ```jsx
+   import React, { useEffect, useState } from "react";
+   import { Link } from "react-router-dom";
+   import axios from "axios";
+
+   function PostsList() {
+     const [posts, setPosts] = useState([]);
+
+     useEffect(() => {
+       axios
+         .get("https://jsonplaceholder.typicode.com/posts?_limit=50")
+         .then((response) => setPosts(response.data))
+         .catch((error) => console.error(error));
+     }, []);
+
+     return (
+       <div>
+         <h1>Posts</h1>
+         <ul>
+           {posts.map((post) => (
+             <li key={post.id}>
+               <Link to={`/post/${post.id}`}>{post.title}</Link>
+             </li>
+           ))}
+         </ul>
+       </div>
+     );
+   }
+
+   export default React.memo(PostsList);
+   ```
+
+4. **PostDetails.js:**
+
+   ```jsx
+   import React, { useEffect, useState } from "react";
+   import axios from "axios";
+
+   function PostDetails({ match }) {
+     const [post, setPost] = useState(null);
+     const [comments, setComments] = useState([]);
+
+     useEffect(() => {
+       const fetchData = async () => {
+         const postResponse = await axios.get(
+           `https://jsonplaceholder.typicode.com/posts/${match.params.id}`
+         );
+         setPost(postResponse.data);
+
+         const commentsResponse = await axios.get(
+           `https://jsonplaceholder.typicode.com/posts/${match.params.id}/comments`
+         );
+         setComments(commentsResponse.data);
+       };
+       fetchData();
+     }, [match.params.id]);
+
+     if (!post) return <div>Loading...</div>;
+
+     return (
+       <div>
+         <h1>{post.title}</h1>
+         <p>{post.body}</p>
+         <h2>Comments</h2>
+         <ul>
+           {comments.map((comment) => (
+             <li key={comment.id}>
+               <strong>{comment.name}:</strong> {comment.body}
+             </li>
+           ))}
+         </ul>
+       </div>
+     );
+   }
+
+   export default React.memo(PostDetails);
+   ```
+
+**Performance Tips:**
+
+- **Memoization**: Wrapped components with `React.memo` to prevent unnecessary re-renders.
+- **Data Caching**: Implement caching for API responses to avoid redundant network requests.
+- **Pagination**: For large datasets, implement pagination or infinite scrolling.
+
+---
+
+## 2. Progress Bar Component
+
+**Objective:**
+
+- Build a scalable and accessible Progress Bar component in React.
+- Display the percentage value in the middle.
+- Implement a green progress fill animation (`#00c251`).
+
+**Code Implementation:**
+
+1. **ProgressBar.js:**
+
+   ```jsx
+   import React from "react";
+   import "./ProgressBar.css";
+
+   function ProgressBar({ progress }) {
+     return (
+       <div
+         className="progress-bar"
+         role="progressbar"
+         aria-valuenow={progress}
+         aria-valuemin="0"
+         aria-valuemax="100"
+       >
+         <div className="progress-bar-fill" style={{ width: `${progress}%` }}>
+           <span className="progress-bar-text">{`${progress}%`}</span>
+         </div>
+       </div>
+     );
+   }
+
+   export default ProgressBar;
+   ```
+
+2. **ProgressBar.css:**
+
+   ```css
+   .progress-bar {
+     width: 100%;
+     background-color: #e0e0e0;
+     border-radius: 8px;
+     overflow: hidden;
+     position: relative;
+   }
+
+   .progress-bar-fill {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     height: 30px;
+     background-color: #00c251;
+     width: 0;
+     transition: width 0.5s ease-in-out;
+     color: #fff;
+     font-weight: bold;
+   }
+
+   .progress-bar-text {
+     position: absolute;
+     width: 100%;
+     text-align: center;
+   }
+   ```
+
+3. **Usage Example:**
+
+   ```jsx
+   import React, { useState } from "react";
+   import ProgressBar from "./ProgressBar";
+
+   function App() {
+     const [progress, setProgress] = useState(50);
+
+     return (
+       <div>
+         <ProgressBar progress={progress} />
+         <button onClick={() => setProgress(progress + 10)}>Increase</button>
+       </div>
+     );
+   }
+
+   export default App;
+   ```
+
+**Accessibility Considerations:**
+
+- Added `role="progressbar"` and `aria-valuenow`, `aria-valuemin`, `aria-valuemax` for screen readers.
+
+**Scalability:**
+
+- The component accepts a `progress` prop, making it reusable.
+- Styles are kept in a separate CSS file for modularity.
+
+---
+
+## 3. Star Rating Component
+
+**Objective:**
+
+- Create a reusable Star Rating component.
+- Features:
+  - Displays 5 stars.
+  - Users can click to set a rating.
+  - Includes hover effects.
+  - Accepts props for size, current rating, etc.
+
+**Code Implementation:**
+
+1. **StarRating.js:**
+
+   ```jsx
+   import React, { useState } from "react";
+   import PropTypes from "prop-types";
+   import "./StarRating.css";
+
+   function StarRating({ totalStars = 5, size = 24, rating, onRatingChange }) {
+     const [hoverRating, setHoverRating] = useState(0);
+
+     const getStarClass = (index) => {
+       if (hoverRating >= index) {
+         return "star hovered";
+       } else if (!hoverRating && rating >= index) {
+         return "star filled";
+       }
+       return "star";
+     };
+
+     return (
+       <div className="star-rating" style={{ fontSize: size }}>
+         {[...Array(totalStars)].map((_, i) => (
+           <span
+             key={i}
+             className={getStarClass(i + 1)}
+             onClick={() => onRatingChange(i + 1)}
+             onMouseEnter={() => setHoverRating(i + 1)}
+             onMouseLeave={() => setHoverRating(0)}
+           >
+             ★
+           </span>
+         ))}
+       </div>
+     );
+   }
+
+   StarRating.propTypes = {
+     totalStars: PropTypes.number,
+     size: PropTypes.number,
+     rating: PropTypes.number.isRequired,
+     onRatingChange: PropTypes.func.isRequired,
+   };
+
+   export default StarRating;
+   ```
+
+2. **StarRating.css:**
+
+   ```css
+   .star-rating {
+     display: flex;
+     cursor: pointer;
+   }
+
+   .star {
+     color: #ccc;
+     transition: color 0.2s;
+   }
+
+   .star.filled,
+   .star.hovered {
+     color: #ffcc00;
+   }
+   ```
+
+3. **Usage Example:**
+
+   ```jsx
+   import React, { useState } from "react";
+   import StarRating from "./StarRating";
+
+   function App() {
+     const [rating, setRating] = useState(3);
+
+     return (
+       <div>
+         <h1>Your Rating: {rating}</h1>
+         <StarRating
+           totalStars={5}
+           size={30}
+           rating={rating}
+           onRatingChange={setRating}
+         />
+       </div>
+     );
+   }
+
+   export default App;
+   ```
+
+**Enhancements:**
+
+- **Hover Effects**: Stars change color on hover to indicate interactivity.
+- **Customization**: Props for `totalStars`, `size`, and initial `rating`.
+- **Reusability**: Component can be used across different parts of an application.
+
+---
+
+## 4. E-Commerce Filters in React JS
+
+**Objective:**
+
+- Fetch and display a list of products.
+- Implement filters:
+  - Sort by price.
+  - Show/hide out-of-stock products.
+  - Search products.
+  - Filter by rating.
+- Implement pagination.
+- Use production-grade state management.
+
+**Solution Overview:**
+
+- Use **Redux** or **Context API** for state management.
+- Implement filtering logic on the client side.
+- Use pagination to handle large data sets.
+
+**Code Implementation:**
+
+1. **Install Dependencies:**
+
+   ```bash
+   npm install axios react-router-dom
+   ```
+
+2. **ProductContext.js:**
+
+   ```jsx
+   import React, { createContext, useState, useEffect } from "react";
+   import axios from "axios";
+
+   export const ProductContext = createContext();
+
+   export function ProductProvider({ children }) {
+     const [products, setProducts] = useState([]);
+     const [filters, setFilters] = useState({
+       search: "",
+       sort: "",
+       outOfStock: false,
+       rating: 0,
+     });
+
+     useEffect(() => {
+       axios.get("https://api.example.com/products").then((response) => {
+         setProducts(response.data);
+       });
+     }, []);
+
+     return (
+       <ProductContext.Provider value={{ products, filters, setFilters }}>
+         {children}
+       </ProductContext.Provider>
+     );
+   }
+   ```
+
+3. **ProductList.js:**
+
+   ```jsx
+   import React, { useContext } from "react";
+   import { ProductContext } from "./ProductContext";
+
+   function ProductList() {
+     const { products, filters } = useContext(ProductContext);
+
+     const filteredProducts = products
+       .filter((product) => product.name.includes(filters.search))
+       .filter((product) => (filters.outOfStock ? true : product.inStock))
+       .filter((product) => product.rating >= filters.rating)
+       .sort((a, b) => {
+         if (filters.sort === "price-low-high") {
+           return a.price - b.price;
+         } else if (filters.sort === "price-high-low") {
+           return b.price - a.price;
+         }
+         return 0;
+       });
+
+     return (
+       <div>
+         {filteredProducts.map((product) => (
+           <div key={product.id}>
+             <h2>{product.name}</h2>
+             <p>${product.price}</p>
+           </div>
+         ))}
+       </div>
+     );
+   }
+
+   export default ProductList;
+   ```
+
+4. **FiltersComponent.js:**
+
+   ```jsx
+   import React, { useContext } from "react";
+   import { ProductContext } from "./ProductContext";
+
+   function FiltersComponent() {
+     const { filters, setFilters } = useContext(ProductContext);
+
+     return (
+       <div>
+         <input
+           type="text"
+           placeholder="Search"
+           value={filters.search}
+           onChange={(e) => setFilters({ ...filters, search: e.target.value })}
+         />
+         <select
+           value={filters.sort}
+           onChange={(e) => setFilters({ ...filters, sort: e.target.value })}
+         >
+           <option value="">Sort By</option>
+           <option value="price-low-high">Price Low to High</option>
+           <option value="price-high-low">Price High to Low</option>
+         </select>
+         <label>
+           <input
+             type="checkbox"
+             checked={filters.outOfStock}
+             onChange={(e) =>
+               setFilters({ ...filters, outOfStock: e.target.checked })
+             }
+           />
+           Include Out of Stock
+         </label>
+         <input
+           type="number"
+           placeholder="Rating"
+           value={filters.rating}
+           onChange={(e) => setFilters({ ...filters, rating: e.target.value })}
+         />
+       </div>
+     );
+   }
+
+   export default FiltersComponent;
+   ```
+
+5. **PaginationComponent.js:**
+
+   ```jsx
+   import React, { useState } from "react";
+
+   function PaginationComponent({ totalItems, itemsPerPage, onPageChange }) {
+     const [currentPage, setCurrentPage] = useState(1);
+     const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+     const changePage = (page) => {
+       setCurrentPage(page);
+       onPageChange(page);
+     };
+
+     return (
+       <div>
+         {Array.from({ length: totalPages }, (_, i) => (
+           <button key={i} onClick={() => changePage(i + 1)}>
+             {i + 1}
+           </button>
+         ))}
+       </div>
+     );
+   }
+
+   export default PaginationComponent;
+   ```
+
+**Production-Grade State Management:**
+
+- For larger applications, consider using **Redux** or **MobX**.
+- This example uses the Context API for simplicity.
+
+---
+
+## 5. E-Commerce Cart using React JS
+
+**Objective:**
+
+- Fetch products from `https://dummyjson.com/products?limit=100`.
+- Implement:
+  - Add to Cart functionality.
+  - Separate Cart page to manage items and display total pricing.
+  - Filters from the previous lesson.
+  - Production-grade state management.
+  - Pagination.
+
+**Solution Overview:**
+
+- Use **Redux Toolkit** for state management.
+- Implement cart slice to manage cart state.
+- Reuse filter components from the previous lesson.
+
+**Code Implementation:**
+
+1. **Install Dependencies:**
+
+   ```bash
+   npm install @reduxjs/toolkit react-redux axios react-router-dom
+   ```
+
+2. **store.js:**
+
+   ```jsx
+   import { configureStore } from "@reduxjs/toolkit";
+   import cartReducer from "./cartSlice";
+
+   export default configureStore({
+     reducer: {
+       cart: cartReducer,
+     },
+   });
+   ```
+
+3. **cartSlice.js:**
+
+   ```jsx
+   import { createSlice } from "@reduxjs/toolkit";
+
+   const cartSlice = createSlice({
+     name: "cart",
+     initialState: [],
+     reducers: {
+       addItem: (state, action) => {
+         state.push(action.payload);
+       },
+       removeItem: (state, action) => {
+         return state.filter((item) => item.id !== action.payload.id);
+       },
+     },
+   });
+
+   export const { addItem, removeItem } = cartSlice.actions;
+   export default cartSlice.reducer;
+   ```
+
+4. **ProductList.js:**
+
+   ```jsx
+   import React, { useEffect, useState } from "react";
+   import { useDispatch } from "react-redux";
+   import { addItem } from "./cartSlice";
+   import axios from "axios";
+
+   function ProductList() {
+     const [products, setProducts] = useState([]);
+     const dispatch = useDispatch();
+
+     useEffect(() => {
+       axios
+         .get("https://dummyjson.com/products?limit=100")
+         .then((response) => {
+           setProducts(response.data.products);
+         });
+     }, []);
+
+     return (
+       <div>
+         {products.map((product) => (
+           <div key={product.id}>
+             <h2>{product.title}</h2>
+             <p>${product.price}</p>
+             <button onClick={() => dispatch(addItem(product))}>
+               Add to Cart
+             </button>
+           </div>
+         ))}
+       </div>
+     );
+   }
+
+   export default ProductList;
+   ```
+
+5. **CartPage.js:**
+
+   ```jsx
+   import React from "react";
+   import { useSelector, useDispatch } from "react-redux";
+   import { removeItem } from "./cartSlice";
+
+   function CartPage() {
+     const cart = useSelector((state) => state.cart);
+     const dispatch = useDispatch();
+
+     const totalPrice = cart.reduce((total, item) => total + item.price, 0);
+
+     return (
+       <div>
+         <h1>Shopping Cart</h1>
+         {cart.map((item) => (
+           <div key={item.id}>
+             <h2>{item.title}</h2>
+             <p>${item.price}</p>
+             <button onClick={() => dispatch(removeItem(item))}>Remove</button>
+           </div>
+         ))}
+         <h2>Total: ${totalPrice}</h2>
+       </div>
+     );
+   }
+
+   export default CartPage;
+   ```
+
+6. **Integration with Filters and Pagination:**
+
+   - Reuse the filter components from the previous lesson.
+   - Implement pagination logic similar to the previous example.
+
+**State Management:**
+
+- Used **Redux Toolkit** for efficient and scalable state management.
+- Cart state is managed globally and can be accessed from any component.
+
+---
+
+## 6. Advanced Tic Tac Toe App with Customizable Board Size
+
+**Objective:**
+
+- Build a Tic Tac Toe game in React.
+- Allow customization of the board size via props.
+
+**Solution Overview:**
+
+- The game logic should adapt to any square board size (e.g., 3x3, 4x4).
+- Update winning condition checks to accommodate different board sizes.
+
+**Code Implementation:**
+
+1. **GameBoard.js:**
+
+   ```jsx
+   import React, { useState } from "react";
+   import PropTypes from "prop-types";
+
+   function GameBoard({ size }) {
+     const [squares, setSquares] = useState(Array(size * size).fill(null));
+     const [isXNext, setIsXNext] = useState(true);
+
+     const handleClick = (i) => {
+       if (calculateWinner(squares) || squares[i]) {
+         return;
+       }
+       const newSquares = squares.slice();
+       newSquares[i] = isXNext ? "X" : "O";
+       setSquares(newSquares);
+       setIsXNext(!isXNext);
+     };
+
+     const winner = calculateWinner(squares);
+
+     const renderSquare = (i) => (
+       <button className="square" onClick={() => handleClick(i)}>
+         {squares[i]}
+       </button>
+     );
+
+     const board = [];
+     for (let i = 0; i < size; i++) {
+       const row = [];
+       for (let j = 0; j < size; j++) {
+         row.push(renderSquare(i * size + j));
+       }
+       board.push(
+         <div key={i} className="board-row">
+           {row}
+         </div>
+       );
+     }
+
+     return (
+       <div>
+         <div>
+           {winner
+             ? `Winner: ${winner}`
+             : `Next Player: ${isXNext ? "X" : "O"}`}
+         </div>
+         {board}
+       </div>
+     );
+   }
+
+   GameBoard.propTypes = {
+     size: PropTypes.number.isRequired,
+   };
+
+   export default GameBoard;
+   ```
+
+2. **Winning Logic (update `calculateWinner` function):**
+
+   ```jsx
+   function calculateWinner(squares) {
+     const size = Math.sqrt(squares.length);
+     const lines = [];
+
+     // Rows and Columns
+     for (let i = 0; i < size; i++) {
+       lines.push(
+         // Rows
+         [...Array(size)].map((_, j) => i * size + j),
+         // Columns
+         [...Array(size)].map((_, j) => i + j * size)
+       );
+     }
+
+     // Diagonals
+     lines.push([...Array(size)].map((_, i) => i * size + i));
+     lines.push([...Array(size)].map((_, i) => (i + 1) * (size - 1)));
+
+     for (const line of lines) {
+       const [first, ...rest] = line;
+       if (squares[first] && rest.every((i) => squares[i] === squares[first])) {
+         return squares[first];
+       }
+     }
+     return null;
+   }
+   ```
+
+3. **Usage Example:**
+
+   ```jsx
+   import React from "react";
+   import GameBoard from "./GameBoard";
+
+   function App() {
+     return <GameBoard size={4} />; // 4x4 board
+   }
+
+   export default App;
+   ```
+
+**Considerations:**
+
+- The winning logic dynamically creates all possible winning lines based on the board size.
+- The UI adjusts to accommodate larger boards.
+
+---
+
+## 7. Scalable Toast/Notification Component
+
+**Objective:**
+
+- Build a scalable Toast/Notification component in React.
+- Focus on requirement gathering, high-level design (HLD), low-level design (LLD), and optimizations.
+
+**Requirement Gathering:**
+
+- **Features:**
+  - Display notifications with different types (success, error, info).
+  - Auto-dismiss after a certain time.
+  - Allow stacking multiple notifications.
+  - Provide a way to programmatically trigger notifications.
+
+**High-Level Design (HLD):**
+
+- **Components:**
+  - `ToastProvider`: Provides context and manages the notification queue.
+  - `Toast`: Represents individual notifications.
+  - `useToast`: Custom hook to trigger notifications.
+
+**Low-Level Design (LLD):**
+
+- **State Management:**
+  - Use Context API to manage the notification queue.
+- **Animations:**
+  - CSS transitions for showing and hiding toasts.
+- **Optimizations:**
+  - Memoization to prevent unnecessary re-renders.
+
+**Code Implementation:**
+
+1. **ToastContext.js:**
+
+   ```jsx
+   import React, { createContext, useState, useContext } from "react";
+
+   const ToastContext = createContext();
+
+   export function ToastProvider({ children }) {
+     const [toasts, setToasts] = useState([]);
+
+     const addToast = (message, type = "info") => {
+       const id = Date.now();
+       setToasts((prev) => [...prev, { id, message, type }]);
+       setTimeout(() => removeToast(id), 3000);
+     };
+
+     const removeToast = (id) => {
+       setToasts((prev) => prev.filter((toast) => toast.id !== id));
+     };
+
+     return (
+       <ToastContext.Provider value={addToast}>
+         {children}
+         <div className="toast-container">
+           {toasts.map((toast) => (
+             <div key={toast.id} className={`toast ${toast.type}`}>
+               {toast.message}
+             </div>
+           ))}
+         </div>
+       </ToastContext.Provider>
+     );
+   }
+
+   export const useToast = () => useContext(ToastContext);
+   ```
+
+2. **Usage Example:**
+
+   ```jsx
+   import React from "react";
+   import { ToastProvider, useToast } from "./ToastContext";
+
+   function App() {
+     return (
+       <ToastProvider>
+         <HomePage />
+       </ToastProvider>
+     );
+   }
+
+   function HomePage() {
+     const addToast = useToast();
+
+     return (
+       <div>
+         <button onClick={() => addToast("This is an info toast")}>
+           Show Toast
+         </button>
+       </div>
+     );
+   }
+
+   export default App;
+   ```
+
+3. **Styles (CSS):**
+
+   ```css
+   .toast-container {
+     position: fixed;
+     top: 10px;
+     right: 10px;
+     display: flex;
+     flex-direction: column;
+   }
+
+   .toast {
+     background-color: #333;
+     color: #fff;
+     padding: 10px;
+     margin-bottom: 10px;
+     border-radius: 4px;
+     opacity: 0;
+     animation: fadeIn 0.5s forwards;
+   }
+
+   @keyframes fadeIn {
+     to {
+       opacity: 1;
+     }
+   }
+
+   .toast.info {
+     background-color: #2196f3;
+   }
+
+   .toast.success {
+     background-color: #4caf50;
+   }
+
+   .toast.error {
+     background-color: #f44336;
+   }
+   ```
+
+**Optimizations:**
+
+- Used a unique `id` for each toast to help React optimize rendering.
+- Toasts auto-dismiss to prevent memory leaks.
+
+---
+
+## 8. Scalable Autocomplete/Typeahead Component
+
+**Objective:**
+
+- Build a scalable Autocomplete component.
+- Focus on requirement gathering, HLD, LLD, and optimizations.
+
+**Requirement Gathering:**
+
+- **Features:**
+  - Fetch suggestions based on user input.
+  - Keyboard navigation support.
+  - Debounce input to minimize API calls.
+
+**High-Level Design (HLD):**
+
+- **Components:**
+  - `Autocomplete`: Main component handling input and suggestions.
+- **Data Fetching:**
+  - Use `useEffect` with debouncing to fetch suggestions.
+
+**Low-Level Design (LLD):**
+
+- **State Management:**
+  - Manage input value, suggestions, and active suggestion index.
+- **Optimizations:**
+  - Debounce input changes.
+  - Memoize fetched suggestions.
+
+**Code Implementation:**
+
+1. **Autocomplete.js:**
+
+   ```jsx
+   import React, { useState, useEffect } from "react";
+   import axios from "axios";
+
+   function Autocomplete({ apiEndpoint }) {
+     const [inputValue, setInputValue] = useState("");
+     const [suggestions, setSuggestions] = useState([]);
+     const [activeIndex, setActiveIndex] = useState(-1);
+
+     useEffect(() => {
+       const delayDebounceFn = setTimeout(() => {
+         if (inputValue) {
+           axios.get(`${apiEndpoint}?q=${inputValue}`).then((response) => {
+             setSuggestions(response.data);
+           });
+         } else {
+           setSuggestions([]);
+         }
+       }, 300);
+
+       return () => clearTimeout(delayDebounceFn);
+     }, [inputValue, apiEndpoint]);
+
+     const handleKeyDown = (e) => {
+       if (e.key === "ArrowDown") {
+         setActiveIndex((prev) => Math.min(prev + 1, suggestions.length - 1));
+       } else if (e.key === "ArrowUp") {
+         setActiveIndex((prev) => Math.max(prev - 1, 0));
+       } else if (e.key === "Enter" && activeIndex >= 0) {
+         setInputValue(suggestions[activeIndex]);
+         setSuggestions([]);
+         setActiveIndex(-1);
+       }
+     };
+
+     return (
+       <div className="autocomplete">
+         <input
+           type="text"
+           value={inputValue}
+           onChange={(e) => setInputValue(e.target.value)}
+           onKeyDown={handleKeyDown}
+         />
+         {suggestions.length > 0 && (
+           <ul className="suggestions">
+             {suggestions.map((suggestion, index) => (
+               <li
+                 key={suggestion}
+                 className={index === activeIndex ? "active" : ""}
+                 onMouseDown={() => {
+                   setInputValue(suggestion);
+                   setSuggestions([]);
+                   setActiveIndex(-1);
+                 }}
+               >
+                 {suggestion}
+               </li>
+             ))}
+           </ul>
+         )}
+       </div>
+     );
+   }
+
+   export default Autocomplete;
+   ```
+
+**Optimizations:**
+
+- **Debouncing**: Reduces the number of API calls.
+- **Memoization**: Cache suggestions if necessary.
+
+---
+
+## 9. Scalable Nested Comments Component
+
+**Objective:**
+
+- Build a nested comments component in React.
+- Focus on requirement gathering, HLD, LLD, and optimizations.
+
+**Requirement Gathering:**
+
+- **Features:**
+  - Display comments with replies nested.
+  - Allow users to add replies.
+  - Infinite levels of nesting.
+
+**High-Level Design (HLD):**
+
+- **Components:**
+  - `Comment`: Represents a single comment.
+  - `CommentList`: Recursively renders comments and their replies.
+
+**Low-Level Design (LLD):**
+
+- **Data Structure:**
+  - Each comment has an `id`, `text`, and `replies` array.
+- **Recursive Rendering:**
+  - Use recursion to render nested comments.
+
+**Code Implementation:**
+
+1. **Comment.js:**
+
+   ```jsx
+   import React, { useState } from "react";
+
+   function Comment({ comment }) {
+     const [showReply, setShowReply] = useState(false);
+     const [replyText, setReplyText] = useState("");
+
+     const handleReply = () => {
+       // Logic to add reply to comment.replies
+     };
+
+     return (
+       <div className="comment">
+         <p>{comment.text}</p>
+         <button onClick={() => setShowReply(!showReply)}>Reply</button>
+         {showReply && (
+           <div>
+             <textarea
+               value={replyText}
+               onChange={(e) => setReplyText(e.target.value)}
+             />
+             <button onClick={handleReply}>Submit</button>
+           </div>
+         )}
+         {comment.replies && comment.replies.length > 0 && (
+           <div className="replies">
+             {comment.replies.map((reply) => (
+               <Comment key={reply.id} comment={reply} />
+             ))}
+           </div>
+         )}
+       </div>
+     );
+   }
+
+   export default Comment;
+   ```
+
+**Optimizations:**
+
+- **Virtualization**: For a large number of comments, implement virtualization to improve performance.
+
+---
+
+## 10. Scalable Poll Widget Component
+
+**Objective:**
+
+- Build a Poll Widget Component.
+- Focus on requirement gathering, HLD, LLD, API structure, and optimizations.
+
+**Requirement Gathering:**
+
+- **Features:**
+  - Display poll question and options.
+  - Allow users to vote.
+  - Show real-time results.
+
+**High-Level Design (HLD):**
+
+- **Components:**
+  - `Poll`: Main component handling poll display and voting.
+- **API Structure:**
+  - **Endpoints:**
+    - `GET /polls/:id`: Fetch poll data.
+    - `POST /polls/:id/vote`: Submit a vote.
+
+**Low-Level Design (LLD):**
+
+- **State Management:**
+  - Use `useState` and `useEffect` to manage poll data.
+- **Optimizations:**
+  - Use WebSockets for real-time updates (if applicable).
+
+**Code Implementation:**
+
+1. **Poll.js:**
+
+   ```jsx
+   import React, { useState, useEffect } from "react";
+   import axios from "axios";
+
+   function Poll({ pollId }) {
+     const [poll, setPoll] = useState(null);
+     const [selectedOption, setSelectedOption] = useState(null);
+
+     useEffect(() => {
+       axios.get(`/polls/${pollId}`).then((response) => setPoll(response.data));
+     }, [pollId]);
+
+     const submitVote = () => {
+       axios
+         .post(`/polls/${pollId}/vote`, { optionId: selectedOption })
+         .then((response) => {
+           setPoll(response.data);
+         });
+     };
+
+     if (!poll) return <div>Loading...</div>;
+
+     return (
+       <div>
+         <h2>{poll.question}</h2>
+         {poll.options.map((option) => (
+           <div key={option.id}>
+             <label>
+               <input
+                 type="radio"
+                 name="poll"
+                 value={option.id}
+                 onChange={() => setSelectedOption(option.id)}
+               />
+               {option.text} - {option.votes} votes
+             </label>
+           </div>
+         ))}
+         <button onClick={submitVote} disabled={!selectedOption}>
+           Vote
+         </button>
+       </div>
+     );
+   }
+
+   export default Poll;
+   ```
+
+**Optimizations:**
+
+- **Real-Time Updates**: Implement WebSocket connections to update poll results in real-time.
+- **Caching**: Use client-side caching to reduce API calls.
+
+---
+
+### Performance Optimizations in React and Frontend Development
+
+Optimizing the performance of your React applications is crucial for delivering a smooth user experience. This guide covers various techniques and best practices, complete with code examples, to help you master performance optimizations in React and frontend development.
+
+---
+
+## 1. Utilizing React DevTools: Components and Profiler Tabs
+
+### Components Tab
+
+The **Components** tab allows you to inspect the component hierarchy, props, state, and hooks of your React application.
+
+#### Key Features:
+
+- **Inspect Props and State**: View and edit props and state of components in real-time.
+- **Highlight Updates**: Visualize component re-renders to identify unnecessary updates.
+
+#### How to Use:
+
+1. **Install React DevTools**: Available as a browser extension for Chrome and Firefox.
+2. **Open DevTools**: Navigate to the **Components** tab.
+3. **Inspect Components**: Click on components to view their props and state.
+
+### Profiler Tab
+
+The **Profiler** tab helps you measure the performance of your application by recording render times.
+
+#### Key Features:
+
+- **Record Performance**: Start and stop profiling sessions.
+- **Analyze Render Times**: View commit times and identify slow components.
+- **Flame Graphs**: Visualize component hierarchies and render durations.
+
+#### How to Use:
+
+1. **Navigate to Profiler Tab**: In React DevTools, go to the **Profiler** tab.
+2. **Record Profiling Session**: Click **Start profiling** and interact with your app.
+3. **Stop Profiling**: Click **Stop profiling** to analyze the results.
+
+#### Example:
+
+```jsx
+import React, { useState } from "react";
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  console.log("Counter render");
+
+  return (
+    <div>
+      <p>{count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+
+export default Counter;
+```
+
+Use the **Profiler** to check if `Counter` re-renders unnecessarily.
+
+---
+
+## 2. Client-Side Rendering (CSR) vs. Server-Side Rendering (SSR)
+
+### Client-Side Rendering (CSR)
+
+In CSR, the browser downloads a minimal HTML page and JavaScript files, which render the content dynamically.
+
+#### Pros:
+
+- Rich interactivity.
+- Less server load.
+
+#### Cons:
+
+- Initial load might be slow.
+- SEO challenges.
+
+### Server-Side Rendering (SSR)
+
+In SSR, the server renders the initial HTML page, which is sent to the client.
+
+#### Pros:
+
+- Faster initial load.
+- Better SEO.
+
+#### Cons:
+
+- Increased server load.
+- More complex setup.
+
+### Implementing CSR and SSR
+
+#### CSR with Create React App:
+
+```bash
+npx create-react-app my-app
+cd my-app
+npm start
+```
+
+This setup uses CSR by default.
+
+#### SSR with Next.js:
+
+```bash
+npx create-next-app my-next-app
+cd my-next-app
+npm run dev
+```
+
+**Example of SSR in Next.js:**
+
+```jsx
+// pages/index.js
+export async function getServerSideProps() {
+  // Fetch data from an API
+  const res = await fetch("https://api.example.com/data");
+  const data = await res.json();
+
+  return { props: { data } };
+}
+
+function HomePage({ data }) {
+  return <div>{/* Render data */}</div>;
+}
+
+export default HomePage;
+```
+
+---
+
+## 3. Code Splitting and Lazy Loading
+
+Code splitting divides your code into smaller chunks, which can be loaded on-demand, improving load times.
+
+### React Lazy Loading
+
+Use `React.lazy()` and `Suspense` to lazy load components.
+
+#### Example:
+
+```jsx
+import React, { Suspense } from "react";
+
+const HeavyComponent = React.lazy(() => import("./HeavyComponent"));
+
+function App() {
+  return (
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <HeavyComponent />
+      </Suspense>
+    </div>
+  );
+}
+
+export default App;
+```
+
+### Webpack Code Splitting
+
+Webpack automatically splits code based on dynamic imports.
+
+#### Example:
+
+```jsx
+// Dynamic import
+import("./module").then((module) => {
+  // Use the module
+});
+```
+
+---
+
+## 4. Error Boundaries
+
+Error boundaries catch JavaScript errors in components below them, preventing the entire app from crashing.
+
+### Creating an Error Boundary
+
+```jsx
+import React from "react";
+
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
   }
-  ```
 
-- **Error Boundaries in React**: Catch errors in the component tree.
+  static getDerivedStateFromError(error) {
+    // Update state to render fallback UI.
+    return { hasError: true };
+  }
 
-  ```jsx
-  class ErrorBoundary extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = { hasError: false };
+  componentDidCatch(error, info) {
+    // Log error details.
+    console.error(error, info);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      // Fallback UI.
+      return <h1>Something went wrong.</h1>;
     }
 
-    static getDerivedStateFromError(error) {
-      // Update state so the next render shows the fallback UI.
-      return { hasError: true };
-    }
+    return this.props.children;
+  }
+}
 
-    componentDidCatch(error, info) {
-      // You can also log the error to an error reporting service
-      logErrorToService(error, info);
+export default ErrorBoundary;
+```
+
+### Using the Error Boundary
+
+```jsx
+function App() {
+  return (
+    <ErrorBoundary>
+      <MyComponent />
+    </ErrorBoundary>
+  );
+}
+```
+
+---
+
+## 5. Web Vitals
+
+Web Vitals are metrics that capture the user experience of web applications.
+
+### Key Metrics:
+
+- **Largest Contentful Paint (LCP)**: Measures loading performance.
+- **Cumulative Layout Shift (CLS)**: Measures visual stability.
+- **Interaction to Next Paint (INP)**: Measures responsiveness.
+
+### Optimizing LCP
+
+- Optimize images.
+- Use efficient caching.
+- Preload critical resources.
+
+### Optimizing CLS
+
+- Set size attributes on images and videos.
+- Avoid inserting content above existing content.
+
+### Measuring Web Vitals
+
+Use Google's [Web Vitals](https://web.dev/vitals/) library.
+
+#### Example:
+
+```bash
+npm install web-vitals
+```
+
+```jsx
+import { getCLS, getLCP, getFID } from "web-vitals";
+
+getCLS(console.log);
+getLCP(console.log);
+getFID(console.log);
+```
+
+---
+
+## 6. Virtualization
+
+Virtualization renders only the visible portion of large data sets, improving performance.
+
+### Using react-window
+
+Install the library:
+
+```bash
+npm install react-window
+```
+
+#### Example:
+
+```jsx
+import { FixedSizeList as List } from "react-window";
+
+const Row = ({ index, style }) => <div style={style}>Row {index}</div>;
+
+function App() {
+  return (
+    <List height={150} itemCount={1000} itemSize={35} width={300}>
+      {Row}
+    </List>
+  );
+}
+
+export default App;
+```
+
+---
+
+## 7. Accessibility Essentials
+
+### Semantic HTML
+
+Use appropriate HTML tags.
+
+#### Example:
+
+```html
+<!-- Bad -->
+<div onclick="handleClick()">Click me</div>
+
+<!-- Good -->
+<button onclick="handleClick()">Click me</button>
+```
+
+### Color Contrast
+
+Ensure text has sufficient contrast with the background.
+
+### Alt Text
+
+Provide `alt` attributes for images.
+
+```html
+<img src="logo.png" alt="Company Logo" />
+```
+
+### Labels and Placeholders
+
+Use labels for form inputs.
+
+```html
+<label for="email">Email:</label> <input id="email" type="email" />
+```
+
+### ARIA Tags
+
+Use ARIA attributes to enhance accessibility.
+
+```jsx
+<button aria-label="Close" onClick={handleClose}>
+  &times;
+</button>
+```
+
+---
+
+## 8. Higher-Order Components (HOC)
+
+An HOC is a function that takes a component and returns a new component.
+
+### Why Use HOCs?
+
+- Reuse code logic.
+- Inject props or state.
+
+### Example:
+
+```jsx
+function withLogger(WrappedComponent) {
+  return class extends React.Component {
+    componentDidMount() {
+      console.log("Component mounted");
     }
 
     render() {
-      if (this.state.hasError) {
-        // Fallback UI
-        return <h1>Something went wrong.</h1>;
-      }
-
-      return this.props.children;
+      return <WrappedComponent {...this.props} />;
     }
-  }
-  ```
-
----
-
-## 10. Popular Array and String Methods
-
-### Array Methods
-
-- **`map`**: Creates a new array by applying a function to each element.
-
-  ```javascript
-  const numbers = [1, 2, 3];
-  const doubled = numbers.map((n) => n * 2); // [2, 4, 6]
-  ```
-
-- **`filter`**: Creates a new array with elements that pass a test.
-
-  ```javascript
-  const numbers = [1, 2, 3, 4];
-  const even = numbers.filter((n) => n % 2 === 0); // [2, 4]
-  ```
-
-### String Methods
-
-- **`slice`**: Extracts a section of a string.
-
-  ```javascript
-  const str = "Hello World";
-  console.log(str.slice(0, 5)); // 'Hello'
-  ```
-
-- **`startsWith`**: Checks if a string starts with specified characters.
-
-  ```javascript
-  const str = "Hello World";
-  console.log(str.startsWith("Hello")); // true
-  ```
-
-- **`splice`**: Note that `splice` is an array method that changes the content of an array.
-
-  ```javascript
-  const fruits = ["Apple", "Banana", "Cherry"];
-  fruits.splice(1, 1, "Blueberry"); // ['Apple', 'Blueberry', 'Cherry']
-  ```
-
----
-
-## 11. Prop Drilling & State Management in React 💡
-
-**Prop Drilling**: Passing props through multiple layers.
-
-### Problem:
-
-```jsx
-function Grandparent() {
-  const [state, setState] = useState();
-  return <Parent state={state} />;
-}
-
-function Parent({ state }) {
-  return <Child state={state} />;
-}
-
-function Child({ state }) {
-  return <div>{state}</div>;
-}
-```
-
-### Solutions:
-
-- **Context API**: Provides a way to pass data through the component tree without props.
-
-  ```jsx
-  const MyContext = React.createContext();
-
-  function Grandparent() {
-    const [state, setState] = useState();
-    return (
-      <MyContext.Provider value={state}>
-        <Parent />
-      </MyContext.Provider>
-    );
-  }
-
-  function Parent() {
-    return <Child />;
-  }
-
-  function Child() {
-    const state = useContext(MyContext);
-    return <div>{state}</div>;
-  }
-  ```
-
-- **State Management Libraries**: Use Redux, MobX, or Zustand for complex state.
-
----
-
-## 12. CSS Positioning Challenge 🕹️
-
-### Positioning Types:
-
-- **Static**: Default position; elements are rendered in order.
-- **Relative**: Positioned relative to its normal position.
-- **Absolute**: Positioned relative to the nearest positioned ancestor.
-- **Fixed**: Positioned relative to the viewport.
-- **Sticky**: Toggles between relative and fixed based on scroll.
-
-### Real-World Example:
-
-**Create a sticky header that stays at the top while scrolling.**
-
-**HTML:**
-
-```html
-<header>
-  <h1>My Website</h1>
-</header>
-<div class="content">
-  <!-- Page content -->
-</div>
-```
-
-**CSS:**
-
-```css
-header {
-  position: sticky;
-  top: 0;
-  background-color: #fff;
-  z-index: 1000;
-}
-
-.content {
-  padding-top: 60px; /* Height of the header */
-}
-```
-
-**Explanation:** The `position: sticky;` makes the header stick to the top of the viewport when you scroll past it.
-
----
-
-## 13. Advanced React Patterns
-
-### Higher-Order Components (HOCs)
-
-HOCs are functions that take a component and return a new component, allowing for code reuse.
-
-**Example:**
-
-```jsx
-function withLoading(Component) {
-  return function WithLoadingComponent({ isLoading, ...props }) {
-    if (!isLoading) return <Component {...props} />;
-    return <p>Loading...</p>;
   };
 }
 
-// Usage
-const EnhancedComponent = withLoading(MyComponent);
+export default withLogger;
 ```
 
-### Render Props
+### Using the HOC:
+
+```jsx
+function MyComponent(props) {
+  return <div>{props.message}</div>;
+}
+
+export default withLogger(MyComponent);
+```
+
+---
+
+## 9. Carousel Performance Optimization
+
+Optimizing carousels involves:
+
+- Lazy loading images.
+- Throttling slide transitions.
+- Avoiding unnecessary re-renders.
+
+### Example with Swiper.js:
+
+Install Swiper:
+
+```bash
+npm install swiper
+```
+
+#### Implementing Lazy Loading:
+
+```jsx
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/swiper-bundle.css";
+
+function Carousel() {
+  return (
+    <Swiper lazy={true}>
+      <SwiperSlide>
+        <img data-src="image1.jpg" className="swiper-lazy" alt="Slide 1" />
+      </SwiperSlide>
+      {/* More slides */}
+    </Swiper>
+  );
+}
+
+export default Carousel;
+```
+
+---
+
+## 10. Module Pattern in React Apps
+
+The module pattern encapsulates code, exposing only what is necessary.
+
+### Implementing the Module Pattern
+
+#### Counter Module:
+
+```jsx
+// counter.js
+const CounterModule = (() => {
+  let count = 0;
+
+  const increment = () => count++;
+  const getCount = () => count;
+
+  return {
+    increment,
+    getCount,
+  };
+})();
+
+export default CounterModule;
+```
+
+#### Using the Module:
+
+```jsx
+import CounterModule from "./counter";
+
+function App() {
+  const handleClick = () => {
+    CounterModule.increment();
+    console.log(CounterModule.getCount());
+  };
+
+  return <button onClick={handleClick}>Increment</button>;
+}
+
+export default App;
+```
+
+---
+
+## 11. Render Props
 
 Render props are techniques for sharing code between components using a prop whose value is a function.
 
-**Example:**
+### Example:
+
+#### MouseTracker Component:
 
 ```jsx
 class MouseTracker extends React.Component {
   state = { x: 0, y: 0 };
 
-  handleMouseMove = (event) => {
-    this.setState({ x: event.clientX, y: event.clientY });
+  handleMouseMove = (e) => {
+    this.setState({
+      x: e.clientX,
+      y: e.clientY,
+    });
   };
 
   render() {
@@ -1083,1381 +3195,30 @@ class MouseTracker extends React.Component {
     );
   }
 }
-
-// Usage
-<MouseTracker
-  render={({ x, y }) => (
-    <h1>
-      Mouse position: {x}, {y}
-    </h1>
-  )}
-/>;
 ```
 
-### Context API
-
-The Context API allows you to share state across the component tree without passing props down manually.
-
-**Example:**
+#### Using Render Props:
 
 ```jsx
-const ThemeContext = React.createContext("light");
-
 function App() {
   return (
-    <ThemeContext.Provider value="dark">
-      <Toolbar />
-    </ThemeContext.Provider>
+    <MouseTracker
+      render={({ x, y }) => (
+        <h1>
+          The mouse position is ({x}, {y})
+        </h1>
+      )}
+    />
   );
 }
 
-function Toolbar() {
-  return <ThemedButton />;
-}
-
-function ThemedButton() {
-  const theme = useContext(ThemeContext);
-  return <button className={theme}>Button</button>;
-}
+export default App;
 ```
 
 ---
 
-## 14. State Management Libraries
+By mastering these performance optimization techniques, you can build React applications that are efficient, accessible, and deliver a superior user experience.
 
-### Redux
+These implementations provide a solid foundation for the requested components and applications. Remember to tailor each solution to fit the specific requirements of your project or interview scenario. Good luck with your frontend interview preparations!
 
-Redux is a predictable state container for JavaScript apps.
-
-**Basic Concepts:**
-
-- **Store**: Holds the application state.
-- **Actions**: Plain objects describing what happened.
-- **Reducers**: Functions that return the next state.
-
-**Example:**
-
-```javascript
-// Action
-const increment = () => ({ type: "INCREMENT" });
-
-// Reducer
-function counter(state = 0, action) {
-  switch (action.type) {
-    case "INCREMENT":
-      return state + 1;
-    default:
-      return state;
-  }
-}
-```
-
-### MobX
-
-MobX is a state management library that makes state observable.
-
-**Example:**
-
-```javascript
-import { observable, action } from "mobx";
-
-class Store {
-  @observable count = 0;
-
-  @action increment() {
-    this.count += 1;
-  }
-}
-
-const store = new Store();
-```
-
----
-
-## 15. Testing in React
-
-### Unit Testing with Jest and React Testing Library
-
-**Example Test:**
-
-```jsx
-import { render, screen } from "@testing-library/react";
-import App from "./App";
-
-test("renders header", () => {
-  render(<App />);
-  const headerElement = screen.getByText(/My Website/i);
-  expect(headerElement).toBeInTheDocument();
-});
-```
-
-### End-to-End Testing with Cypress
-
-**Example Test:**
-
-```javascript
-describe("My First Test", () => {
-  it("Visits the app", () => {
-    cy.visit("http://localhost:3000");
-    cy.contains("My Website");
-  });
-});
-```
-
----
-
-## 16. Performance Profiling
-
-### React Profiler
-
-Use the Profiler API to measure the performance of components.
-
-**Example:**
-
-```jsx
-import { Profiler } from "react";
-
-function onRenderCallback(
-  id, // the "id" prop of the Profiler tree that has just committed
-  phase, // either "mount" or "update"
-  actualDuration // time spent rendering the committed update
-  // ...other arguments
-) {
-  // Aggregate or log render timings...
-}
-
-function App() {
-  return (
-    <Profiler id="App" onRender={onRenderCallback}>
-      <MyComponents />
-    </Profiler>
-  );
-}
-```
-
----
-
-## 17. Webpack and Babel
-
-### Module Bundling with Webpack
-
-**Webpack Configuration:**
-
-```javascript
-const path = require("path");
-
-module.exports = {
-  entry: "./src/index.js",
-  output: {
-    filename: "bundle.js",
-    path: path.resolve(__dirname, "dist"),
-  },
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader",
-        },
-      },
-    ],
-  },
-};
-```
-
-### Babel Configuration
-
-**.babelrc:**
-
-```json
-{
-  "presets": ["@babel/preset-env", "@babel/preset-react"]
-}
-```
-
----
-
-## 18. Security in Web Applications
-
-### Preventing Cross-Site Scripting (XSS)
-
-- **Sanitize Inputs**: Use libraries like DOMPurify.
-- **Escape Outputs**: Ensure data rendered to the browser is escaped.
-
-**Example:**
-
-```javascript
-import DOMPurify from "dompurify";
-
-function renderContent(dirty) {
-  const clean = DOMPurify.sanitize(dirty);
-  return <div dangerouslySetInnerHTML={{ __html: clean }} />;
-}
-```
-
-### Preventing Cross-Site Request Forgery (CSRF)
-
-- **Use CSRF Tokens**: Include tokens in forms and validate them on the server.
-- **SameSite Cookies**: Set cookies with `SameSite` attribute.
-
----
-
-## 19. RESTful APIs and GraphQL
-
-### Designing RESTful APIs
-
-- **Endpoints**: Use nouns and hierarchical structure.
-- **HTTP Methods**: GET, POST, PUT, DELETE.
-
-**Example:**
-
-- `GET /api/users` - Retrieve all users.
-- `POST /api/users` - Create a new user.
-
-### GraphQL Basics
-
-- **Queries**: Fetch data.
-- **Mutations**: Modify data.
-
-**Example Query:**
-
-```graphql
-{
-  user(id: "1") {
-    name
-    email
-  }
-}
-```
-
----
-
-## 20. DevOps and CI/CD Practices
-
-### Continuous Integration with GitHub Actions
-
-**Example Workflow:**
-
-```yaml
-name: CI
-
-on: [push]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Install dependencies
-        run: npm install
-      - name: Run tests
-        run: npm test
-```
-
-### Continuous Deployment
-
-- **Automate Deployments**: Use tools like Jenkins, Travis CI, or GitHub Actions to deploy code after passing tests.
-
----
-
-## 21. Cloud Services and Infrastructure
-
-### AWS Services
-
-- **EC2**: Virtual servers.
-- **S3**: Object storage.
-- **Lambda**: Serverless functions.
-
-**Example of AWS Lambda Function:**
-
-```javascript
-exports.handler = async (event) => {
-  const response = {
-    statusCode: 200,
-    body: JSON.stringify("Hello from Lambda!"),
-  };
-  return response;
-};
-```
-
-### Infrastructure as Code with Terraform
-
-**Example Terraform Configuration:**
-
-```hcl
-provider "aws" {
-  region = "us-west-2"
-}
-
-resource "aws_s3_bucket" "b" {
-  bucket = "my-tf-test-bucket"
-  acl    = "private"
-}
-```
-
----
-
-## 22. Microservices Architecture
-
-### Service Mesh with Istio
-
-- **Traffic Management**: Control the flow of traffic and API calls between services.
-- **Security**: Provide secure communication with mutual TLS.
-
-### API Gateways
-
-- **Routing**: Direct client requests to the appropriate service.
-- **Authentication**: Centralized auth mechanisms.
-
----
-
-## 23. Containerization and Orchestration
-
-### Docker Basics
-
-**Dockerfile Example:**
-
-```dockerfile
-FROM node:14
-
-WORKDIR /app
-
-COPY package.json ./
-RUN npm install
-
-COPY . .
-
-EXPOSE 3000
-
-CMD ["npm", "start"]
-```
-
-### Kubernetes Basics
-
-**Deployment Example:**
-
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: my-app
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: my-app
-  template:
-    metadata:
-      labels:
-        app: my-app
-    spec:
-      containers:
-        - name: my-app
-          image: my-app-image
-          ports:
-            - containerPort: 3000
-```
-
----
-
-## 24. Software Design Principles
-
-### SOLID Principles
-
-- **Single Responsibility**: A class should have one, and only one, reason to change.
-- **Open/Closed**: Software entities should be open for extension, but closed for modification.
-- **Liskov Substitution**: Objects of a superclass should be replaceable with objects of a subclass.
-- **Interface Segregation**: Many client-specific interfaces are better than one general-purpose interface.
-- **Dependency Inversion**: Depend upon abstractions, not concretions.
-
----
-
-## 25. Accessibility and Internationalization
-
-### Web Accessibility (A11y)
-
-- **Semantic HTML**: Use appropriate HTML elements.
-- **ARIA Attributes**: Enhance accessibility where needed.
-
-**Example:**
-
-```jsx
-<button aria-label="Close" onClick={handleClose}>
-  <span aria-hidden="true">&times;</span>
-</button>
-```
-
-### Internationalization (i18n)
-
-- **Localization Libraries**: Use libraries like `react-intl` or `i18next`.
-
-**Example with `react-intl`:**
-
-```jsx
-import { IntlProvider, FormattedMessage } from "react-intl";
-
-const messages = {
-  en: { greeting: "Hello" },
-  es: { greeting: "Hola" },
-};
-
-function App({ locale }) {
-  return (
-    <IntlProvider locale={locale} messages={messages[locale]}>
-      <FormattedMessage id="greeting" />
-    </IntlProvider>
-  );
-}
-```
-
----
-
-## 26. Leadership and Mentoring
-
-### Team Management
-
-- **Code Reviews**: Ensure code quality and share knowledge.
-- **Mentoring**: Guide junior developers through pair programming, regular check-ins.
-
-### Project Management
-
-- **Agile Methodologies**: Use Scrum or Kanban for iterative development.
-- **Sprint Planning**: Define goals and tasks for each sprint.
-
----
-
-## 27. Behavioral Questions Preparation
-
-### Problem-Solving
-
-- **STAR Method**: Situation, Task, Action, Result.
-- **Example**: Describe a challenging bug you fixed, how you diagnosed it, and the outcome.
-
-### Communication
-
-- **Technical Explanations**: Practice explaining complex concepts in simple terms.
-- **Active Listening**: Show that you understand questions fully before answering.
-
-### Adaptability
-
-- **Learning New Technologies**: Share experiences where you quickly picked up new tools or frameworks.
-
-### Conflict Resolution
-
-- **Team Conflicts**: Discuss how you resolved disagreements in a professional manner.
-
----
-
-# Part I
-
-## HTML & CSS
-
----
-
-### Box-sizing Property
-
-The `box-sizing` CSS property defines how the total width and height of an element are calculated. It affects the calculation of an element's dimensions by including or excluding `padding` and `border`.
-
-- **`content-box`** (default): Width and height include only the content, not `padding`, `border`, or `margin`.
-- **`border-box`**: Width and height include content, `padding`, and `border`, but not `margin`.
-
-**Example:**
-
-```css
-/* Apply border-box to all elements */
-* {
-  box-sizing: border-box;
-}
-```
-
-By setting `box-sizing` to `border-box`, you simplify layout calculations, as the element's dimensions include the `padding` and `border`.
-
----
-
-### How to Show Responsive Application in Mobile and Laptop
-
-To create a responsive application that adapts to different screen sizes, you can use:
-
-1. **Viewport Meta Tag**: Ensures proper scaling on mobile devices.
-
-   ```html
-   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-   ```
-
-2. **Media Queries**: Apply CSS styles based on device characteristics.
-
-   ```css
-   /* For mobile devices */
-   @media only screen and (max-width: 767px) {
-     /* Mobile styles */
-   }
-
-   /* For tablets */
-   @media only screen and (min-width: 768px) and (max-width: 1024px) {
-     /* Tablet styles */
-   }
-
-   /* For desktops */
-   @media only screen and (min-width: 1025px) {
-     /* Desktop styles */
-   }
-   ```
-
-3. **Flexible Layouts**: Use relative units like percentages, `em`, or CSS Grid and Flexbox.
-
-   ```css
-   .container {
-     display: flex;
-     flex-wrap: wrap;
-   }
-
-   .item {
-     flex: 1 1 50%; /* Adjusts based on screen size */
-   }
-   ```
-
----
-
-### What is Semantic HTML
-
-Semantic HTML uses elements that clearly describe their meaning in both the human and machine-readable code. It improves accessibility and SEO.
-
-**Common Semantic Elements:**
-
-- `<header>`: Defines a header section.
-- `<nav>`: Defines navigation links.
-- `<main>`: Indicates the main content.
-- `<section>`: Defines a section in a document.
-- `<article>`: Defines an independent piece of content.
-- `<aside>`: Defines content aside from the main content.
-- `<footer>`: Defines a footer section.
-
-**Example:**
-
-```html
-<article>
-  <header>
-    <h1>Article Title</h1>
-    <p>Author Name</p>
-  </header>
-  <p>Article content...</p>
-  <footer>
-    <p>Published on: Date</p>
-  </footer>
-</article>
-```
-
----
-
-### Different Inline and Block-Level Elements
-
-**Block-Level Elements**:
-
-- Start on a new line and stretch to the full width.
-- Examples: `<div>`, `<p>`, `<h1>` to `<h6>`, `<ul>`, `<li>`, `<section>`, `<article>`.
-
-**Inline Elements**:
-
-- Do not start on a new line and only take up as much width as necessary.
-- Examples: `<span>`, `<a>`, `<img>`, `<strong>`, `<em>`, `<input>`.
-
-**Inline-Block Elements**:
-
-- Behave like inline elements but respect width and height properties.
-- Can be set using `display: inline-block;`.
-
----
-
-### How to Show Video in Application
-
-Use the HTML `<video>` element to embed videos.
-
-**Example:**
-
-```html
-<video width="640" height="360" controls>
-  <source src="video.mp4" type="video/mp4" />
-  <source src="video.ogg" type="video/ogg" />
-  Your browser does not support the video tag.
-</video>
-```
-
-**Attributes:**
-
-- `controls`: Displays playback controls.
-- `autoplay`: Starts playing the video automatically.
-- `loop`: Repeats the video after it ends.
-- `muted`: Mutes the video's audio.
-- `poster`: Specifies an image to show while the video is downloading.
-
----
-
-### What is z-index?
-
-The `z-index` CSS property controls the vertical stacking order of positioned elements that overlap.
-
-- Only works on elements with `position` set to `relative`, `absolute`, `fixed`, or `sticky`.
-- Elements with a higher `z-index` appear in front of elements with a lower `z-index`.
-
-**Example:**
-
-```css
-.div1 {
-  position: absolute;
-  z-index: 1;
-}
-
-.div2 {
-  position: absolute;
-  z-index: 2;
-}
-```
-
-In this example, `.div2` will appear above `.div1`.
-
----
-
-### What is Default Position in CSS
-
-The default `position` value in CSS is `static`.
-
-- **`position: static;`**: The element is positioned according to the normal flow of the document.
-- Top, right, bottom, and left properties have no effect.
-
----
-
-### Difference Between `display: none` and `visibility: hidden`; In Accordion Which One is Used?
-
-- **`display: none;`**
-
-  - The element is completely removed from the document flow.
-  - No space is allocated for the element.
-  - Child elements are also not displayed.
-
-- **`visibility: hidden;`**
-
-  - The element is hidden but still occupies space in the layout.
-  - Child elements are hidden but space is preserved.
-
-**In Accordions:**
-
-- **`display: none;`** is typically used because it collapses the hidden content, allowing other elements to adjust their position accordingly.
-
-**Example:**
-
-```css
-/* Using display: none; */
-.accordion-content {
-  display: none;
-}
-
-/* Using visibility: hidden; */
-.accordion-content {
-  visibility: hidden;
-}
-```
-
----
-
-## ReactJS
-
----
-
-### useReducer
-
-The `useReducer` Hook is an alternative to `useState`. It is preferable when you have complex state logic or when the next state depends on the previous one.
-
-**Syntax:**
-
-```javascript
-const [state, dispatch] = useReducer(reducer, initialState);
-```
-
-**Example:**
-
-```javascript
-import React, { useReducer } from "react";
-
-function reducer(state, action) {
-  switch (action.type) {
-    case "increment":
-      return { count: state.count + 1 };
-    case "decrement":
-      return { count: state.count - 1 };
-    default:
-      throw new Error("Unexpected action");
-  }
-}
-
-function Counter() {
-  const initialState = { count: 0 };
-  const [state, dispatch] = useReducer(reducer, initialState);
-
-  return (
-    <div>
-      <p>Count: {state.count}</p>
-      <button onClick={() => dispatch({ type: "decrement" })}>–</button>
-      <button onClick={() => dispatch({ type: "increment" })}>+</button>
-    </div>
-  );
-}
-```
-
----
-
-### React Lifecycle Methods in Hooks
-
-In functional components, you use Hooks to replicate lifecycle methods from class components.
-
-- **`componentDidMount`** → `useEffect` with empty dependency array `[]`.
-- **`componentDidUpdate`** → `useEffect` with specific dependencies.
-- **`componentWillUnmount`** → Return a cleanup function in `useEffect`.
-
-**Example:**
-
-```javascript
-useEffect(() => {
-  // ComponentDidMount and ComponentDidUpdate logic
-
-  return () => {
-    // ComponentWillUnmount logic (cleanup)
-  };
-}, [dependencies]); // Empty array [] for ComponentDidMount
-```
-
----
-
-### How Function-Based Components are Different from Class-Based Components
-
-- **Syntax**:
-
-  - **Function Components**: Simple JavaScript functions.
-    ```javascript
-    function MyComponent() {
-      return <div>Hello</div>;
-    }
-    ```
-  - **Class Components**: Use ES6 classes.
-    ```javascript
-    class MyComponent extends React.Component {
-      render() {
-        return <div>Hello</div>;
-      }
-    }
-    ```
-
-- **State and Lifecycle**:
-
-  - **Function Components**: Use Hooks (`useState`, `useEffect`) for state and lifecycle methods.
-  - **Class Components**: Use `this.state` and lifecycle methods (`componentDidMount`, etc.).
-
-- **Performance**:
-
-  - Function components may have performance benefits due to optimizations like avoiding unnecessary constructor calls.
-
-- **`this` Keyword**:
-
-  - Function components do not use `this`, avoiding potential binding issues.
-
----
-
-### What is Redux Middleware? What is `redux-thunk` and `redux-saga`
-
-**Redux Middleware** extends Redux capabilities by intercepting actions before they reach the reducer.
-
-- **Purpose**: Handle asynchronous operations, logging, crash reporting, etc.
-
-**`redux-thunk`**:
-
-- Allows you to write action creators that return a function (thunk) instead of an action object.
-- The thunk can dispatch actions asynchronously.
-
-**Example:**
-
-```javascript
-const fetchData = () => {
-  return (dispatch) => {
-    dispatch({ type: "FETCH_START" });
-    fetch("/api/data")
-      .then((response) => response.json())
-      .then((data) => dispatch({ type: "FETCH_SUCCESS", payload: data }))
-      .catch((error) => dispatch({ type: "FETCH_ERROR", error }));
-  };
-};
-```
-
-**`redux-saga`**:
-
-- Uses generator functions to manage side effects.
-- More powerful for complex asynchronous workflows.
-
-**Example:**
-
-```javascript
-function* fetchDataSaga() {
-  try {
-    const data = yield call(api.fetchData);
-    yield put({ type: "FETCH_SUCCESS", payload: data });
-  } catch (error) {
-    yield put({ type: "FETCH_ERROR", error });
-  }
-}
-
-function* watchFetchData() {
-  yield takeEvery("FETCH_START", fetchDataSaga);
-}
-```
-
----
-
-### Redux Workflow
-
-1. **Action**: An object describing what happened.
-2. **Action Creator**: A function that creates an action.
-3. **Dispatch**: Sends the action to the Redux store.
-4. **Reducers**: Functions that handle actions and update the state.
-5. **Store**: Holds the application state.
-6. **View**: Displays the state.
-
-**Data Flow Diagram:**
-
-1. User interacts with the **View**.
-2. **Action Creator** creates an **Action**.
-3. **Dispatch** sends the action to the **Store**.
-4. **Reducers** update the **State** in the **Store**.
-5. The **View** re-renders based on the new state.
-
----
-
-### Different React Hooks
-
-- **`useState`**: Manage state in functional components.
-- **`useEffect`**: Side effects and lifecycle methods.
-- **`useContext`**: Access React context.
-- **`useReducer`**: Complex state logic.
-- **`useCallback`**: Memoize functions to prevent unnecessary re-renders.
-- **`useMemo`**: Memoize expensive calculations.
-- **`useRef`**: Access DOM nodes or persist mutable values.
-- **`useLayoutEffect`**: Runs synchronously after all DOM mutations.
-- **`useImperativeHandle`**: Customize the instance value exposed to parent components.
-- **`useDebugValue`**: Display custom hook labels in React DevTools.
-
----
-
-### Things to Care About During Code Review
-
-- **Code Readability**: Clear and understandable code.
-- **Functionality**: Meets requirements and works correctly.
-- **Performance**: Efficient code without unnecessary resource usage.
-- **Security**: No vulnerabilities or insecure code.
-- **Maintainability**: Easy to maintain and extend.
-- **Coding Standards**: Adheres to style guides and best practices.
-- **Error Handling**: Proper error checking and handling.
-- **Testing**: Adequate unit and integration tests.
-- **Documentation**: Comments and documentation where necessary.
-- **Modularity**: Reusable and modular code structure.
-
----
-
-### What Will Happen If We Try to Set State Without Using `setState` or `useState`
-
-- **Direct State Mutation**:
-
-  - **Class Components**: Modifying `this.state` directly does not trigger a re-render.
-    ```javascript
-    this.state.count = 5; // Does not re-render the component
-    ```
-  - **Function Components**: Changing state variables directly is ineffective.
-    ```javascript
-    state = 5; // Ineffective; use setState function
-    ```
-
-- **Consequence**: The UI will not update to reflect the new state because React is unaware of the change.
-
----
-
-### What is PureComponent?
-
-`React.PureComponent` is similar to `React.Component`, but it implements `shouldComponentUpdate` with a shallow prop and state comparison.
-
-- **Advantages**:
-
-  - Prevents unnecessary re-renders.
-  - Improves performance for components that render the same output given the same props and state.
-
-- **Usage**:
-
-  ```javascript
-  class MyComponent extends React.PureComponent {
-    // Component code
-  }
-  ```
-
-- **Note**: Only performs a shallow comparison; may not detect nested data structure changes.
-
----
-
-### Difference Between Shallow and Mount in React Unit Test
-
-- **Shallow Rendering (`shallow`)**:
-
-  - Renders only the component itself, not its children.
-  - Ideal for unit testing individual components.
-  - Faster and requires less setup.
-
-  ```javascript
-  import { shallow } from "enzyme";
-  const wrapper = shallow(<MyComponent />);
-  ```
-
-- **Full DOM Rendering (`mount`)**:
-
-  - Renders the component and all its children into the DOM.
-  - Allows testing of lifecycle methods and interactions.
-  - Requires a DOM (may need tools like JSDOM).
-
-  ```javascript
-  import { mount } from "enzyme";
-  const wrapper = mount(<MyComponent />);
-  ```
-
----
-
-### What is Merge and Rebase in GIT
-
-- **Merge**:
-
-  - Combines two branches by creating a new merge commit.
-  - Preserves the history of both branches.
-  - Results in a non-linear history.
-
-  ```bash
-  git checkout feature
-  git merge master
-  ```
-
-- **Rebase**:
-
-  - Moves the entire feature branch to begin on the tip of the master branch.
-  - Rewrites project history by creating new commits.
-  - Results in a linear history.
-
-  ```bash
-  git checkout feature
-  git rebase master
-  ```
-
-**Diagram:**
-
-- **Merge**:
-
-  ```
-  master
-    \
-     feature
-       \
-        merge commit
-  ```
-
-- **Rebase**:
-
-  ```
-  master -> feature
-  ```
-
-**Note**: Rebasing can make history cleaner but can cause issues if not used carefully, especially with shared branches.
-
----
-
-### How to Store Form Values in JavaScript/React (Restore After Network Loss or Browser Close)
-
-- **Use `localStorage` or `sessionStorage`** to persist form data.
-
-**Example:**
-
-```javascript
-import React, { useState, useEffect } from "react";
-
-function MyForm() {
-  const [formData, setFormData] = useState(() => {
-    const saved = localStorage.getItem("formData");
-    return saved ? JSON.parse(saved) : { name: "", email: "" };
-  });
-
-  useEffect(() => {
-    localStorage.setItem("formData", JSON.stringify(formData));
-  }, [formData]);
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  return (
-    <form>
-      <input name="name" value={formData.name} onChange={handleChange} />
-      <input name="email" value={formData.email} onChange={handleChange} />
-    </form>
-  );
-}
-```
-
-- **Explanation**:
-
-  - **Initialization**: Retrieve saved data from `localStorage`.
-  - **Update**: Save data to `localStorage` whenever form data changes.
-  - **Restoration**: Upon reloading, form data is restored from `localStorage`.
-
----
-
-### What is Event Bubbling and What is the Default Behavior
-
-**Event Bubbling**:
-
-- When an event occurs on an element, it first triggers handlers on that element, then propagates up to its parent elements.
-
-**Default Behavior**:
-
-- **Bubbling Phase**: Event moves from the target element up to the root.
-- **Capturing Phase**: (Optional) Event moves from the root down to the target.
-
-**Example:**
-
-```html
-<div id="parent">
-  <button id="child">Click Me</button>
-</div>
-```
-
-```javascript
-document.getElementById("parent").addEventListener("click", () => {
-  console.log("Parent clicked");
-});
-
-document.getElementById("child").addEventListener("click", () => {
-  console.log("Child clicked");
-});
-```
-
-- Clicking the button logs:
-
-  ```
-  Child clicked
-  Parent clicked
-  ```
-
----
-
-### How to Subscribe and Unsubscribe the Component Using `useEffect` Hooks
-
-**Subscribe**:
-
-- Perform the subscription inside the `useEffect` callback.
-
-**Unsubscribe**:
-
-- Return a cleanup function from `useEffect` to unsubscribe when the component unmounts or before re-running the effect.
-
-**Example:**
-
-```javascript
-useEffect(() => {
-  const subscription = dataService.subscribe((data) => {
-    setData(data);
-  });
-
-  return () => {
-    // Unsubscribe on cleanup
-    subscription.unsubscribe();
-  };
-}, []); // Empty dependency array ensures effect runs once
-```
-
----
-
-### `useState` is Synchronous or Asynchronous
-
-- **Asynchronous Nature**:
-
-  - Updates to state using `setState` or the setter function from `useState` are asynchronous.
-  - React batches state updates for performance.
-  - The updated state value is available on the next render.
-
-- **Implication**:
-
-  - You cannot reliably use the updated state value immediately after calling the setter.
-
-**Example:**
-
-```javascript
-const [count, setCount] = useState(0);
-
-const increment = () => {
-  setCount(count + 1);
-  console.log(count); // May still log the old value
-};
-```
-
----
-
-### What Will Happen If We Return Empty Callback Function in `useEffect`
-
-- **Returning an Empty Function**:
-
-  - The empty function serves as a cleanup function.
-  - If no cleanup is needed, you can omit the return statement.
-
-- **Effect**:
-
-  - No adverse effect, but it's unnecessary.
-  - It's better to return `undefined` or nothing if no cleanup is needed.
-
-**Example:**
-
-```javascript
-useEffect(() => {
-  // Effect logic
-  return () => {};
-}, []);
-```
-
----
-
-### What is Lazy Loading in ReactJS
-
-**Lazy Loading**:
-
-- Technique to defer loading of non-critical components until they are needed.
-- Improves performance by reducing initial load time.
-
-**Implementation with `React.lazy` and `Suspense`:**
-
-```javascript
-import React, { Suspense } from "react";
-
-const LazyComponent = React.lazy(() => import("./LazyComponent"));
-
-function App() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <LazyComponent />
-    </Suspense>
-  );
-}
-```
-
-- **`React.lazy`**: Dynamically imports the component.
-- **`Suspense`**: Provides a fallback UI until the component loads.
-
----
-
-### What is Code Splitting?
-
-**Code Splitting**:
-
-- Breaking up code into smaller chunks.
-- Allows the application to load only the necessary code for the current user interaction.
-- Implemented using dynamic `import()` statements.
-
-**Benefits**:
-
-- Reduces initial load time.
-- Improves performance and user experience.
-
-**Example with Webpack and React:**
-
-```javascript
-// Before code splitting
-import HeavyComponent from "./HeavyComponent";
-
-// After code splitting
-const HeavyComponent = React.lazy(() => import("./HeavyComponent"));
-```
-
----
-
-### What are Promises
-
-A **Promise** is an object representing the eventual completion or failure of an asynchronous operation.
-
-- **States**:
-
-  - **Pending**: Initial state.
-  - **Fulfilled**: Operation completed successfully.
-  - **Rejected**: Operation failed.
-
-- **Usage**:
-
-  ```javascript
-  const promise = new Promise((resolve, reject) => {
-    // Asynchronous operation
-    if (success) {
-      resolve(result);
-    } else {
-      reject(error);
-    }
-  });
-
-  promise
-    .then((result) => {
-      // Handle success
-    })
-    .catch((error) => {
-      // Handle error
-    });
-  ```
-
----
-
-### What is Closure?
-
-A **Closure** is a function that has access to its own scope, the outer function's scope, and the global scope.
-
-- **Characteristics**:
-
-  - Retains access to variables from the outer scope even after the outer function has returned.
-  - Useful for data privacy and implementing private variables.
-
-**Example:**
-
-```javascript
-function outerFunction() {
-  const outerVariable = "Outer";
-
-  function innerFunction() {
-    console.log(outerVariable); // Accesses outerVariable
-  }
-
-  return innerFunction;
-}
-
-const inner = outerFunction();
-inner(); // Logs: 'Outer'
-```
-
----
-
-### What is Bubble Sort?
-
-**Bubble Sort** is a simple comparison-based sorting algorithm.
-
-- **Algorithm Steps**:
-
-  1. Compare each pair of adjacent items.
-  2. Swap them if they are in the wrong order.
-  3. Repeat until no swaps are needed.
-
-- **Characteristics**:
-
-  - Time Complexity: O(n²)
-  - Space Complexity: O(1)
-  - Not efficient for large datasets.
-
-**Example Implementation:**
-
-```javascript
-function bubbleSort(array) {
-  let n = array.length;
-  let swapped;
-  do {
-    swapped = false;
-    for (let i = 0; i < n - 1; i++) {
-      if (array[i] > array[i + 1]) {
-        // Swap elements
-        [array[i], array[i + 1]] = [array[i + 1], array[i]];
-        swapped = true;
-      }
-    }
-    n--; // Optimizes by reducing the range
-  } while (swapped);
-  return array;
-}
-
-// Usage
-const arr = [5, 3, 8, 4, 2];
-console.log(bubbleSort(arr)); // Output: [2, 3, 4, 5, 8]
-```
-
----
-
-### How to Do Type Checking in JavaScript
-
-- **`typeof` Operator**: Checks the type of a variable.
-
-  ```javascript
-  typeof 42; // "number"
-  typeof "Hello"; // "string"
-  typeof true; // "boolean"
-  typeof undefined; // "undefined"
-  typeof null; // "object" (quirk of JS)
-  typeof {}; // "object"
-  typeof function () {}; // "function"
-  ```
-
-- **`instanceof` Operator**: Checks if an object is an instance of a constructor.
-
-  ```javascript
-  [] instanceof Array;      // true
-  {} instanceof Object;     // true
-  new Date() instanceof Date; // true
-  ```
-
-- **Strict Equality Checks**:
-
-  ```javascript
-  if (Array.isArray(value)) {
-    // value is an array
-  }
-  ```
-
-- **TypeScript or Flow**: Use static type checkers for robust type safety.
-
----
-
-### What are Iterators & Generators in JavaScript?
-
-#### Iterators
-
-- An **Iterator** is an object that defines a sequence and potentially a return value upon its termination.
-- It implements the **`next()`** method that returns an object with `{ value, done }`.
-
-**Example:**
-
-```javascript
-const iterable = [1, 2, 3];
-const iterator = iterable[Symbol.iterator]();
-
-console.log(iterator.next()); // { value: 1, done: false }
-console.log(iterator.next()); // { value: 2, done: false }
-```
-
-#### Generators
-
-- **Generators** are functions that can be paused and resumed.
-- Defined using the `function*` syntax.
-- Use the `yield` keyword to pause execution.
-
-**Example:**
-
-```javascript
-function* generatorFunction() {
-  yield 1;
-  yield 2;
-  yield 3;
-}
-
-const generator = generatorFunction();
-
-console.log(generator.next()); // { value: 1, done: false }
-console.log(generator.next()); // { value: 2, done: false }
-```
-
-- **Use Cases**:
-
-  - Simplify asynchronous code.
-  - Implement custom iterators.
-
----
-
-**Good luck with your interview!** Make sure to understand these concepts thoroughly and be prepared to explain them in your own words, drawing from your extensive experience to provide real-world examples.
+This guide should provide you with a solid understanding of the topics and prepare you for your frontend interviews. Good luck!

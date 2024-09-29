@@ -337,89 +337,114 @@ By focusing on these areas, you'll be well-prepared to tackle the questions your
 
 **Best of luck with your interview preparation!**
 
-# Hooks
+# JavaScript and React Questions for Interview Preprations
 
-- useState
-- useEffect (Deep Dive with good code examples)
-- useContext
-- useReducer
-- useMemo
-- useCallBack
-- useRef
+## Please provide me the Questions with there proper Explaination with the Diagram and Clean Code as per the Given Topics so that i can Ace the Frontend interview (please provide all the questions with there proper expaination and Best Code examples so that the interviewer got impressed).
 
-# Higher Order Componement
+### Javascript
 
-- What, When ,Why , How with code examples
+    - Var, Let, Const
+    - Map, filter, Reduce (there Ployfill too)
+    - Functions
+    - Closures
+    - Currying
+    - Objects
+    - 'this' Keyword
+    - Call, Bind & Apply
+    - Promises
+    - Debouncing
+    - Throttling
+    - Event Propagation
+    - Compose and Pipe
+    - Prototypes
+    - Class and Constructors
+    - Event Loop
 
-# Life cycle methode of the componenets
+### React Interview Questions
 
-- Class Componenets
-- 3 phases - Mounting, updating and Unmounting
+      - How React works under the hood .
+      - React Rendering Process (Virtual DOM and Diffing Algorithm)
+      - Most Asked Interview Questions
+        - Ques 1: What is React and why is it used?
+        - Ques 2: What is JSX, and why is it used?
+        - Ques 3: What is a React component?
+        - Ques 4: What is the difference between state and props?
+        - Ques 5: What is prop drilling?
+        - Ques 6: What is a React fragment, and why is it used?
+        - Ques 7: How do you define and use state in a React Functional component? How are they different from normal variables?
+        - Ques 8: How do you define and use state in a React class component?
+        - Ques 9: How do you pass props to a functional component?
+        - Ques 10: What are PropTypes?
+        - Ques 11: How do you use props in a class component?
+        - Ques 12: In how many ways can we export/import things from a JS Module?
+        - Ques 13: What is Virtual DOM?
+        - Ques 14: Reconciliation vs Rendering?
+        - Ques 15: What is the Diff Algorithm?
+      - Map, Filter and Reduce in React
+      - Conditional Operators
+      - Class-ic vs Functional React
+      - State vs Props
+      - Types of components
+      - useState (Deep and under the hood explaination)
+      - useEffect (Deep and under the hood explaination)
+      - useEffect Polyfill
+      - useRef hook
+      - useContext hook
+      - context API to implement dark and light mode in React JS
+      - useReducer Hook
+      - useMemo
+      - useCallback
+      - useMemo
+      - useMemo Polyfill
+      - useImperativeHandle Hook
+      - forwardRef
+      - useWindowSize Customhook
+      - useFetch customhook
+      - useDebounce customhook
+      - useLocalStorate cutomhook
+      - useIntersectionObserver (custom React hook used to observe changes in the intersection of a target element with an ancestor element or the viewport)
+      - React Router
+      - Most Asked React Router Interview Questions
+      - Advance State Management ( Redux )
+      - Redux Interview Questions
+      - Redux Toolkit Implementation
 
-# State manegement
+### Machine Codin Round in Valilla Js, React
 
-- State vs Props with Code examples
-- React Context
-- Context API
-- Redux - how it works , how , when why (code examples) ?
-- Redux tool- kit how it works , how , when why (code examples)
-- Zusatand how it works , how , when why (code examples)
+        - TODO List in HTML,CSS,Javascript
+        - Holy Grail in HTML and CSS
+        - Tabs in HTML,CSS and Javascript
+        - Accordion in HTML,CSS and Javascript
+        - Build a Highly Scalable Carousel Component in React JS.
+        - Pagination in HTML, CSS and Javascript.
+        - Pagination with Truncation in React JS
+        - Implement Infinite scrolling in a React JS.
+        - Design and implement a web page that dynamically creates a series of boxes having varying widths and colors using Vanilla JavaScript, HTML and CSS.
+        - Build a React app that displays a list of posts and allows users to click on a post to view its details along with comments on a separate page, Use following API For the posts - https://jsonplaceholder.typicode.com/posts?_limit=50 - Implement React Router for navigation between the home page and individual post pages. - Identify opportunities to enhance the rendering performance and efficiency of API calls, especially when dealing with multiple requests.
+        - Create a Progress Bar Component It should follow the guideline,Use React to build the user interface,Display the percentage value in the middle, Green Progress Fill Animation - #00c251, Add Accessibility,t should be a scalable component.
+        - Design and implement a "Star Rating" component using React,Ensure the component is fully functional and displays a visual representation of a star rating system, with 5 stars that users can click to set a rating,Enhance the component to be more user-friendly and visually appealing. This can involve adding the hover effect, or changing the star icons' appearance when active/hovered,Write the component in a way that it can easily be reused across different parts of an application and can accept different sizes, current rating, etc for the stars as props.
+        - Design and Implement E-Commerce Filters using React JS ,Fetch given list of products and render them on the page,Add a filter to sort the products by price,Add a filter to show/hide out of stock products,Ability to Search products,Add a filter to show products above certain rating,Production grade state management,Implement Pagination with respect to the filters applied
 
-# Custom Hooks
+    - Design and Implement E-Commerce Cart using React JS, Fetch a list of products and render them on the page.
+      https://dummyjson.com/products?limit=100,Add to Cart Functionality,Separate Cart page to manage cart and display total pricing,Ecommerce Filters from previous lesson,Production grade state management for cart,Pagination
 
-- How to use to use it.
+    - Build an advance in React version of a Tic Tac Toe App where we can customise board size by passing it as a prop to the component and make the game board size bigger.
 
-- When to use it and code examples
+    - Toast / Notification Component ->building a Scalable Toast or Notification Component will be discussed in this lesson along with Requirement gathering, HLD, LLD and Optimisations required to build a component like this.
+    - building a Scalable Autocomplete or Typeahead Component will be discussed in this lesson along with Requirement gathering, HLD, LLD and Optimisations required to build a component like this.
+    - building a Scalable Nested Comments Component will be discussed in this lesson along with Requirement gathering, HLD, LLD and Optimisations required to build a component like this.
+    - building a Scalable Poll Widget Component along with Requirement gathering, HLD, LLD, API Structure and Optimizations.
 
-# Lazy Loading (Highly Asked)
+### Performance Optimizations
 
-- Code Splitting
-- chunking
-- suspense
-
-# Virtual DOM
-
-- Reconciliation Algorithem
-- React Fiber
-- Diffing Algo
-
-# SSR vs CSR (Hot)
-
-- performance
-- SEO
-
-# Routing (RBAC)
-
-- React Router
-- How to manege protected routes ?
-- queryParams.
-
-# Testing
-
-- React Unit testing
-
-# Async Tasks - (useEffect in depth (how it works behind the seen))
-
-- API calls {}
-- Events
-- Promises (deep dive)
-
-# Reussabilit/Modularity/Testablity
-
-- Coding practices
-
-# Performance
-
-- Lazy Loading
-- Asset optimization
-- Reandaring a componenets
-
-# Styling
-
-- Tailwind
-- StyleX - from Meta
-- Bootstarp
-- MUI
-- Tamagui
-
-# Accessiblity
+      - utilizing the Components and Profiler tabs in React DevTools to effectively showcase your projects during interviews, mastering the art of performance analysis.
+      - explore the difference between Client-Side Rendering (CSR) and Server-Side Rendering (SSR), and setup custom React and Next JS Apps to understand how we can implement both of these techniques in our apps.
+      - Code Splitting,how it helps us in improving performance by using a technique called lazy loading .
+      - Error Boundaries,add a custom error boundary for any page or a component in our React JS App.
+      - Web Vitals, Web Vitals for frontend interviews: from understanding Largest Contentful Paint (LCR) and Cumulative Layout Shift (CLS) to Input Delay (INP), ensure your web projects are optimized for peak performance and user experience.
+      - Virtualization, Virtualising large lists for optimising the performance of our React JS Apps.
+      - Accessibility the essentials of Accessibility for frontend. - Semantic HTML - Color Contrasts - Alt Text - Labels and Placeholders - ARIA Tags
+      - HOC Pattern - Higher Order Components and why its such an important design pattern for our daily work
+      - Carousel Performance Optimisation.
+      - Module Pattern- module pattern is a design pattern in JavaScript that allows you to organize your code into encapsulated modules with private and public methods and properties - how we can use it in our react apps.
+      - Render Props - how we can use it in our react apps.
