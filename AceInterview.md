@@ -1,6 +1,6 @@
 # Advanced JavaScript and React Interview Preparation Guide
 
-This comprehensive guide covers essential JavaScript and React concepts, advanced topics, and common interview questions to help you ace your frontend interviews.
+This comprehensive guide covers essential JavaScript anʼd React concepts, advanced topics, and common interview questions to help you ace your frontend interviews.
 
 ---
 
@@ -993,505 +993,6 @@ The `React.createRef` function allows components to create a new ref object. Ref
 
 #### Ques 50: What is the role of the `React.createPortal` function in React?
 
-**Answer:**
-The `React.createPortal` function allows components to render children into a DOM node that exists outside the DOM hierarchy of the parent component. This can be useful for implementing modals, tooltips, and other components that need to be rendered outside of their parent container.
-
-#### Ques 51: What is the purpose of the `React.createElement` function in React?
-
-**Answer:**
-The `React.createElement` function allows components to create React elements programmatically. It is used internally by JSX to create elements, but it can also be used directly to create elements dynamically.
-
-#### Ques 52: What is the role of the `React.cloneElement` function in React?
-
-**Answer:**
-The `React.cloneElement` function allows components to clone and modify existing React elements. It can be used to add props to elements, replace children, or modify other properties.
-
-#### Ques 53: What is the purpose of the `React.isValidElement` function in React?
-
-**Answer:**
-The `React.isValidElement` function allows components to check whether a given object is a valid React element. It can be used to validate input to components or to check the output of other functions.
-
-#### Ques 54: What is the role of the `React.Children` utility in React?
-
-**Answer:**
-The `React.Children` utility provides a set of functions for working with the children of components. It can be used to map over children, filter children, or check the number of children.
-
-#### Ques 55: What is the purpose of the `React.Component` class in React?
-
-**Answer:**
-The `React.Component` class is the base class for React components. It provides a set of lifecycle methods and other features that are common to all components.
-
-#### Ques 56: What is the role of the `React.PureComponent` class in React?
-
-**Answer:**
-The `React.PureComponent` class is a base class for React components that implements the `shouldComponentUpdate` lifecycle method with a shallow comparison of props and state. This can improve performance by avoiding unnecessary re-renders.
-
-#### Ques 57: What is the purpose of the `React.Fragment` component in React?
-
-**Answer:**
-The `React.Fragment` component allows components to return multiple elements without adding extra nodes to the DOM. It is useful for grouping related elements together without adding unnecessary wrappers.
-
-#### Ques 58: What is the role of the `React.Profiler` component in React?
-
-**Answer:**
-The `React.Profiler` component allows components to measure performance and identify bottlenecks. It can be used to measure the rendering time of components and their children, and to identify components that are causing performance issues.
-
-#### Ques 59: What is the role of the `React.StrictMode` component in React?
-
-**Answer:**
-The `React.StrictMode` component allows components to be rendered in a strict mode, which enables additional checks and warnings for common issues. It can help to catch potential problems early in the development process.
-
-#### Ques 60: What is the purpose of the `React.createContext` function in React?
-
-**Answer:**
-The `React.createContext` function allows components to create a new context object. Context objects can be used to share data between components without having to pass props down manually at every level.
-
-#### Ques 61: What is the purpose of the `React.createRef` function in React?
-
-**Answer:**
-The `React.createRef` function allows components to create a new ref object. Ref objects can be used to access DOM elements or to store values that persist across renders.
-
-#### Ques 62: What is the role of the `React.createPortal` function in React?
-
-**Answer:**
-The `React.createPortal` function allows components to render children into a DOM node that exists outside the DOM hierarchy of the parent component. This can be useful for implementing modals, tooltips, and other components that need to be rendered outside of their parent container.
-
-#### Ques 63: What is the purpose of the `React.createElement` function in React?
-
-**Answer:**
-The `React.createElement` function allows components to create React elements programmatically. It is used internally by JSX to create elements, but it can also be used directly to create elements dynamically.
-
-#### Ques 64: What is the role of the `React.cloneElement` function in React?
-
-**Answer:**
-The `React.cloneElement` function allows components to clone and modify existing React elements. It can be used to add props to elements, replace children, or modify other properties.
-
-#### Ques 65: What is the purpose of the `React.isValidElement` function in React?
-
-**Answer:**
-The `React.isValidElement` function allows components to check whether a given object is a valid React element. It can be used to validate input to components or to check the output of other functions.
-
-#### Ques 66: What is the role of the `React.Children` utility in React?
-
-**Answer:**
-The `React.Children` utility provides a set of functions for working with the children of components. It can be used to map over children, filter children, or check the number of children.
-
-#### Ques 67: What is the purpose of the `React.Component` class in React?
-
-**Answer:**
-The `React.Component` class is the base class for React components. It provides a set of lifecycle methods and other features that are common to all components.
-
-#### Ques 68: What is the role of the `React.PureComponent` class in React?
-
-**Answer:**
-The `React.PureComponent` class is a base class for React components that implements the `shouldComponentUpdate` lifecycle method with a shallow comparison of props and state. This can improve performance by avoiding unnecessary re-renders.
-
-#### Ques 69: What is the purpose of the `React.Fragment` component in React?
-
-**Answer:**
-The `React.Fragment` component allows components to return multiple elements without adding extra nodes to the DOM. It is useful for grouping related elements together without adding unnecessary wrappers.
-
-#### Ques 70: What is the role of the `React.Profiler` component in React?
-
-**Answer:**
-The `React.Profiler` component allows components to measure performance and identify bottlenecks. It can be used to measure the rendering time of components and their children, and to identify components that are causing performance issues.
-
-#### Ques 71: What is the role of the `React.StrictMode` component in React?
-
-**Answer:**
-The `React.StrictMode` component allows components to be rendered in a strict mode, which enables additional checks and warnings for common issues. It can help to catch potential problems early in the development process.
-
-#### Ques 72: What is the purpose of the `React.createContext` function in React?
-
-**Answer:**
-The `React.createContext` function allows components to create a new context object. Context objects can be used to share data between components without having to pass props down manually at every level.
-
-#### Ques 73: What is the purpose of the `React.createRef` function in React?
-
-**Answer:**
-The `React.createRef` function allows components to create a new ref object. Ref objects can be used to access DOM elements or to store values that persist across renders.
-
-#### Ques 74: What is the role of the `React.createPortal` function in React?
-
-**Answer:**
-The `React.createPortal` function allows components to render children into a DOM node that exists outside the DOM hierarchy of the parent component. This can be useful for implementing modals, tooltips, and other components that need to be rendered outside of their parent container.
-
-#### Ques 75: What is the purpose of the `React.createElement` function in React?
-
-**Answer:**
-The `React.createElement` function allows components to create React elements programmatically. It is used internally by JSX to create elements, but it can also be used directly to create elements dynamically.
-
-#### Ques 76: What is the role of the `React.cloneElement` function in React?
-
-**Answer:**
-The `React.cloneElement` function is used to clone and return a new React element using an existing element as the starting point. It allows you to create a new element with the same type and props as the original element, but with the ability to add or modify props and children.
-
-Here's an example of how `React.cloneElement` can be used:
-
-**Optimizations:**
-
-- **Virtualization**: For a large number of comments, implement virtualization to improve performance.
-
----
-
-## 10. Scalable Poll Widget Component
-
-**Objective:**
-
-- Build a Poll Widget Component.
-- Focus on requirement gathering, HLD, LLD, API structure, and optimizations.
-
-**Requirement Gathering:**
-
-- **Features:**
-- Display poll question and options.
-- Allow users to vote.
-- Show real-time results.
-
-**High-Level Design (HLD):**
-
-- **Components:**
-- `Poll`: Main component handling poll display and voting.
-- **API Structure:**
-- **Endpoints:**
-- `GET /polls/:id`: Fetch poll data.
-- `POST /polls/:id/vote`: Submit a vote.
-
-**Low-Level Design (LLD):**
-
-- **State Management:**
-- Use `useState` and `useEffect` to manage poll data.
-- **Optimizations:**
-- Use WebSockets for real-time updates (if applicable).
-
-**Code Implementation:**
-
-1. **Poll.js:**
-
-```jsx
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-
-function Poll({ pollId }) {
-  const [poll, setPoll] = useState(null);
-  const [selectedOption, setSelectedOption] = useState(null);
-
-  useEffect(() => {
-    axios.get(`/polls/${pollId}`).then((response) => setPoll(response.data));
-  }, [pollId]);
-
-  const submitVote = () => {
-    axios
-      .post(`/polls/${pollId}/vote`, { optionId: selectedOption })
-      .then((response) => {
-        setPoll(response.data);
-      });
-  };
-
-  if (!poll) return <div>Loading...</div>;
-
-  return (
-    <div>
-      <h2>{poll.question}</h2>
-      {poll.options.map((option) => (
-        <div key={option.id}>
-          <label>
-            <input
-              type="radio"
-              name="poll"
-              value={option.id}
-              onChange={() => setSelectedOption(option.id)}
-            />
-            {option.text} - {option.votes} votes
-          </label>
-        </div>
-      ))}
-      <button onClick={submitVote} disabled={!selectedOption}>
-        Vote
-      </button>
-    </div>
-  );
-}
-
-export default Poll;
-```
-
-**Optimizations:**
-
-- **Real-Time Updates**: Implement WebSocket connections to update poll results in real-time.
-- **Caching**: Use client-side caching to reduce API calls.
-
----
-
-### Performance Optimizations in React and Frontend Development
-
-Optimizing the performance of your React applications is crucial for delivering a smooth user experience. This guide covers various techniques and best practices, complete with code examples, to help you master performance optimizations in React and frontend development.
-
----
-
-## 1. Utilizing React DevTools: Components and Profiler Tabs
-
-### Components Tab
-
-The **Components** tab allows you to inspect the component hierarchy, props, state, and hooks of your React application.
-
-#### Key Features:
-
-- **Inspect Props and State**: View and edit props and state of components in real-time.
-- **Highlight Updates**: Visualize component re-renders to identify unnecessary updates.
-
-#### How to Use:
-
-1. **Install React DevTools**: Available as a browser extension for Chrome and Firefox.
-2. **Open DevTools**: Navigate to the **Components** tab.
-3. **Inspect Components**: Click on components to view their props and state.
-
-### Profiler Tab
-
-The **Profiler** tab helps you measure the performance of your application by recording render times.
-
-#### Key Features:
-
-- **Record Performance**: Start and stop profiling sessions.
-- **Analyze Render Times**: View commit times and identify slow components.
-- **Flame Graphs**: Visualize component hierarchies and render durations.
-
-#### How to Use:
-
-1. **Navigate to Profiler Tab**: In React DevTools, go to the **Profiler** tab.
-2. **Record Profiling Session**: Click **Start profiling** and interact with your app.
-3. **Stop Profiling**: Click **Stop profiling** to analyze the results.
-
-#### Example:
-
-```jsx
-import React, { useState } from "react";
-
-function Counter() {
-  const [count, setCount] = useState(0);
-
-  console.log("Counter render");
-
-  return (
-    <div>
-      <p>{count}</p>
-      <button onClick={() => setCount(count + 1)}>Increment</button>
-    </div>
-  );
-}
-
-export default Counter;
-```
-
-Use the **Profiler** to check if `Counter` re-renders unnecessarily.
-
----
-
-## 2. Client-Side Rendering (CSR) vs. Server-Side Rendering (SSR)
-
-### Client-Side Rendering (CSR)
-
-In CSR, the browser downloads a minimal HTML page and JavaScript files, which render the content dynamically.
-
-#### Pros:
-
-- Rich interactivity.
-- Less server load.
-
-#### Cons:
-
-- Initial load might be slow.
-- SEO challenges.
-
-### Server-Side Rendering (SSR)
-
-In SSR, the server renders the initial HTML page, which is sent to the client.
-
-#### Pros:
-
-- Faster initial load.
-- Better SEO.
-
-#### Cons:
-
-- Increased server load.
-- More complex setup.
-
-### Implementing CSR and SSR
-
-#### CSR with Create React App:
-
-```bash
-npx create-react-app my-app
-cd my-app
-npm start
-```
-
-This setup uses CSR by default.
-
-#### SSR with Next.js:
-
-```bash
-npx create-next-app my-next-app
-cd my-next-app
-npm run dev
-```
-
-**Example of SSR in Next.js:**
-
-```jsx
-// pages/index.js
-export async function getServerSideProps() {
-  // Fetch data from an API
-  const res = await fetch("https://api.example.com/data");
-  const data = await res.json();
-
-  return { props: { data } };
-}
-
-function HomePage({ data }) {
-  return <div>{/* Render data */}</div>;
-}
-
-export default HomePage;
-```
-
----
-
-## 3. Code Splitting and Lazy Loading
-
-Code splitting divides your code into smaller chunks, which can be loaded on-demand, improving load times.
-
-### React Lazy Loading
-
-Use `React.lazy()` and `Suspense` to lazy load components.
-
-#### Example:
-
-```jsx
-import React, { Suspense } from "react";
-
-const HeavyComponent = React.lazy(() => import("./HeavyComponent"));
-
-function App() {
-  return (
-    <div>
-      <Suspense fallback={<div>Loading...</div>}>
-        <HeavyComponent />
-      </Suspense>
-    </div>
-  );
-}
-
-export default App;
-```
-
-### Webpack Code Splitting
-
-Webpack automatically splits code based on dynamic imports.
-
-#### Example:
-
-```jsx
-// Dynamic import
-import("./module").then((module) => {
-  // Use the module
-});
-```
-
----
-
-## 4. Error Boundaries
-
-Error boundaries catch JavaScript errors in components below them, preventing the entire app from crashing.
-
-### Creating an Error Boundary
-
-```jsx
-import React from "react";
-
-class ErrorBoundary extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false };
-  }
-
-  static getDerivedStateFromError(error) {
-    // Update state to render fallback UI.
-    return { hasError: true };
-  }
-
-  componentDidCatch(error, info) {
-    // Log error details.
-    console.error(error, info);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      // Fallback UI.
-      return <h1>Something went wrong.</h1>;
-    }
-
-    return this.props.children;
-  }
-}
-
-export default ErrorBoundary;
-```
-
-### Using the Error Boundary
-
-```jsx
-function App() {
-  return (
-    <ErrorBoundary>
-      <MyComponent />
-    </ErrorBoundary>
-  );
-}
-```
-
----
-
-## 5. Web Vitals
-
-Web Vitals are metrics that capture the user experience of web applications.
-
-### Key Metrics:
-
-- **Largest Contentful Paint (LCP)**: Measures loading performance.
-- **Cumulative Layout Shift (CLS)**: Measures visual stability.
-- **Interaction to Next Paint (INP)**: Measures responsiveness.
-
-### Optimizing LCP
-
-- Optimize images.
-- Use efficient caching.
-- Preload critical resources.
-
-### Optimizing CLS
-
-- Set size attributes on images and videos.
-- Avoid inserting content above existing content.
-
-### Measuring Web Vitals
-
-Use Google's [Web Vitals](https://web.dev/vitals/) library.
-
-#### Example:
-
-```bash
-npm install web-vitals
-```
-
-```jsx
-import { getCLS, getLCP, getFID } from "web-vitals";
-
-getCLS(console.log);
-getLCP(console.log);
-getFID(console.log);
-```
-
 ---
 
 ## 6. Virtualization
@@ -1736,4 +1237,522 @@ By mastering these performance optimization techniques, you can build React appl
 
 These implementations provide a solid foundation for the requested components and applications. Remember to tailor each solution to fit the specific requirements of your project or interview scenario. Good luck with your frontend interview preparations!
 
+This guide should provide you with a solid understanding of the topics and prepare you for your frontend interviews. Good luck!
+
+## Machine Coding Questions
+
+This section covers practical coding questions you might encounter in a frontend interview, especially in the machine coding round. Each question includes an explanation and a code example.
+
+### 1. Implement an Autocomplete Component
+
+**Explanation:**
+An autocomplete component suggests completions as the user types. This involves handling user input, making API calls, and rendering suggestions.
+
+**Code Example:**
+
+```jsx
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
+function Autocomplete() {
+  const [input, setInput] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+
+  useEffect(() => {
+    const fetchSuggestions = async () => {
+      if (input.length > 2) {
+        const result = await axios.get(
+          `https://api.example.com/suggestions?q=${input}`
+        );
+        setSuggestions(result.data);
+      } else {
+        setSuggestions([]);
+      }
+    };
+
+    const timeoutId = setTimeout(fetchSuggestions, 300);
+    return () => clearTimeout(timeoutId);
+  }, [input]);
+
+  return (
+    <div>
+      <input
+        type="text"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        placeholder="Start typing..."
+      />
+      <ul>
+        {suggestions.map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default Autocomplete;
+```
+
+### 2. Create an Infinite Scroll Component
+
+**Explanation:**
+An infinite scroll component loads more content as the user scrolls down the page. This involves detecting when the user has scrolled to the bottom and fetching more data.
+
+**Code Example:**
+
+```jsx
+import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
+
+function InfiniteScroll() {
+  const [items, setItems] = useState([]);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const loader = useRef(null);
+
+  const handleObserver = (entities) => {
+    const target = entities[0];
+    if (target.isIntersecting) {
+      setPage((prev) => prev + 1);
+    }
+  };
+
+  useEffect(() => {
+    const options = {
+      root: null,
+      rootMargin: "20px",
+      threshold: 1.0,
+    };
+    const observer = new IntersectionObserver(handleObserver, options);
+    if (loader.current) {
+      observer.observe(loader.current);
+    }
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const result = await axios.get(
+        `https://api.example.com/items?page=${page}`
+      );
+      setItems((prev) => [...prev, ...result.data]);
+      setLoading(false);
+    };
+    fetchData();
+  }, [page]);
+
+  return (
+    <div>
+      {items.map((item, index) => (
+        <div key={index}>{item.name}</div>
+      ))}
+      {loading && <p>Loading...</p>}
+      <div ref={loader} />
+    </div>
+  );
+}
+
+export default InfiniteScroll;
+```
+
+### 3. Build a Carousel Component
+
+**Explanation:**
+A carousel displays a series of items that can be cycled through. This involves managing state for the current item and handling navigation.
+
+**Code Example:**
+
+```jsx
+import React, { useState } from "react";
+
+function Carousel({ items }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const goToPrevious = () => {
+    const isFirstSlide = currentIndex === 0;
+    const newIndex = isFirstSlide ? items.length - 1 : currentIndex - 1;
+    setCurrentIndex(newIndex);
+  };
+
+  const goToNext = () => {
+    const isLastSlide = currentIndex === items.length - 1;
+    const newIndex = isLastSlide ? 0 : currentIndex + 1;
+    setCurrentIndex(newIndex);
+  };
+
+  return (
+    <div className="carousel">
+      <button onClick={goToPrevious}>Previous</button>
+      <div className="carousel-item">{items[currentIndex]}</div>
+      <button onClick={goToNext}>Next</button>
+    </div>
+  );
+}
+
+export default Carousel;
+```
+
+### 4. Implement a Debounced Search Input
+
+**Explanation:**
+A debounced search input delays the search operation until the user has stopped typing. This reduces unnecessary API calls and improves performance.
+
+**Code Example:**
+
+```jsx
+import React, { useState, useCallback } from "react";
+import debounce from "lodash.debounce";
+
+function DebouncedSearch() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [results, setResults] = useState([]);
+
+  const debouncedSearch = useCallback(
+    debounce(async (term) => {
+      const response = await fetch(`https://api.example.com/search?q=${term}`);
+      const data = await response.json();
+      setResults(data);
+    }, 300),
+    []
+  );
+
+  const handleChange = (event) => {
+    setSearchTerm(event.target.value);
+    debouncedSearch(event.target.value);
+  };
+
+  return (
+    <div>
+      <input
+        type="text"
+        value={searchTerm}
+        onChange={handleChange}
+        placeholder="Search..."
+      />
+      <ul>
+        {results.map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default DebouncedSearch;
+```
+
+### 5. Create a Modal Component
+
+**Explanation:**
+A modal is a dialog box/popup window that is displayed on top of the current page. This involves managing the modal's visibility state and handling user interactions.
+
+**Code Example:**
+
+```jsx
+import React, { useState } from "react";
+import ReactDOM from "react-dom";
+
+const Modal = ({ isOpen, onClose, children }) => {
+  if (!isOpen) return null;
+
+  return ReactDOM.createPortal(
+    <div className="modal-overlay">
+      <div className="modal-content">
+        {children}
+        <button onClick={onClose}>Close</button>
+      </div>
+    </div>,
+    document.body
+  );
+};
+
+function App() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  return (
+    <div>
+      <button onClick={() => setIsModalOpen(true)}>Open Modal</button>
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <h2>Modal Content</h2>
+        <p>This is the modal content.</p>
+      </Modal>
+    </div>
+  );
+}
+
+export default App;
+```
+
+### 6. Implement a Tabs Component
+
+**Explanation:**
+A tabs component allows users to switch between different views within the same context. This involves managing the active tab state and rendering the appropriate content.
+
+**Code Example:**
+
+```jsx
+import React, { useState } from "react";
+
+function Tabs({ tabs }) {
+  const [activeTab, setActiveTab] = useState(0);
+
+  return (
+    <div className="tabs">
+      <div className="tab-headers">
+        {tabs.map((tab, index) => (
+          <button
+            key={index}
+            onClick={() => setActiveTab(index)}
+            className={activeTab === index ? "active" : ""}
+          >
+            {tab.title}
+          </button>
+        ))}
+      </div>
+      <div className="tab-content">{tabs[activeTab].content}</div>
+    </div>
+  );
+}
+
+function App() {
+  const tabsData = [
+    { title: "Tab 1", content: <p>Content for Tab 1</p> },
+    { title: "Tab 2", content: <p>Content for Tab 2</p> },
+    { title: "Tab 3", content: <p>Content for Tab 3</p> },
+  ];
+
+  return <Tabs tabs={tabsData} />;
+}
+
+export default App;
+```
+
+### 7. Build a Drag and Drop List
+
+**Explanation:**
+A drag and drop list allows users to reorder items by dragging them. This involves handling drag events and updating the list state.
+
+**Code Example:**
+
+```jsx
+import React, { useState } from "react";
+
+function DragDropList({ initialItems }) {
+  const [items, setItems] = useState(initialItems);
+  const [draggedItem, setDraggedItem] = useState(null);
+
+  const onDragStart = (e, index) => {
+    setDraggedItem(items[index]);
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/html", e.target.parentNode);
+    e.dataTransfer.setDragImage(e.target.parentNode, 20, 20);
+  };
+
+  const onDragOver = (index) => {
+    const draggedOverItem = items[index];
+    if (draggedItem === draggedOverItem) return;
+
+    let newItems = items.filter((item) => item !== draggedItem);
+    newItems.splice(index, 0, draggedItem);
+    setItems(newItems);
+  };
+
+  const onDragEnd = () => {
+    setDraggedItem(null);
+  };
+
+  return (
+    <ul>
+      {items.map((item, index) => (
+        <li
+          key={item}
+          onDragOver={() => onDragOver(index)}
+          draggable
+          onDragStart={(e) => onDragStart(e, index)}
+          onDragEnd={onDragEnd}
+        >
+          {item}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function App() {
+  const initialItems = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"];
+  return <DragDropList initialItems={initialItems} />;
+}
+
+export default App;
+```
+
+### 8. Implement a Star Rating Component
+
+**Explanation:**
+A star rating component allows users to rate items. This involves managing the selected rating and handling user interactions.
+
+**Code Example:**
+
+```jsx
+import React, { useState } from "react";
+
+function StarRating({ totalStars = 5 }) {
+  const [rating, setRating] = useState(0);
+  const [hover, setHover] = useState(0);
+
+  return (
+    <div className="star-rating">
+      {[...Array(totalStars)].map((_, index) => {
+        const starValue = index + 1;
+        return (
+          <span
+            key={index}
+            className={starValue <= (hover || rating) ? "star filled" : "star"}
+            onClick={() => setRating(starValue)}
+            onMouseEnter={() => setHover(starValue)}
+            onMouseLeave={() => setHover(rating)}
+          >
+            ★
+          </span>
+        );
+      })}
+    </div>
+  );
+}
+
+export default StarRating;
+```
+
+### 9. Create a Countdown Timer Component
+
+**Explanation:**
+A countdown timer displays the time remaining until a specific event. This involves managing the timer state and updating it at regular intervals.
+
+**Code Example:**
+
+```jsx
+import React, { useState, useEffect } from "react";
+
+function CountdownTimer({ targetDate }) {
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+
+  function calculateTimeLeft() {
+    const difference = +new Date(targetDate) - +new Date();
+    let timeLeft = {};
+
+    if (difference > 0) {
+      timeLeft = {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60),
+      };
+    }
+
+    return timeLeft;
+  }
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  });
+
+  return (
+    <div>
+      {timeLeft.days > 0 && <span>{timeLeft.days} days </span>}
+      {timeLeft.hours > 0 && <span>{timeLeft.hours} hours </span>}
+      {timeLeft.minutes > 0 && <span>{timeLeft.minutes} minutes </span>}
+      {timeLeft.seconds > 0 && <span>{timeLeft.seconds} seconds</span>}
+    </div>
+  );
+}
+
+function App() {
+  return <CountdownTimer targetDate="2023-12-31T23:59:59" />;
+}
+
+export default App;
+```
+
+### 10. Implement a Pagination Component
+
+**Explanation:**
+A pagination component allows users to navigate through large sets of data. This involves managing the current page state and calculating the range of items to display.
+
+**Code Example:**
+
+```jsx
+import React, { useState } from "react";
+
+function Pagination({ totalItems, itemsPerPage, onPageChange }) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    onPageChange(page);
+  };
+
+  const renderPageNumbers = () => {
+    const pageNumbers = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pageNumbers.push(
+        <button
+          key={i}
+          onClick={() => handlePageChange(i)}
+          className={currentPage === i ? "active" : ""}
+        >
+          {i}
+        </button>
+      );
+    }
+    return pageNumbers;
+  };
+
+  return (
+    <div className="pagination">
+      <button
+        onClick={() => handlePageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+      >
+        Previous
+      </button>
+      {renderPageNumbers()}
+      <button
+        onClick={() => handlePageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+      >
+        Next
+      </button>
+    </div>
+  );
+}
+
+function App() {
+  const handlePageChange = (page) => {
+    console.log(`Fetching data for page ${page}`);
+    // Fetch data for the selected page
+  };
+
+  return (
+    <Pagination
+      totalItems={100}
+      itemsPerPage={10}
+      onPageChange={handlePageChange}
+    />
+  );
+}
+
+export default App;
+```
+
+These machine coding questions cover a range of common frontend scenarios and components. They test your ability to implement practical features, manage state, handle user interactions, and integrate with APIs. Practice implementing these components and be prepared to explain your code and discuss potential optimizations or alternative approaches during your interview.
+
+These implementations provide a solid foundation for the requested components and applications. Remember to tailor each solution to fit the specific requirements of your project or interview scenario. Good luck with your frontend interview preparations!
+
+This guide should provide you with a solid understanding of the topics and prepare you for your frontend interviews. Good luck!
 This guide should provide you with a solid understanding of the topics and prepare you for your frontend interviews. Good luck!
