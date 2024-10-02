@@ -1,5 +1,3 @@
-const { resolve } = require("bun");
-
 const obj = {
   name: "Bob",
   getName() {
@@ -52,3 +50,17 @@ Promise.all([
   .catch((err) => {
     console.error(err);
   });
+
+// objects
+const objex = {
+  name: "Ano",
+  getName() {
+    return this.name;
+  },
+  getNewName: () => {
+    return this.name;
+  },
+};
+
+console.log(objex.getName());
+console.log(objex.getNewName());
