@@ -3,9 +3,10 @@ import { useState } from "react";
 import "./App.css";
 
 function App() {
-  ``;
   const [query, setQuery] = useState("");
   const [results, setResult] = useState([]);
+
+  const [count, setCount] = useState(0);
 
   const handleSearch = async (e) => {
     e.preventDeafault();
@@ -16,7 +17,7 @@ function App() {
     setResult(data.items);
   };
   return (
-    <div>
+    <>
       <form onSubmit={handleSearch}>
         <input
           type="text"
@@ -30,7 +31,9 @@ function App() {
           <img key={item.id}>{item.thumbnailUrl}</img>
         ))}
       </ul>
-    </div>
+      <p>{count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </>
   );
 }
 
