@@ -1,10 +1,12 @@
 console.log("First");
 setTimeout(() => {
   console.log("Second");
-}, 0);
+}, 1000);
 
 Promise.resolve().then(() => {
-  console.log("Third");
+  setTimeout(() => {
+    console.log("third");
+  }, 500);
 });
 
 console.log("Fourth");
