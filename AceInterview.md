@@ -2099,6 +2099,383 @@ export default AnyComponent;
 
 ---
 
+### 12 Notification using Zustand
+
+Certainly! I'll provide the implementation of the scalable Toast/Notification component in React using **Zustand** for state management and normal CSS for styling.
+
+---
+
+## **Implementation Using Zustand**
+
+### **1. Setting Up Zustand**
+
+First, install Zustand in your project:
+
+```bash
+npm install zustand
+```
+
+### **2. Implementing the Toast/Notification Component**
+
+#### **a. Creating a Toast Store with Zustand**
+
+We'll create a Zustand store to manage the global state of toasts.
+
+```jsx
+// toastStore.js
+import create from "zustand";
+
+const useToastStore = create((set) => ({
+  toasts: [],
+  addToast: (toast) => set((state) => ({ toasts: [...state.toasts, toast] })),
+  removeToast: (id) =>
+    set((state) => ({
+      toasts: state.toasts.filter((toast) => toast.id !== id),
+    })),
+}));
+
+export default useToastStore;
+```
+
+- **Explanation**:
+  - `useToastStore`: A custom hook created by Zustand's `create` function.
+  - `toasts`: The array holding the current toasts.
+  - `addToast`: Function to add a new toast to the array.
+  - `removeToast`: Function to remove a toast by its `id`.
+
+#### **b. Toast Container**
+
+The `ToastContainer` component renders all active toasts and positions them on the screen.
+
+```jsx
+// ToastContainer.js
+import React from "react";
+import useToastStore from "./toastStore";
+import Toast from "./Toast";
+import "./toast.css"; // Import the CSS file
+
+const ToastContainer = ({ position = "top-right" }) => {
+  const toasts = useToastStore((state) => state.toasts);
+
+  return (
+    <div className={`toast-container ${position}`}>
+      {toasts.map((toast) => (
+        <Toast key={toast.id} {...toast} />
+      ))}
+    </div>
+  );
+};
+
+export default ToastContainer;
+```
+
+- **Explanation**:
+  - Uses `useToastStore` to access the `toasts` state.
+  - Renders each toast using the `Toast` component.
+  - Applies positioning classes based on the `position` prop.
+
+#### **c. Toast Component**
+
+The `Toast` component displays individual notifications and handles their lifecycle.
+
+```jsx
+// Toast.js
+import React, { useEffect, useState } from "react";
+import useToastStore from "./toastStore";
+import "./toast.css"; // Import the CSS file
+
+const Toast = ({ id, type = "info", message, duration = 5000 }) => {
+  const removeToast = useToastStore((state) => state.removeToast);
+  const [exiting, setExiting] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setExiting(true);
+      setTimeout(() => {
+        removeToast(id);
+      }, 300); // Match with CSS transition duration
+    }, duration);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [id, duration, removeToast]);
+
+  return (
+    <div
+      className={`toast ${type} ${exiting ? "exiting" : ""}`}
+      role="alert"
+      aria-live="assertive"
+    >
+      <div className="toast-message">{message}</div>
+      <button className="toast-close-button" onClick={() => removeToast(id)}>
+        &times;
+      </button>
+    </div>
+  );
+};
+
+export default Toast;
+```
+
+- **Explanation**:
+  - Uses `useToastStore` to access the `removeToast` action.
+  - Manages exit animation with the `exiting` state.
+  - Triggers automatic removal after the specified `duration`.
+
+#### **d. useToast Hook**
+
+The `useToast` hook allows components to trigger notifications.
+
+```jsx
+// useToast.js
+import useToastStore from "./toastStore";
+
+const useToast = () => {
+  const addToast = useToastStore((state) => state.addToast);
+
+  const showToast = ({ type, message, duration }) => {
+    const id = Date.now() + Math.random(); // Ensure unique ID
+    addToast({ id, type, message, duration });
+  };
+
+  return showToast;
+};
+
+export default useToast;
+```
+
+- **Explanation**:
+  - Provides a `showToast` function to add new toasts.
+  - Generates a unique `id` for each toast.
+
+#### **e. Including the ToastContainer in the App**
+
+Include the `ToastContainer` component in your main application component.
+
+```jsx
+// App.js
+import React from "react";
+import ToastContainer from "./ToastContainer";
+import AnyComponent from "./AnyComponent";
+
+function App() {
+  return (
+    <>
+      <AnyComponent />
+      {/* Other components */}
+      <ToastContainer position="top-right" />
+    </>
+  );
+}
+
+export default App;
+```
+
+- **Explanation**:
+  - `ToastContainer` should be included once, typically at the root level.
+  - The `position` prop can be adjusted as needed.
+
+#### **f. Triggering Notifications**
+
+Use the `useToast` hook in any component to display notifications.
+
+```jsx
+// AnyComponent.js
+import React from "react";
+import useToast from "./useToast";
+
+const AnyComponent = () => {
+  const showToast = useToast();
+
+  const handleSuccess = () => {
+    showToast({
+      type: "success",
+      message: "Operation successful!",
+      duration: 3000,
+    });
+  };
+
+  const handleError = () => {
+    showToast({
+      type: "error",
+      message: "Something went wrong!",
+      duration: 5000,
+    });
+  };
+
+  return (
+    <div>
+      <button onClick={handleSuccess}>Show Success Toast</button>
+      <button onClick={handleError}>Show Error Toast</button>
+    </div>
+  );
+};
+
+export default AnyComponent;
+```
+
+- **Explanation**:
+  - The `showToast` function is used to display toasts with different types and messages.
+
+### **3. Styling with Normal CSS**
+
+Create a CSS file named `toast.css` for styling the toasts.
+
+```css
+/* toast.css */
+
+/* Toast Container */
+.toast-container {
+  position: fixed;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+}
+
+.toast-container.top-right {
+  top: 20px;
+  right: 20px;
+  align-items: flex-end;
+}
+
+.toast-container.top-left {
+  top: 20px;
+  left: 20px;
+  align-items: flex-start;
+}
+
+.toast-container.bottom-right {
+  bottom: 20px;
+  right: 20px;
+  align-items: flex-end;
+}
+
+.toast-container.bottom-left {
+  bottom: 20px;
+  left: 20px;
+  align-items: flex-start;
+}
+
+/* Toast */
+.toast {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 250px;
+  margin-bottom: 10px;
+  padding: 15px;
+  border-radius: 5px;
+  color: #fff;
+  background-color: #333;
+  opacity: 1;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.toast.exiting {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+/* Toast Types */
+.toast.info {
+  background-color: #2196f3;
+}
+
+.toast.success {
+  background-color: #4caf50;
+}
+
+.toast.warning {
+  background-color: #ff9800;
+}
+
+.toast.error {
+  background-color: #f44336;
+}
+
+/* Toast Message */
+.toast-message {
+  flex: 1;
+  margin-right: 10px;
+}
+
+/* Close Button */
+.toast-close-button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+```
+
+- **Explanation**:
+  - Defines styles for the toast container and its positions.
+  - Styles individual toasts, including different types (info, success, warning, error).
+  - Implements fade-out animation with the `.exiting` class.
+
+### **4. Usage Example**
+
+**AnyComponent.js**
+
+```jsx
+import React from "react";
+import useToast from "./useToast";
+
+const AnyComponent = () => {
+  const showToast = useToast();
+
+  const handleSuccess = () => {
+    showToast({
+      type: "success",
+      message: "Operation successful!",
+      duration: 3000,
+    });
+  };
+
+  const handleError = () => {
+    showToast({
+      type: "error",
+      message: "Something went wrong!",
+      duration: 5000,
+    });
+  };
+
+  return (
+    <div>
+      <button onClick={handleSuccess}>Show Success Toast</button>
+      <button onClick={handleError}>Show Error Toast</button>
+    </div>
+  );
+};
+
+export default AnyComponent;
+```
+
+### **5. Final Notes**
+
+- **No Context Provider Needed**: With Zustand, there's no need for wrapping components with a provider. The store can be imported and used directly.
+- **Importing CSS**: Make sure to import `toast.css` in components where styles are applied, such as `ToastContainer.js` and `Toast.js`.
+- **Unique IDs**: Using `Date.now() + Math.random()` helps ensure each toast has a unique `id`.
+- **Accessibility**: The `role="alert"` and `aria-live="assertive"` attributes make the toasts accessible to screen readers.
+- **Animations**: The CSS handles fade-in and fade-out animations for the toasts.
+
+---
+
+## **Conclusion**
+
+By using **Zustand** for state management and normal CSS for styling, you've got a scalable and efficient Toast/Notification component in React without the need for context providers or complex styling frameworks.
+
+This implementation allows:
+
+- **Simple State Management**: Zustand provides a straightforward API for managing global state.
+- **Easy Styling**: Normal CSS gives you full control over the styling and animations.
+- **Reusability**: The `useToast` hook and `ToastContainer` component can be easily reused across your application.
+
+Feel free to customize the styling and extend the functionality as needed. If you have any questions or need further assistance, don't hesitate to ask!
+
 By using **Jotai** for state management and normal CSS for styling, you've got a scalable and efficient Toast/Notification component in React without the need for additional context providers or complex styling frameworks.
 
 Feel free to customize the styling and extend the functionality as needed. If you have any questions or need further assistance, don't hesitate to ask!
