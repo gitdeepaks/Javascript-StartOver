@@ -1750,6 +1750,439 @@ function App() {
 export default App;
 ```
 
+### 11 Implementing Toast Notification in React
+
+Certainly! Building a scalable Toast or Notification component in React involves careful planning and design to ensure it meets both functional and non-functional requirements. Below, we'll discuss the process step by step, covering **Requirement Gathering**, **High-Level Design (HLD)**, **Low-Level Design (LLD)**, and **Optimizations**.
+
+---
+
+## **1. Requirement Gathering**
+
+### **Functional Requirements**
+
+- **Display Notifications**: Ability to display one or multiple toast notifications.
+- **Types of Notifications**: Support different types (e.g., success, error, warning, info).
+- **Auto Dismiss**: Notifications should automatically disappear after a configurable duration.
+- **Manual Dismiss**: Users can manually dismiss notifications.
+- **Positioning**: Support various positions on the screen (e.g., top-right, bottom-left).
+- **Queue Management**: Handle multiple notifications and manage their display order.
+- **Customization**: Allow custom content, styles, and animations.
+- **Accessibility**: Ensure the component is accessible (e.g., ARIA attributes).
+
+### **Non-Functional Requirements**
+
+- **Scalability**: Efficiently handle a large number of notifications without performance degradation.
+- **Performance**: Minimal impact on the main thread and rendering performance.
+- **Reusability**: Easy to integrate into different parts of the application.
+- **Testability**: Components should be easy to test.
+- **Maintainability**: Clean, well-documented codebase.
+
+### **Scalability Considerations**
+
+- **Efficient Rendering**: Minimize re-renders and use React's optimization techniques.
+- **State Management**: Decouple state to avoid prop drilling and improve scalability.
+- **Resource Management**: Efficient memory usage, especially when handling many notifications.
+
+---
+
+## **2. High-Level Design (HLD)**
+
+### **Architecture Overview**
+
+- **Notification System**: A centralized system to manage notifications.
+- **Toast Container**: A component that renders notifications on the UI.
+- **Toast Component**: Individual notification component.
+- **State Management**: Use Context API or Redux for global state management.
+- **API/Service Layer**: Expose methods to trigger notifications from anywhere in the app.
+
+### **Component Diagram**
+
+```
++----------------------+
+|     App Component    |
++----------+-----------+
+           |
+           v
++----------------------+         +----------------------+
+|   Toast Provider     | <------ |    Notification API  |
++----------+-----------+         +----------------------+
+           |
+           v
++----------------------+
+|   Toast Container    |
++----------+-----------+
+           |
+           v
++----------------------+
+|    Toast Component   |
++----------------------+
+```
+
+### **Data Flow**
+
+1. **Triggering a Notification**: Components dispatch notifications via the Notification API.
+2. **State Update**: The Toast Provider updates the global notification state.
+3. **Rendering Notifications**: The Toast Container listens to state changes and renders Toast Components accordingly.
+
+---
+
+## **3. Low-Level Design (LLD)**
+
+### **Components and Implementation Details**
+
+#### **a. Toast Context**
+
+- **Purpose**: Provide a global context for the notification system.
+- **Implementation**:
+
+  ```jsx
+  // ToastContext.js
+  import React, { createContext, useState } from "react";
+
+  export const ToastContext = createContext();
+
+  export const ToastProvider = ({ children }) => {
+    const [toasts, setToasts] = useState([]);
+
+    const addToast = (toast) => {
+      setToasts((prevToasts) => [...prevToasts, toast]);
+    };
+
+    const removeToast = (id) => {
+      setToasts((prevToasts) => prevToasts.filter((toast) => toast.id !== id));
+    };
+
+    return (
+      <ToastContext.Provider value={{ toasts, addToast, removeToast }}>
+        {children}
+      </ToastContext.Provider>
+    );
+  };
+  ```
+
+#### **b. Toast Container**
+
+- **Purpose**: Render the list of active notifications.
+- **Implementation**:
+
+  ```jsx
+  // ToastContainer.js
+  import React, { useContext } from "react";
+  import { ToastContext } from "./ToastContext";
+  import Toast from "./Toast";
+
+  const ToastContainer = ({ position = "top-right" }) => {
+    const { toasts } = useContext(ToastContext);
+
+    return (
+      <div className={`toast-container ${position}`}>
+        {toasts.map((toast) => (
+          <Toast key={toast.id} {...toast} />
+        ))}
+      </div>
+    );
+  };
+
+  export default ToastContainer;
+  ```
+
+#### **c. Toast Component**
+
+- **Purpose**: Display individual notifications.
+- **Implementation**:
+
+  ```jsx
+  // Toast.js
+  import React, { useEffect } from "react";
+  import { useContext } from "react";
+  import { ToastContext } from "./ToastContext";
+
+  const Toast = ({ id, type, message, duration = 5000 }) => {
+    const { removeToast } = useContext(ToastContext);
+
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        removeToast(id);
+      }, duration);
+
+      return () => {
+        clearTimeout(timer);
+      };
+    }, [id, duration, removeToast]);
+
+    return (
+      <div className={`toast ${type}`} role="alert" aria-live="assertive">
+        <div className="toast-message">{message}</div>
+        <button onClick={() => removeToast(id)}>×</button>
+      </div>
+    );
+  };
+
+  export default Toast;
+  ```
+
+#### **d. Notification API**
+
+- **Purpose**: Provide methods to add notifications from anywhere in the app.
+- **Implementation**:
+
+  ```jsx
+  // useToast.js
+  import { useContext } from "react";
+  import { ToastContext } from "./ToastContext";
+
+  const useToast = () => {
+    const { addToast } = useContext(ToastContext);
+
+    const showToast = ({ type, message, duration }) => {
+      const id = Date.now();
+      addToast({ id, type, message, duration });
+    };
+
+    return showToast;
+  };
+
+  export default useToast;
+  ```
+
+#### **e. Integration in App**
+
+- **Wrap the application with `ToastProvider`**:
+
+  ```jsx
+  // index.js
+  import React from "react";
+  import ReactDOM from "react-dom";
+  import App from "./App";
+  import { ToastProvider } from "./ToastContext";
+
+  ReactDOM.render(
+    <ToastProvider>
+      <App />
+    </ToastProvider>,
+    document.getElementById("root")
+  );
+  ```
+
+- **Include `ToastContainer` in the App component**:
+
+  ```jsx
+  // App.js
+  import React from "react";
+  import ToastContainer from "./ToastContainer";
+
+  function App() {
+    return (
+      <>
+        {/* Rest of your app */}
+        <ToastContainer position="top-right" />
+      </>
+    );
+  }
+
+  export default App;
+  ```
+
+- **Triggering Notifications**:
+
+  ```jsx
+  // AnyComponent.js
+  import React from "react";
+  import useToast from "./useToast";
+
+  const AnyComponent = () => {
+    const showToast = useToast();
+
+    const handleClick = () => {
+      showToast({
+        type: "success",
+        message: "This is a success message!",
+        duration: 3000,
+      });
+    };
+
+    return <button onClick={handleClick}>Show Notification</button>;
+  };
+
+  export default AnyComponent;
+  ```
+
+### **Styling and Animations**
+
+- **CSS Classes**: Define styles for `.toast`, `.toast.success`, `.toast.error`, etc.
+- **Animations**: Use CSS transitions for showing and hiding toasts.
+
+  ```css
+  /* Example CSS */
+  .toast {
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .toast-enter {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+
+  .toast-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .toast-exit {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .toast-exit-active {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  ```
+
+### **Accessibility Considerations**
+
+- **ARIA Roles**: Use `role="alert"` and `aria-live` attributes.
+- **Keyboard Navigation**: Ensure toasts can be dismissed via keyboard.
+- **Focus Management**: Avoid stealing focus unless necessary.
+
+---
+
+## **4. Optimizations**
+
+### **Performance Optimizations**
+
+- **Memoization**: Use `React.memo` for `Toast` and `ToastContainer` to prevent unnecessary re-renders.
+
+  ```jsx
+  import React from "react";
+
+  const Toast = React.memo(
+    (
+      {
+        /* props */
+      }
+    ) => {
+      // Component code
+    }
+  );
+  ```
+
+- **Batch State Updates**: Use functional state updates to prevent state update collisions.
+
+- **Avoid Anonymous Functions**: Define functions outside of render methods when possible.
+
+### **Efficient Rendering**
+
+- **Virtualization**: For a large number of notifications, implement virtualization to render only visible toasts.
+
+- **Throttling/Debouncing**: Throttle the addition of notifications if they're being added rapidly.
+
+### **Resource Management**
+
+- **Cleanup Timers**: Ensure all timers are cleared on component unmount to prevent memory leaks.
+
+- **Lazy Loading**: Lazy load the Toast component if it's not needed immediately.
+
+### **Code Splitting**
+
+- **Dynamic Imports**: Use `React.lazy` and `Suspense` to load the notification system only when required.
+
+  ```jsx
+  import React, { Suspense } from "react";
+
+  const ToastContainer = React.lazy(() => import("./ToastContainer"));
+
+  function App() {
+    return (
+      <Suspense fallback={null}>
+        <ToastContainer />
+      </Suspense>
+    );
+  }
+  ```
+
+### **State Management Optimization**
+
+- **UseReducer Hook**: For complex state updates, consider using `useReducer` for the Toast context.
+
+  ```jsx
+  // ToastContext.js
+  import React, { createContext, useReducer } from "react";
+
+  const ToastContext = createContext();
+
+  const toastReducer = (state, action) => {
+    switch (action.type) {
+      case "ADD_TOAST":
+        return [...state, action.toast];
+      case "REMOVE_TOAST":
+        return state.filter((toast) => toast.id !== action.id);
+      default:
+        return state;
+    }
+  };
+
+  export const ToastProvider = ({ children }) => {
+    const [toasts, dispatch] = useReducer(toastReducer, []);
+
+    const addToast = (toast) => {
+      dispatch({ type: "ADD_TOAST", toast });
+    };
+
+    const removeToast = (id) => {
+      dispatch({ type: "REMOVE_TOAST", id });
+    };
+
+    return (
+      <ToastContext.Provider value={{ toasts, addToast, removeToast }}>
+        {children}
+      </ToastContext.Provider>
+    );
+  };
+  ```
+
+### **Preventing Memory Leaks**
+
+- **Unmounted Components**: Check if components are still mounted before updating state.
+
+  ```jsx
+  import React, { useEffect, useRef } from "react";
+
+  const Toast = ({ id, ...props }) => {
+    const isMounted = useRef(true);
+
+    useEffect(() => {
+      return () => {
+        isMounted.current = false;
+      };
+    }, []);
+
+    // Use isMounted.current to check before updating state
+  };
+  ```
+
+### **Testing and Debugging**
+
+- **Unit Tests**: Write unit tests for each component using testing libraries like Jest and React Testing Library.
+- **Performance Profiling**: Use React Profiler to identify performance bottlenecks.
+- **Error Boundaries**: Implement error boundaries to catch errors in the notification system.
+
+---
+
+## **Conclusion**
+
+Building a scalable Toast/Notification component in React requires thoughtful consideration of both the user experience and the technical implementation. By carefully gathering requirements, designing a robust architecture, implementing efficient code, and optimizing for performance, we can create a notification system that is both powerful and user-friendly.
+
+Remember to:
+
+- Keep the user experience in mind, ensuring that notifications are helpful and not intrusive.
+- Write clean, maintainable code with scalability in mind.
+- Continuously test and optimize the component as the application grows.
+
+---
+
 These machine coding questions cover a range of common frontend scenarios and components. They test your ability to implement practical features, manage state, handle user interactions, and integrate with APIs. Practice implementing these components and be prepared to explain your code and discuss potential optimizations or alternative approaches during your interview.
 
 These implementations provide a solid foundation for the requested components and applications. Remember to tailor each solution to fit the specific requirements of your project or interview scenario. Good luck with your frontend interview preparations!
